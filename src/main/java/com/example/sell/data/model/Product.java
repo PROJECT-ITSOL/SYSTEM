@@ -1,6 +1,8 @@
 package com.example.sell.data.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity(name = "dbo_product")
 public class Product {
@@ -8,17 +10,18 @@ public class Product {
     @Column(name = "id_product")
     private String idProduct;
 
-    @Column(name = "id_category",insertable = false, updatable = false)
+    @Column(name = "id_category", insertable = false, updatable = false)
     private String idCategory;
 
     @ManyToOne(optional = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "id_category")
     private Category category;
 
-    @Column(name = "id_supplier",insertable = false,updatable = false)
+    @Column(name = "id_supplier", insertable = false, updatable = false)
     private String idSupplier;
 
-
+    @ManyToOne(optional = true, fetch = FetchType.LAZY)
+    private Supplier supplier;
 
     @Column(name = "name")
     private String name;
@@ -37,6 +40,18 @@ public class Product {
 
     @Column(name = "status")
     private Boolean status;
+
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "product")
+    private List<Comment> comments = new ArrayList<>();
+
+    @OneToOne(mappedBy = "productOrderDetail")
+    private OrderDetail orderDetail;
+
+    @OneToOne(mappedBy = "productReturn")
+    private ProductReturn productReturn;
+
+    @OneToOne(mappedBy = "productImport")
+    private BillImportDetail billImportDetail;
 
     public String getIdProduct() {
         return idProduct;
@@ -116,5 +131,37 @@ public class Product {
 
     public void setStatus(Boolean status) {
         this.status = status;
+    }
+
+    public Supplier getSupplier() {
+        return supplier;
+    }
+
+    public void setSupplier(Supplier supplier) {
+        this.supplier = supplier;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public OrderDetail getOrderDetail() {
+        return orderDetail;
+    }
+
+    public void setOrderDetail(OrderDetail orderDetail) {
+        this.orderDetail = orderDetail;
+    }
+
+    public ProductReturn getProductReturn() {
+        return productReturn;
+    }
+
+    public void setProductReturn(ProductReturn productReturn) {
+        this.productReturn = productReturn;
     }
 }

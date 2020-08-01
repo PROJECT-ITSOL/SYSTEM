@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity(name = "dbo_suppiler")
+@Entity(name = "dbo_supplier")
 public class Supplier {
     @Id
     @Column(name = "id_supplier")

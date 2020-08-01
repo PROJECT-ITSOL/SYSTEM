@@ -16,7 +16,7 @@ public class BillImportDetail {
     @JoinColumn(name = "id_bill_import")
     private BillImport billImport;
 
-    @Column(name = "id_product")
+    @Column(name = "id_product",insertable = false,updatable = false)
     private String idProduct;
 
     @OneToOne(optional = true)

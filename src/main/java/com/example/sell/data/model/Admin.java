@@ -7,7 +7,7 @@ import javax.persistence.*;
 @Entity(name = "dbo_admin")
 public class Admin {
 
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id_admin")
     private int idAdmin;
@@ -17,6 +17,20 @@ public class Admin {
 
     @Column(name = "password")
     private String password;
+
+    public Admin() {
+    }
+
+    public Admin(int idAdmin, String username, String password) {
+        this.idAdmin = idAdmin;
+        this.username = username;
+        this.password = password;
+    }
+
+    public Admin(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
 
     public int getIdAdmin() {
         return idAdmin;

@@ -4,8 +4,6 @@ package com.example.sell.controller;
 import com.example.sell.authen.AuthenticationRequest;
 import com.example.sell.authen.AuthenticationResponse;
 import com.example.sell.jwt.JwtUtil;
-import com.example.sell.sevice.MySQLDetailService;
-import io.jsonwebtoken.Jws;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
@@ -14,13 +12,13 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.xml.ws.Response;
-
 @RestController
+@CrossOrigin(origins = "*")
 public class AuthenticateController {
 
     @Autowired

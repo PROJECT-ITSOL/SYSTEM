@@ -48,5 +48,4 @@ public class AuthenticateController {
 
         return ResponseEntity.ok(new AuthenticationResponse(jwt));
     }
-
 }

@@ -1,5 +1,7 @@
 package com.example.sell.data.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +16,7 @@ public class Product {
     private String idCategory;
 
     @ManyToOne(optional = true, fetch = FetchType.LAZY)
+    @JsonIgnore
     @JoinColumn(name = "id_category")
     private Category category;
 
@@ -21,6 +24,8 @@ public class Product {
     private String idSupplier;
 
     @ManyToOne(optional = true, fetch = FetchType.LAZY)
+    @JsonIgnore
+    @JoinColumn(name = "id_supplier")
     private Supplier supplier;
 
     @Column(name = "name")

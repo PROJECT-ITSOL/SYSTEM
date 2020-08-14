@@ -72,6 +72,7 @@ public class WebConfig implements WebMvcConfigurer, Filter {
         if (!(request.getMethod().equalsIgnoreCase("OPTIONS"))) {
             try {
                 chain.doFilter(req, res);
+//                return;
             } catch(Exception e) {
                 e.printStackTrace();
             }

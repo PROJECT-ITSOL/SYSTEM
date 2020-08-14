@@ -21,6 +21,7 @@ public class Comment {
     private String idProduct;
 
     @ManyToOne(optional = true,fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_product")
     private Product product;
 
     @Column(name = "content")

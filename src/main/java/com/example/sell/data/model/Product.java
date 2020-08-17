@@ -31,6 +31,9 @@ public class Product {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "price")
+    private double price;
+
     @Column(name = "image")
     private String image;
 
@@ -96,6 +99,14 @@ public class Product {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 
     public String getImage() {

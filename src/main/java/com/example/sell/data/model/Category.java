@@ -19,6 +19,7 @@ public class Category {
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "category")
     private List<Product> listProduct = new ArrayList<>();
 
+
     public String getIdCategory() {
         return idCategory;
     }

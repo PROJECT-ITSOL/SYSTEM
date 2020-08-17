@@ -13,11 +13,17 @@ public class SupplierService {
     @Autowired
     private SupplierRepository supplierRepository;
 
-    public List<Supplier> suppliers(){
+    public List<Supplier> getAllListSuppliers(){
         try {
             return supplierRepository.findAll();
         } catch (Exception e) {
             return new ArrayList<>();
         }
+    }
+    public void addNewSupplier(List<Supplier> suppliers){
+        supplierRepository.saveAll(suppliers);
+    }
+    public int getTotalSuppliers(){
+        return supplierRepository.getTotalSuppliers();
     }
 }

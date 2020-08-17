@@ -2,6 +2,9 @@ package com.example.sell.data.repository;
 
 import com.example.sell.data.model.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 public interface CategoryRepository extends JpaRepository<Category,String> {
+    @Query("select count (c.idCategory) from dbo_category c")
+    int getTotalCategories();
 }

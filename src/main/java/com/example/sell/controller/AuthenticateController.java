@@ -3,7 +3,7 @@ package com.example.sell.controller;
 
 import com.example.sell.authen.AuthenticationRequest;
 import com.example.sell.authen.AuthenticationResponse;
-import com.example.sell.jwt.JwtUtil;
+import com.example.sell.model.jwt.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;

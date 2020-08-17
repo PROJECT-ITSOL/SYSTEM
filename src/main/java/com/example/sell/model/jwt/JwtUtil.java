@@ -1,4 +1,4 @@
-package com.example.sell.jwt;
+package com.example.sell.model.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -18,7 +18,7 @@ public class JwtUtil implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private static final long JWT_TOKEN_VALIDITY = 10;
+    private static final long JWT_TOKEN_VALIDITY = 60 * 60;
 
     //    get username from jwt token
     public String extractUsername(String token) {

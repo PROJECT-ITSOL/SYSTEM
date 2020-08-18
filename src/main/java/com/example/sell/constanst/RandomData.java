@@ -37,18 +37,18 @@ public class RandomData {
         return phone.toString();
     }
 
-    public int randomNumber(int min,int max) {
+    public int randomNumber(int min, int max) {
         int rangeMax = max;
         int rangeMin = min;
         int price = (int) Math.floor(Math.random() * (rangeMax - rangeMin + 1) + rangeMin);
         return price;
     }
 
-    public String randomImage(){
+    public String randomImage() {
         StringBuilder result = new StringBuilder();
-        String url="https://xixon-knight.000webhostapp.com/product-gym/";
+        String url = "https://xixon-knight.000webhostapp.com/product-gym/";
         result.append(url);
-        int numberImage=(int)Math.floor(Math.random()*19);
+        int numberImage = (int) Math.floor(Math.random() * 19);
         result.append(numberImage);
         result.append(".jpg");
         return result.toString();

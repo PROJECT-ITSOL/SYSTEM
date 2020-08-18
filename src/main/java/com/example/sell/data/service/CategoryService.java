@@ -27,6 +27,7 @@ public class CategoryService {
             return new ArrayList<>();
         }
     }
+
     @Transactional
     public void addNewListCategories(List<Category> categories){
         categoryRepository.saveAll(categories);

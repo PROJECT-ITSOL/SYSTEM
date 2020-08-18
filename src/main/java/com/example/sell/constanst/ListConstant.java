@@ -15,4 +15,6 @@ public class ListConstant {
             "4", "5", "6", "7", "8", "9"};
     public final int maxNumber = NUMBER.length - 1;
     public final int minNumber = 0;
+
+//    public static final String[] STATUS_CUSTOMER={"Thân thiết"}
 }

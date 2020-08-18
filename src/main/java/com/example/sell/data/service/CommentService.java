@@ -1,15 +1,16 @@
 package com.example.sell.data.service;
 
 import com.example.sell.data.model.Comment;
-import com.example.sell.data.model.Product;
 import com.example.sell.data.repository.CommentRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CommentService {
@@ -18,6 +19,19 @@ public class CommentService {
 
     @Autowired
     private CommentRepository commentRepository;
+
+    @Transactional
+    public void addNewListComment(List<Comment> commentList){
+        commentRepository.saveAll(commentList);
+    }
+
+    public Optional<Comment> findComment(int id){
+        return commentRepository.findById(id);
+    }
+
+    public int getTotalComment(){
+        return commentRepository.getTotalComment();
+    }
 
     public List<Comment> getListComment(){
         try {

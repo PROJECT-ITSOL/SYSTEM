@@ -14,7 +14,7 @@ public class Customer {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "passwordHash")
+    @Column(name = "password_hash")
     private String passwordHash;
 
     @Column(name = "phone_number")
@@ -27,10 +27,10 @@ public class Customer {
     private String email;
 
     @Column(name = "status")
-    private String status;
+    private boolean status;
 
     @Column(name = "amount_boom")
-    private String amountBoom;
+    private int amountBoom;
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "customer")
     private List<Comment> comments = new ArrayList<>();
@@ -86,19 +86,19 @@ public class Customer {
         this.email = email;
     }
 
-    public String getStatus() {
+    public boolean getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(boolean status) {
         this.status = status;
     }
 
-    public String getAmountBoom() {
+    public int getAmountBoom() {
         return amountBoom;
     }
 
-    public void setAmountBoom(String amountBoom) {
+    public void setAmountBoom(int amountBoom) {
         this.amountBoom = amountBoom;
     }
 

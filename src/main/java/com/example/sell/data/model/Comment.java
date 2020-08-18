@@ -5,7 +5,7 @@ import java.util.Date;
 
 @Entity(name = "dbo_comment")
 public class Comment {
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id_comment")
     private int idComment;

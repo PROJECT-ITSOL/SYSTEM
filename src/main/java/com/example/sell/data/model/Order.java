@@ -14,10 +14,10 @@ public class Order {
     @Column(name = "id_order")
     private String idOrder;
 
-    @Column(name = "id_customer",updatable = false,insertable = false)
+    @Column(name = "id_customer", updatable = false, insertable = false)
     private String idCustomer;
 
-    @ManyToOne(optional = true,fetch = FetchType.LAZY)
+    @ManyToOne(optional = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "id_customer")
     private Customer customerOrder;
 
@@ -30,10 +30,10 @@ public class Order {
     @Column(name = "total_money")
     private Double totalMoney;
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "order")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "order")
     private List<OrderDetail> orderDetails = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "orderFail")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "orderFail")
     private List<ProductReturn> productReturns = new ArrayList<>();
 
     public List<ProductReturn> getProductReturns() {

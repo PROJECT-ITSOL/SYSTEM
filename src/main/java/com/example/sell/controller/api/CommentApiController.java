@@ -11,9 +11,7 @@ import com.example.sell.model.api.BaseApiResult;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -42,11 +40,11 @@ public class CommentApiController {
             List<Comment> commentList = new ArrayList<>();
             int totalComment = commentService.getTotalComment();
             Random random = new Random();
-            RandomData randomData=new RandomData();
+            RandomData randomData = new RandomData();
             List<Customer> customerList = customerService.getAllListCustomer();
-            List<Product> productList=productService.findAll();
+            List<Product> productList = productService.findAll();
             for (int i = totalComment + 1; i < totalComment + 30; i++) {
-                Comment comment=new Comment();
+                Comment comment = new Comment();
 //                comment.setIdComment(i);
                 comment.setCustomer(customerList.get(random.nextInt(customerList.size())));
                 comment.setProduct(productList.get(random.nextInt(productList.size())));
@@ -55,7 +53,7 @@ public class CommentApiController {
                 comment.setCreateDate(new Date());
                 commentList.add(comment);
             }
-                commentService.addNewListComment(commentList);
+            commentService.addNewListComment(commentList);
             result.setSuccess(true);
             result.setMessage("Fake list content success!");
 
@@ -65,6 +63,34 @@ public class CommentApiController {
             logger.error(e.getMessage());
         }
         return result;
+    }
+
+    @GetMapping("/getList")
+    public List<Comment> getListComment() {
+        return commentService.getListComment();
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public BaseApiResult delete(@PathVariable int id) {
+        BaseApiResult result = new BaseApiResult();
+        if (commentService.deleteCommentById(id)) {
+            result.setSuccess(true);
+            result.setMessage("Delete success");
+        } else {
+            result.setSuccess(false);
+            result.setMessage("Delete fail");
+        }
+        return result;
+    }
+
+    @GetMapping("/getList/idCustomer")
+    public List<Comment> getListCommentByIdCustomer(@RequestParam(value = "id", required = true) String id) {
+        return commentService.getListCommentByIdCustomer(id);
+    }
+
+    @GetMapping("/getList/idProduct")
+    public List<Comment> getListCommentByIdProduct(@RequestParam(value = "id", required = true) String id) {
+        return commentService.getListCommentByIdProduct(id);
     }
 
 }

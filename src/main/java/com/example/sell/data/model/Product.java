@@ -49,8 +49,8 @@ public class Product {
     @Column(name = "status")
     private Boolean status;
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "product")
-    private List<Comment> comments = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
+    private List<Comment> comments = new ArrayList<>()  ;
 
     @OneToOne(mappedBy = "productOrderDetail")
     private OrderDetail orderDetail;

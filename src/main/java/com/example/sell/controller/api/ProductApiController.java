@@ -68,4 +68,8 @@ public class ProductApiController {
         }
         return result;
     }
+    @GetMapping("/getList")
+    public List<Product> getListProduct(){
+        return productService.findAll();
+    }
 }

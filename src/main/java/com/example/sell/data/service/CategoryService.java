@@ -33,8 +33,8 @@ public class CategoryService {
         categoryRepository.saveAll(categories);
     }
 
-    public Optional<Category> findOne(String id){
-        return categoryRepository.findById(id);
+    public Category findOne(String id){
+        return categoryRepository.findById(id).orElse(null);
     }
 
     public void addNewCategory(Category category){

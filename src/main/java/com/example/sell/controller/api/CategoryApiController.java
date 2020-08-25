@@ -7,11 +7,12 @@ import com.example.sell.model.api.BaseApiResult;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.Random;
 
@@ -46,6 +47,71 @@ public class CategoryApiController {
             categoryService.addNewListCategories(categories);
             result.setSuccess(true);
             result.setMessage("Fake list category success!");
+        } catch (Exception e) {
+            result.setSuccess(false);
+            result.setMessage(e.getMessage());
+            logger.error(e.getMessage());
+        }
+        return result;
+    }
+
+    @GetMapping("/getAll")
+    public ResponseEntity<List<Category>> getListCategories() {
+//        logger.debug("--------------Request ");
+        return new ResponseEntity<List<Category>>(categoryService.getAllListCategories(), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public BaseApiResult deleteCategory(@PathVariable String id) {
+        BaseApiResult result = new BaseApiResult();
+        if (categoryService.deleteCategory(id)) {
+            result.setSuccess(true);
+            result.setMessage("Delete Success !!");
+        } else {
+            result.setSuccess(false);
+            result.setMessage("Delete false !!");
+        }
+        return result;
+    }
+
+    @DeleteMapping("/delete")
+    public BaseApiResult delete(@RequestParam(value = "id", required = true) String id) {
+        BaseApiResult apiResult = new BaseApiResult();
+        if (categoryService.deleteCategory(id)) {
+            apiResult.setSuccess(true);
+            apiResult.setMessage("Delete Success !!");
+        } else {
+            apiResult.setSuccess(false);
+            apiResult.setMessage("Delete false !!");
+        }
+        return apiResult;
+    }
+
+    @PostMapping("/addNew")
+    public BaseApiResult addNew(@RequestBody Category category) {
+        BaseApiResult result = new BaseApiResult();
+        try {
+            categoryService.addNewCategory(category);
+            result.setSuccess(true);
+            result.setMessage("Add new category success: " + category.getIdCategory());
+        } catch (Exception e) {
+            result.setSuccess(false);
+            result.setMessage("Add new category fail!");
+            logger.error(e.getMessage());
+        }
+        return result;
+    }
+
+    @PostMapping("/update/{id}")
+    public BaseApiResult updateCategory(@PathVariable String id, @RequestBody Category category) {
+        BaseApiResult result=new BaseApiResult();
+        Category categoryEntity=categoryService.findOne(id);
+        try {
+            categoryEntity.setName(category.getName());
+            categoryEntity.setStatus(category.getStatus());
+            categoryService.addNewCategory(categoryEntity);
+            result.setMessage("Update category success!");
+            result.setSuccess(true);
         } catch (Exception e) {
             result.setSuccess(false);
             result.setMessage(e.getMessage());

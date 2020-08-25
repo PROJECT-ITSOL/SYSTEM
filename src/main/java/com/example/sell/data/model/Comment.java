@@ -1,5 +1,7 @@
 package com.example.sell.data.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -13,14 +15,16 @@ public class Comment {
     @Column(name = "id_customer", updatable = false, insertable = false)
     private String idCustomer;
 
-    @ManyToOne(optional = true,fetch = FetchType.LAZY)
+    @ManyToOne(optional = true, fetch = FetchType.LAZY)
+    @JsonIgnore
     @JoinColumn(name = "id_customer")
     private Customer customer;
 
     @Column(name = "id_Product", insertable = false, updatable = false)
     private String idProduct;
 
-    @ManyToOne(optional = true,fetch = FetchType.LAZY)
+    @ManyToOne(optional = true, fetch = FetchType.LAZY)
+    @JsonIgnore
     @JoinColumn(name = "id_product")
     private Product product;
 

@@ -51,4 +51,21 @@ public class CommentService {
         }
     }
 
+    public List<Comment> getListCommentByIdCustomer(String idCustomer){
+        try {
+            return commentRepository.getListCommentByIdCustomer(idCustomer);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return new ArrayList<>();
+        }
+    }
+    public List<Comment> getListCommentByIdProduct(String idProduct){
+        try {
+            return commentRepository.getListCommentByIdProduct(idProduct);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return new ArrayList<>();
+        }
+    }
+
 }

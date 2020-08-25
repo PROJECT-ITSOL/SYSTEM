@@ -16,7 +16,7 @@ public class Category {
     @Column(name = "status")
     private Boolean status;
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "category")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "category")
     private List<Product> listProduct = new ArrayList<>();
 
 

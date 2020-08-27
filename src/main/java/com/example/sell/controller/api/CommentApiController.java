@@ -11,6 +11,7 @@ import com.example.sell.model.api.BaseApiResult;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ import java.util.Random;
 
 @RestController
 @RequestMapping("/api/comment")
+@CrossOrigin("*")
 public class CommentApiController {
     private static final Logger logger = LogManager.getLogger(CommentApiController.class);
 
@@ -66,8 +68,10 @@ public class CommentApiController {
     }
 
     @GetMapping("/getList")
-    public List<Comment> getListComment() {
-        return commentService.getListComment();
+    public Page<Comment> getListComment(@RequestParam(name = "page", required = false, defaultValue = "0") int pageNo,
+                                        @RequestParam(name = "size", required = false, defaultValue = "7") int pageSize,
+                                        @RequestParam(name = "sortById",required = false) String sort) {
+        return commentService.commentPage(pageNo, pageSize,null);
     }
 
     @DeleteMapping("/delete/{id}")

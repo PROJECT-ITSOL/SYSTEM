@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api")
-public class AddAdminAPI {
+public class ApiAddAccountAdmin {
     @Autowired
     private AdminService adminService;
 

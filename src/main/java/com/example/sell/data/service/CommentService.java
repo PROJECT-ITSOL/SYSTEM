@@ -5,6 +5,10 @@ import com.example.sell.data.repository.CommentRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -66,6 +70,12 @@ public class CommentService {
             logger.error(e.getMessage());
             return new ArrayList<>();
         }
+    }
+
+    public Page<Comment> commentPage(int pageNo,int pageSize,String sortById){
+//        Pageable pageable = new PageRequest(pageNo,pageSize,null);
+//        if (sort.)
+        return commentRepository.findAll(PageRequest.of(pageNo,pageSize,Sort.by("idComment").descending()));
     }
 
 }

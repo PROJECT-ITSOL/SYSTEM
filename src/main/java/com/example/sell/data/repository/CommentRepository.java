@@ -20,4 +20,7 @@ public interface CommentRepository extends JpaRepository<Comment, Integer> {
             "join dbo_product p on (cmt.idProduct=p.idProduct) " +
             "where cmt.idProduct=:idProduct")
     List<Comment> getListCommentByIdProduct(@Param("idProduct") String idProduct);
+
+//    @Query("select cmt from dbo_comment cmt " +
+//            "where ((cmt.idProduct=:idProduct))")
 }

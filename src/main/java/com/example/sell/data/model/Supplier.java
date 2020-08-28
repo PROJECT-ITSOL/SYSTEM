@@ -1,14 +1,16 @@
 package com.example.sell.data.model;
 
+import org.springframework.stereotype.Component;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-
+@Component
 @Entity(name = "dbo_supplier")
 public class Supplier {
     @Id
     @Column(name = "id_supplier")
-    private String idSupplier;
+    private int idSupplier;
 
     @Column(name = "name")
     private String name;
@@ -28,11 +30,27 @@ public class Supplier {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "supplier")
     private List<Product> productList =  new ArrayList<>();
 
-    public String getIdSupplier() {
+    public Supplier(){
+
+
+    }
+    public Supplier(int idSupplier,String name,String phoneNumber,String address,String logo){
+        this.idSupplier = idSupplier;
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+        this.status = status;
+        this.logo = logo;
+
+    }
+
+
+
+    public int getIdSupplier() {
         return idSupplier;
     }
 
-    public void setIdSupplier(String idSupplier) {
+    public void setIdSupplier(int idSupplier) {
         this.idSupplier = idSupplier;
     }
 

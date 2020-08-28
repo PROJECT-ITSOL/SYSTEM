@@ -6,7 +6,7 @@ import com.example.sell.data.model.Product;
 import com.example.sell.data.model.Supplier;
 import com.example.sell.data.service.CategoryService;
 import com.example.sell.data.service.ProductService;
-import com.example.sell.data.service.SupplierService;
+import com.example.sell.data.service.servicaImpl.SupplierServiceImpl;
 import com.example.sell.model.api.BaseApiResult;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -31,7 +31,7 @@ public class ProductApiController {
     private CategoryService categoryService;
 
     @Autowired
-    private SupplierService supplierService;
+    private SupplierServiceImpl supplierService;
 
     @GetMapping("/fake")
     public BaseApiResult fakeProduct() {
@@ -42,7 +42,7 @@ public class ProductApiController {
             RandomData randomData=new RandomData();
             int totalProduct = productService.getTotalProducts();
             List<Category> categoryList = categoryService.getAllListCategories();
-            List<Supplier> supplierList = supplierService.getAllListSuppliers();
+            List<Supplier> supplierList = supplierService.getListSupplier();
             for (int i = totalProduct + 1; i < totalProduct + 40; i++) {
                 Product product = new Product();
                 product.setIdProduct(randomData.randomText(6));

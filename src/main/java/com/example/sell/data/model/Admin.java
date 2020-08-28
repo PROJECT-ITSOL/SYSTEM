@@ -1,6 +1,6 @@
 package com.example.sell.data.model;
 
-import org.omg.IOP.Codec;
+//import org.omg.IOP.Codec;
 
 import javax.persistence.*;
 

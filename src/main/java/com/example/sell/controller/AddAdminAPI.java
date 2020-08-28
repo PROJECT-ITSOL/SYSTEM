@@ -17,6 +17,7 @@ public class AddAdminAPI {
 
     @PostMapping("/create-admin")
     public String addAdmin(@Validated @ModelAttribute("admin")Admin admin){
+        
         adminService.addNewAdmin(admin);
         return "success!!";
     }

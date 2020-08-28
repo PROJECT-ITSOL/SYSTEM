@@ -25,16 +25,16 @@ public class SupplierApiController {
         return ResponseEntity.ok(suppliers);
     }
 
-    @GetMapping("/idSupplier")
-    public  Supplier getSupplierById(@RequestParam(value = "id",required = true) int id){
+    @GetMapping("/{id}")
+    public Supplier getSupplierById(@PathVariable int id) {
 
-            return supplierService.getSupplierById(id);
+        return supplierService.getSupplierById(id);
     }
 
-    @DeleteMapping("/delete/{id}")
-    public BaseApiResult delete(@PathVariable int id) {
+    @DeleteMapping("/delete")
+    public BaseApiResult delete(@RequestParam(value = "id", required = true) int id) {
         BaseApiResult result = new BaseApiResult();
-        if (supplierService.deleteSupplierById(id)){
+        if (supplierService.deleteSupplierById(id)) {
             result.setSuccess(true);
             result.setMessage("Delete success");
         } else {
@@ -45,11 +45,54 @@ public class SupplierApiController {
     }
 
     @GetMapping("/status")
-    public List<Supplier> getSupplierByStatus(@RequestParam(value = "status",required = true) boolean status){
+    public List<Supplier> getSupplierByStatus(@RequestParam(value = "status", required = true) boolean status) {
         return supplierService.getListSupplierByStatus(status);
     }
 
+    @PostMapping("/addSupplier")
+    public BaseApiResult addNewSupplier(@RequestBody Supplier supplier) {
+        BaseApiResult result = new BaseApiResult();
+        try {
+            supplierService.addNewSupplier(supplier);
+            result.setSuccess(true);
+            result.setMessage("Success add new supplier !");
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setSuccess(false);
+            result.setMessage("Fail to add new supplier!");
+        }
+        return result;
 
+    }
 
+    @PutMapping("/update/{id}")
+    public BaseApiResult updateSupplier(@PathVariable int id, @RequestBody Supplier supplier) {
+        BaseApiResult result = new BaseApiResult();
+        Supplier sup = supplierService.findOne(id);
+        sup.setAddress(supplier.getAddress());
+        sup.setLogo(supplier.getLogo());
+        sup.setName(supplier.getName());
+        sup.setPhoneNumber(supplier.getPhoneNumber());
+        sup.setStatus(supplier.getStatus());
 
+        try {
+            supplierService.addNewSupplier(sup);
+            result.setMessage("Update success");
+            result.setSuccess(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setMessage("Update fail");
+            result.setSuccess(false);
+        }
+        return result;
+    }
 }
+
+
+
+
+
+
+
+
+

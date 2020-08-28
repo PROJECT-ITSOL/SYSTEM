@@ -11,8 +11,13 @@ public interface SupplierService   {
 
     public Supplier getSupplierById(int id);
 
+    public Supplier findOne(int id);
+
     public Boolean deleteSupplierById( int id);
 
     public List<Supplier> getListSupplierByStatus(boolean status);
+
+    public Boolean addNewSupplier(Supplier supplier);
+
 
 }

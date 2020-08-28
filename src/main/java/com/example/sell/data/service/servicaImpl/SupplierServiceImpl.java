@@ -27,23 +27,42 @@ public class SupplierServiceImpl implements SupplierService {
 
     @Override
     public Supplier getSupplierById(int id) {
-    return  supplierRepository.findById(id).orElse(null);
+        return supplierRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public Supplier findOne(int id) {
+        return supplierRepository.findById(id).orElse(null);
     }
 
 
-    public Boolean deleteSupplierById( int id){
+    public Boolean deleteSupplierById(int id) {
         try {
             supplierRepository.deleteById(id);
             return true;
         } catch (Exception e) {
             e.printStackTrace();
-        return false;
-    }
+            return false;
+        }
 
     }
 
-    public List<Supplier> getListSupplierByStatus(boolean status){
+    public List<Supplier> getListSupplierByStatus(boolean status) {
         return supplierRepository.getListSupplierByStatus(status);
     }
+
+    @Override
+    public Boolean addNewSupplier(Supplier supplier) {
+        try {
+            supplierRepository.save(supplier);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+
+    }
+
+
 
 }

@@ -1,5 +1,9 @@
 package com.example.sell.data.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.web.bind.annotation.CookieValue;
 
 import javax.persistence.*;
@@ -7,6 +11,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity(name = "dbo_order")
 public class Order {
 
@@ -36,67 +44,4 @@ public class Order {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "orderFail")
     private List<ProductReturn> productReturns = new ArrayList<>();
 
-    public List<ProductReturn> getProductReturns() {
-        return productReturns;
-    }
-
-    public void setProductReturns(List<ProductReturn> productReturns) {
-        this.productReturns = productReturns;
-    }
-
-    public String getIdOrder() {
-        return idOrder;
-    }
-
-    public void setIdOrder(String idOrder) {
-        this.idOrder = idOrder;
-    }
-
-    public String getIdCustomer() {
-        return idCustomer;
-    }
-
-    public void setIdCustomer(String idCustomer) {
-        this.idCustomer = idCustomer;
-    }
-
-    public Customer getCustomerOrder() {
-        return customerOrder;
-    }
-
-    public void setCustomerOrder(Customer customerOrder) {
-        this.customerOrder = customerOrder;
-    }
-
-    public Date getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public Double getTotalMoney() {
-        return totalMoney;
-    }
-
-    public void setTotalMoney(Double totalMoney) {
-        this.totalMoney = totalMoney;
-    }
-
-    public List<OrderDetail> getOrderDetails() {
-        return orderDetails;
-    }
-
-    public void setOrderDetails(List<OrderDetail> orderDetails) {
-        this.orderDetails = orderDetails;
-    }
 }

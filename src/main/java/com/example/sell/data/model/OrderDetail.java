@@ -1,7 +1,16 @@
 package com.example.sell.data.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity(name = "dbo_order_detail")
 public class OrderDetail {
 
@@ -27,51 +36,4 @@ public class OrderDetail {
     @Column(name = "amount")
     private int amount;
 
-    public int getIdOrderDetail() {
-        return idOrderDetail;
-    }
-
-    public void setIdOrderDetail(int idOrderDetail) {
-        this.idOrderDetail = idOrderDetail;
-    }
-
-    public String getIdOrder() {
-        return idOrder;
-    }
-
-    public void setIdOrder(String idOrder) {
-        this.idOrder = idOrder;
-    }
-
-    public Order getOrder() {
-        return order;
-    }
-
-    public void setOrder(Order order) {
-        this.order = order;
-    }
-
-    public String getIdProduct() {
-        return idProduct;
-    }
-
-    public void setIdProduct(String idProduct) {
-        this.idProduct = idProduct;
-    }
-
-    public Product getProductOrderDetail() {
-        return productOrderDetail;
-    }
-
-    public void setProductOrderDetail(Product productOrderDetail) {
-        this.productOrderDetail = productOrderDetail;
-    }
-
-    public int getAmount() {
-        return amount;
-    }
-
-    public void setAmount(int amount) {
-        this.amount = amount;
-    }
 }

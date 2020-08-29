@@ -19,20 +19,6 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 @RequestMapping("/api")
 public class HomeController {
-    @Autowired
-//    private ProductService productService;
-    private SupplierService supplierService;
-//    @GetMapping("/supplier")
-//    public ResponseEntity home(){
-//        return new ResponseEntity("success", HttpStatus.OK);
-//    }
-//    public List<Product> getListProduct(){
-//        return productService.findAll();
-//    }
-//    public List<Supplier> getListSupplier(){
-////        return supplierService.suppliers();
-//    }
-
     @GetMapping("/home")
     public ResponseEntity home(){
         return new ResponseEntity("success", HttpStatus.OK);

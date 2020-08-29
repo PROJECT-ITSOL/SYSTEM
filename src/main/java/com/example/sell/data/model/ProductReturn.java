@@ -1,7 +1,16 @@
 package com.example.sell.data.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity(name = "dbo_product_return")
 public class ProductReturn {
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -29,59 +38,4 @@ public class ProductReturn {
     @Column(name = "status")
     private String status;
 
-    public int getIdProductReturn() {
-        return idProductReturn;
-    }
-
-    public void setIdProductReturn(int idProductReturn) {
-        this.idProductReturn = idProductReturn;
-    }
-
-    public String getIdProduct() {
-        return idProduct;
-    }
-
-    public void setIdProduct(String idProduct) {
-        this.idProduct = idProduct;
-    }
-
-    public Product getProductReturn() {
-        return productReturn;
-    }
-
-    public void setProductReturn(Product productReturn) {
-        this.productReturn = productReturn;
-    }
-
-    public String getIdOrder() {
-        return idOrder;
-    }
-
-    public void setIdOrder(String idOrder) {
-        this.idOrder = idOrder;
-    }
-
-    public Order getOrderFail() {
-        return orderFail;
-    }
-
-    public void setOrderFail(Order orderFail) {
-        this.orderFail = orderFail;
-    }
-
-    public int getAmount() {
-        return amount;
-    }
-
-    public void setAmount(int amount) {
-        this.amount = amount;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
 }

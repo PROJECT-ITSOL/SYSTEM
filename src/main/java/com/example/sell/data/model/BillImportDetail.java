@@ -1,7 +1,16 @@
 package com.example.sell.data.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
 
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity(name = "dbo_bill_import_detail")
 public class BillImportDetail {
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -29,59 +38,4 @@ public class BillImportDetail {
     @Column(name = "price")
     private Double price;
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getIdBillImport() {
-        return idBillImport;
-    }
-
-    public void setIdBillImport(String idBillImport) {
-        this.idBillImport = idBillImport;
-    }
-
-    public BillImport getBillImport() {
-        return billImport;
-    }
-
-    public void setBillImport(BillImport billImport) {
-        this.billImport = billImport;
-    }
-
-    public String getIdProduct() {
-        return idProduct;
-    }
-
-    public void setIdProduct(String idProduct) {
-        this.idProduct = idProduct;
-    }
-
-    public Product getProductImport() {
-        return productImport;
-    }
-
-    public void setProductImport(Product productImport) {
-        this.productImport = productImport;
-    }
-
-    public int getAmount() {
-        return amount;
-    }
-
-    public void setAmount(int amount) {
-        this.amount = amount;
-    }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
 }

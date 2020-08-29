@@ -1,10 +1,19 @@
 package com.example.sell.data.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity(name = "dbo_bill_import")
 public class BillImport {
     @Id
@@ -20,35 +29,4 @@ public class BillImport {
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "billImport")
     private List<BillImportDetail> billImportDetails = new ArrayList<>();
 
-    public String getIdBillImport() {
-        return idBillImport;
-    }
-
-    public void setIdBillImport(String idBillImport) {
-        this.idBillImport = idBillImport;
-    }
-
-    public Date getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
-
-    public Double getTotalMoney() {
-        return totalMoney;
-    }
-
-    public void setTotalMoney(Double totalMoney) {
-        this.totalMoney = totalMoney;
-    }
-
-    public List<BillImportDetail> getBillImportDetails() {
-        return billImportDetails;
-    }
-
-    public void setBillImportDetails(List<BillImportDetail> billImportDetails) {
-        this.billImportDetails = billImportDetails;
-    }
 }

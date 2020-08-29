@@ -69,9 +69,8 @@ public class CommentApiController {
 
     @GetMapping("/getList")
     public Page<Comment> getListComment(@RequestParam(name = "page", required = false, defaultValue = "0") int pageNo,
-                                        @RequestParam(name = "size", required = false, defaultValue = "7") int pageSize,
-                                        @RequestParam(name = "sortById",required = false) String sort) {
-        return commentService.commentPage(pageNo, pageSize,null);
+                                        @RequestParam(name = "size", required = false, defaultValue = "7") int pageSize) {
+        return commentService.commentPage(pageNo, pageSize);
     }
 
     @DeleteMapping("/delete/{id}")
@@ -87,14 +86,17 @@ public class CommentApiController {
         return result;
     }
 
-    @GetMapping("/getList/idCustomer")
-    public List<Comment> getListCommentByIdCustomer(@RequestParam(value = "id", required = true) String id) {
-        return commentService.getListCommentByIdCustomer(id);
-    }
+//    @GetMapping("/search")
+//    public Comment getCommentById(@RequestParam(value = ))
 
-    @GetMapping("/getList/idProduct")
-    public List<Comment> getListCommentByIdProduct(@RequestParam(value = "id", required = true) String id) {
-        return commentService.getListCommentByIdProduct(id);
-    }
+//    @GetMapping("/getList/idCustomer")
+//    public List<Comment> getListCommentByIdCustomer(@RequestParam(value = "id", required = true) String id) {
+//        return commentService.getListCommentByIdCustomer(id);
+//    }
+//
+//    @GetMapping("/getList/idProduct")
+//    public List<Comment> getListCommentByIdProduct(@RequestParam(value = "id", required = true) String id) {
+//        return commentService.getListCommentByIdProduct(id);
+//    }
 
 }

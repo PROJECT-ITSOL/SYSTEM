@@ -25,19 +25,19 @@ public class CommentService {
     private CommentRepository commentRepository;
 
     @Transactional
-    public void addNewListComment(List<Comment> commentList){
+    public void addNewListComment(List<Comment> commentList) {
         commentRepository.saveAll(commentList);
     }
 
-    public Optional<Comment> findComment(int id){
+    public Optional<Comment> findComment(int id) {
         return commentRepository.findById(id);
     }
 
-    public int getTotalComment(){
+    public int getTotalComment() {
         return commentRepository.getTotalComment();
     }
 
-    public List<Comment> getListComment(){
+    public List<Comment> getListComment() {
         try {
             return commentRepository.findAll();
         } catch (Exception e) {
@@ -45,7 +45,7 @@ public class CommentService {
         }
     }
 
-    public boolean deleteCommentById(int id){
+    public boolean deleteCommentById(int id) {
         try {
             commentRepository.deleteById(id);
             return true;
@@ -55,7 +55,7 @@ public class CommentService {
         }
     }
 
-    public List<Comment> getListCommentByIdCustomer(String idCustomer){
+    public List<Comment> getListCommentByIdCustomer(String idCustomer) {
         try {
             return commentRepository.getListCommentByIdCustomer(idCustomer);
         } catch (Exception e) {
@@ -63,7 +63,8 @@ public class CommentService {
             return new ArrayList<>();
         }
     }
-    public List<Comment> getListCommentByIdProduct(String idProduct){
+
+    public List<Comment> getListCommentByIdProduct(String idProduct) {
         try {
             return commentRepository.getListCommentByIdProduct(idProduct);
         } catch (Exception e) {
@@ -72,10 +73,10 @@ public class CommentService {
         }
     }
 
-    public Page<Comment> commentPage(int pageNo,int pageSize,String sortById){
+    public Page<Comment> commentPage(int pageNo, int pageSize) {
 //        Pageable pageable = new PageRequest(pageNo,pageSize,null);
 //        if (sort.)
-        return commentRepository.findAll(PageRequest.of(pageNo,pageSize,Sort.by("idComment").descending()));
+        return commentRepository.findAll(PageRequest.of(pageNo, pageSize));
     }
 
 }

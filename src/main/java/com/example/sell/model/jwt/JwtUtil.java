@@ -1,8 +1,8 @@
 package com.example.sell.model.jwt;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +14,7 @@ import java.util.function.Function;
 
 @Service
 public class JwtUtil implements Serializable {
+    private static Logger logger = LogManager.getLogger(JwtUtil.class);
     private String SECRET_KEY = "secret";
 
     private static final long serialVersionUID = 1L;
@@ -30,14 +31,43 @@ public class JwtUtil implements Serializable {
         return extractClaim(token, Claims::getExpiration);
     }
 
+    //    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
+//        final Claims claims = extractAllClaims(token);
+//        try {
+//            return claimsResolver.apply(claims);
+//        } catch (Exception e) {
+//            logger.error(e.getMessage());
+//        }
+//        return null;
+//    }
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(token);
-        return claimsResolver.apply(claims);
+        try {
+            return claimsResolver.apply(claims);
+        } catch (Exception e) {
+//            throw new JwtException("ExpiredJwtException");
+            logger.error(e.getMessage() + ": ExpiredJwtException");
+            return null;
+        }
     }
 
     //    for retrieving any information from token we will need the secret key
     private Claims extractAllClaims(String token) {
-        return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
+        try {
+            logger.info(Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody());
+            return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
+        } catch (ExpiredJwtException e) {
+            logger.error(e.getMessage());
+        } catch (UnsupportedJwtException e) {
+            logger.error(e.getMessage());
+        } catch (MalformedJwtException e) {
+            logger.error(e.getMessage());
+        } catch (SignatureException e) {
+            logger.error(e.getMessage());
+        } catch (IllegalArgumentException e) {
+            logger.error(e.getMessage());
+        }
+        return null;
     }
 
     //    check if the token has expired

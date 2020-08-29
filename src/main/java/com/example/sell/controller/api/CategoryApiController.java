@@ -3,6 +3,7 @@ package com.example.sell.controller.api;
 import com.example.sell.constanst.RandomData;
 import com.example.sell.data.model.Category;
 import com.example.sell.data.service.CategoryService;
+import com.example.sell.exception.NotFoundException;
 import com.example.sell.model.api.BaseApiResult;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,6 +19,7 @@ import java.util.Random;
 
 @RestController
 @RequestMapping("/api/category")
+
 public class CategoryApiController {
 
     private static final Logger logger = LogManager.getLogger(CategoryApiController.class);
@@ -55,7 +57,7 @@ public class CategoryApiController {
         return result;
     }
 
-    @GetMapping("/getAll")
+    @GetMapping("/list")
     public ResponseEntity<List<Category>> getListCategories() {
 //        logger.debug("--------------Request ");
         return new ResponseEntity<List<Category>>(categoryService.getAllListCategories(), HttpStatus.OK);
@@ -72,19 +74,6 @@ public class CategoryApiController {
             result.setMessage("Delete false !!");
         }
         return result;
-    }
-
-    @DeleteMapping("/delete")
-    public BaseApiResult delete(@RequestParam(value = "id", required = true) String id) {
-        BaseApiResult apiResult = new BaseApiResult();
-        if (categoryService.deleteCategory(id)) {
-            apiResult.setSuccess(true);
-            apiResult.setMessage("Delete Success !!");
-        } else {
-            apiResult.setSuccess(false);
-            apiResult.setMessage("Delete false !!");
-        }
-        return apiResult;
     }
 
     @PostMapping("/addNew")
@@ -104,8 +93,8 @@ public class CategoryApiController {
 
     @PostMapping("/update/{id}")
     public BaseApiResult updateCategory(@PathVariable String id, @RequestBody Category category) {
-        BaseApiResult result=new BaseApiResult();
-        Category categoryEntity=categoryService.findOne(id);
+        BaseApiResult result = new BaseApiResult();
+        Category categoryEntity = categoryService.findOne(id);
         try {
             categoryEntity.setName(category.getName());
             categoryEntity.setStatus(category.getStatus());
@@ -118,5 +107,13 @@ public class CategoryApiController {
             logger.error(e.getMessage());
         }
         return result;
+    }
+
+    @GetMapping("/search")
+    public Category getCategory(@RequestParam(value = "id", required = true) String id) {
+        if (categoryService.findOne(id)==null){
+            throw new NotFoundException("Not Found");
+        }
+        return categoryService.findOne(id);
     }
 }

@@ -2,6 +2,7 @@ package com.example.sell.data.service;
 
 import com.example.sell.data.model.Comment;
 import com.example.sell.data.repository.CommentRepository;
+import com.example.sell.exception.NotFoundException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +30,10 @@ public class CommentService {
         commentRepository.saveAll(commentList);
     }
 
-    public Optional<Comment> findComment(int id) {
-        return commentRepository.findById(id);
+    public Comment findComment(int id) {
+        return commentRepository.findById(id).orElse(null);
+//        throw new NotFoundException("Not found");
+//        throw new NotFoundException("Not found");
     }
 
     public int getTotalComment() {

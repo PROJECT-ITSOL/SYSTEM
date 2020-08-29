@@ -38,7 +38,7 @@ public class AuthenticateController {
                     new UsernamePasswordAuthenticationToken(authReq.getUsername(),authReq.getPassword())
             );
         } catch (AuthenticationException e) {
-//            throw new Exception("Incorrect username or password", e);
+//            throw new Exception("Incorrect username or password");
             return ResponseEntity.status(401).body("Incorrect username or password");
         }
 

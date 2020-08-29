@@ -7,6 +7,7 @@ import com.example.sell.data.model.Product;
 import com.example.sell.data.service.CommentService;
 import com.example.sell.data.service.CustomerService;
 import com.example.sell.data.service.ProductService;
+import com.example.sell.exception.NotFoundException;
 import com.example.sell.model.api.BaseApiResult;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,10 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/comment")
@@ -86,8 +84,13 @@ public class CommentApiController {
         return result;
     }
 
-//    @GetMapping("/search")
-//    public Comment getCommentById(@RequestParam(value = ))
+    @GetMapping("/search")
+    public Comment getCommentById(@RequestParam(value = "id") int id) {
+        if (commentService.findComment(id)==null){
+            throw new NotFoundException("Not found");
+        }
+        return commentService.findComment(id);
+    }
 
 //    @GetMapping("/getList/idCustomer")
 //    public List<Comment> getListCommentByIdCustomer(@RequestParam(value = "id", required = true) String id) {

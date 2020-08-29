@@ -1,7 +1,7 @@
-package com.example.sell.data.service.servicaImpl;
+package com.example.sell.data.service;
 
 
-import com.example.sell.data.model.Comment;
+
 import com.example.sell.data.model.Supplier;
 import com.example.sell.data.repository.SupplierRepository;
 import com.example.sell.data.service.SupplierService;
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class SupplierServiceImpl implements SupplierService {
+public class SupplierService implements ISupplierService {
 
     @Autowired
     SupplierRepository supplierRepository;
@@ -39,6 +39,7 @@ public class SupplierServiceImpl implements SupplierService {
     public Boolean deleteSupplierById(int id) {
         try {
             supplierRepository.deleteById(id);
+
             return true;
         } catch (Exception e) {
             e.printStackTrace();

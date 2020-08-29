@@ -2,7 +2,6 @@ package com.example.sell.controller.api;
 
 
 import com.example.sell.data.model.Supplier;
-import com.example.sell.data.repository.SupplierRepository;
 import com.example.sell.data.service.SupplierService;
 import com.example.sell.model.api.BaseApiResult;
 import org.springframework.beans.factory.annotation.Autowired;

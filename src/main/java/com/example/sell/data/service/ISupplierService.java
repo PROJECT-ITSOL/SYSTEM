@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public interface SupplierService   {
+public interface ISupplierService   {
     public List<Supplier> getListAllSupplier();
 
     public Supplier getSupplierById(int id);

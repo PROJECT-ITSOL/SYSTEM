@@ -42,7 +42,7 @@ public class ProductApiController {
             RandomData randomData=new RandomData();
             int totalProduct = productService.getTotalProducts();
             List<Category> categoryList = categoryService.getAllListCategories();
-            List<Supplier> supplierList = supplierService.getListSupplier();
+            List<Supplier> supplierList = supplierService.getListAllSupplier();
             for (int i = totalProduct + 1; i < totalProduct + 40; i++) {
                 Product product = new Product();
                 product.setIdProduct(randomData.randomText(6));

@@ -21,14 +21,28 @@ public class SupplierApiController {
     @GetMapping("")
 
     public ResponseEntity<?> getListSupplier() {
-        List<Supplier> suppliers = supplierService.getListSupplier();
+        List<Supplier> suppliers = supplierService.getListAllSupplier();
         return ResponseEntity.ok(suppliers);
     }
 
     @GetMapping("/{id}")
-    public Supplier getSupplierById(@PathVariable int id) {
+    public ResponseEntity<?> getSupplierById(@PathVariable int id) {
 
-        return supplierService.getSupplierById(id);
+        Supplier supplier =  supplierService.getSupplierById(id);
+        return ResponseEntity.ok(supplier);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<?> searchSupp(@RequestParam(name = "name") String name){
+        List<Supplier> listSearchByName = supplierService.searchSupplier(name);
+        return ResponseEntity.ok(listSearchByName);
+    }
+
+
+    @GetMapping("/status")
+    public ResponseEntity<?> getSupplierByStatus(@RequestParam(value = "status", required = true) boolean status) {
+        List<Supplier> listSupp = supplierService.getListSupplierByStatus(status);
+        return ResponseEntity.ok(listSupp);
     }
 
     @DeleteMapping("/delete")
@@ -44,10 +58,6 @@ public class SupplierApiController {
         return result;
     }
 
-    @GetMapping("/status")
-    public List<Supplier> getSupplierByStatus(@RequestParam(value = "status", required = true) boolean status) {
-        return supplierService.getListSupplierByStatus(status);
-    }
 
     @PostMapping("/addSupplier")
     public BaseApiResult addNewSupplier(@RequestBody Supplier supplier) {

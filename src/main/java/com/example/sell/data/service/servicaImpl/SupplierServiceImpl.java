@@ -21,7 +21,7 @@ public class SupplierServiceImpl implements SupplierService {
 
 
     @Override
-    public List<Supplier> getListSupplier() {
+    public List<Supplier> getListAllSupplier() {
         return supplierRepository.findAll();
     }
 
@@ -63,6 +63,17 @@ public class SupplierServiceImpl implements SupplierService {
 
     }
 
+    @Override
+    public List<Supplier> searchSupplier(String name) {
+        List<Supplier> listAll = supplierRepository.findAll();
+        List<Supplier> listSearch = new ArrayList<>();
+        for (Supplier supplier : listAll){
+            if(supplier.getName().contains(name)){
+                listSearch.add(supplier);
+            }
+        }
+        return listSearch;
+    }
 
 
 }

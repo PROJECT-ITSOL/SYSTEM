@@ -5,6 +5,8 @@ import com.example.sell.data.repository.CategoryRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,7 +22,7 @@ public class CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    public List<Category> getAllListCategories(){
+    public List<Category> getAllListCategories() {
         try {
             return categoryRepository.findAll();
         } catch (Exception e) {
@@ -29,15 +31,15 @@ public class CategoryService {
     }
 
     @Transactional
-    public void addNewListCategories(List<Category> categories){
+    public void addNewListCategories(List<Category> categories) {
         categoryRepository.saveAll(categories);
     }
 
-    public Category findOne(String id){
+    public Category findOne(String id) {
         return categoryRepository.findById(id).orElse(null);
     }
 
-    public void addNewCategory(Category category){
+    public void addNewCategory(Category category) {
         try {
             categoryRepository.save(category);
         } catch (Exception e) {
@@ -45,7 +47,7 @@ public class CategoryService {
         }
     }
 
-    public boolean updateCategory(Category category){
+    public boolean updateCategory(Category category) {
         try {
             categoryRepository.save(category);
             return true;
@@ -55,7 +57,7 @@ public class CategoryService {
         }
     }
 
-    public boolean deleteCategory(String id){
+    public boolean deleteCategory(String id) {
         try {
             categoryRepository.deleteById(id);
             return true;
@@ -64,8 +66,12 @@ public class CategoryService {
             return false;
         }
     }
-    public int getTotalCategories(){
+
+    public int getTotalCategories() {
         return categoryRepository.getTotalCategories();
     }
 
+    public Page<Category> getPageListCategories(int pageNo, int pageSize) {
+        return categoryRepository.findAll(PageRequest.of(pageNo, pageSize));
+    }
 }

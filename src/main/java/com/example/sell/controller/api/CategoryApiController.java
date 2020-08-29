@@ -8,6 +8,7 @@ import com.example.sell.model.api.BaseApiResult;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -58,9 +59,10 @@ public class CategoryApiController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<List<Category>> getListCategories() {
+    public ResponseEntity<Page<Category>> getListCategories(@RequestParam(value = "pageNo", required = false,defaultValue = "0") int pageNo,
+                                                            @RequestParam(value = "pageSize",required = false,defaultValue = "7")int pageSize) {
 //        logger.debug("--------------Request ");
-        return new ResponseEntity<List<Category>>(categoryService.getAllListCategories(), HttpStatus.OK);
+        return new ResponseEntity<Page<Category>>(categoryService.getPageListCategories(pageNo,pageSize), HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")

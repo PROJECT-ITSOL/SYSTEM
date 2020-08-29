@@ -32,8 +32,6 @@ public class CommentService {
 
     public Comment findComment(int id) {
         return commentRepository.findById(id).orElse(null);
-//        throw new NotFoundException("Not found");
-//        throw new NotFoundException("Not found");
     }
 
     public int getTotalComment() {
@@ -77,8 +75,6 @@ public class CommentService {
     }
 
     public Page<Comment> commentPage(int pageNo, int pageSize) {
-//        Pageable pageable = new PageRequest(pageNo,pageSize,null);
-//        if (sort.)
         return commentRepository.findAll(PageRequest.of(pageNo, pageSize));
     }
 

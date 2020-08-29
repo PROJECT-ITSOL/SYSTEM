@@ -1,31 +1,79 @@
-package com.example.sell.data.service;
+package com.example.sell.data.service.servicaImpl;
 
+
+import com.example.sell.data.model.Comment;
 import com.example.sell.data.model.Supplier;
 import com.example.sell.data.repository.SupplierRepository;
+import com.example.sell.data.service.SupplierService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
-public class SupplierService {
-    @Autowired
-    private SupplierRepository supplierRepository;
+@Component
+public class SupplierServiceImpl implements SupplierService {
 
-    public List<Supplier> getAllListSuppliers(){
+    @Autowired
+    SupplierRepository supplierRepository;
+
+
+    @Override
+    public List<Supplier> getListAllSupplier() {
+        return supplierRepository.findAll();
+    }
+
+    @Override
+    public Supplier getSupplierById(int id) {
+        return supplierRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public Supplier findOne(int id) {
+        return supplierRepository.findById(id).orElse(null);
+    }
+
+
+    public Boolean deleteSupplierById(int id) {
         try {
-            return supplierRepository.findAll();
+            supplierRepository.deleteById(id);
+            return true;
         } catch (Exception e) {
-            return new ArrayList<>();
+            e.printStackTrace();
+            return false;
         }
+
     }
-    @Transactional
-    public void addNewSupplier(List<Supplier> suppliers){
-        supplierRepository.saveAll(suppliers);
+
+    public List<Supplier> getListSupplierByStatus(boolean status) {
+        return supplierRepository.getListSupplierByStatus(status);
     }
-    public int getTotalSuppliers(){
-        return supplierRepository.getTotalSuppliers();
+
+    @Override
+    public Boolean addNewSupplier(Supplier supplier) {
+        try {
+            supplierRepository.save(supplier);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+
     }
+
+    @Override
+    public List<Supplier> searchSupplier(String name) {
+        List<Supplier> listAll = supplierRepository.findAll();
+        List<Supplier> listSearch = new ArrayList<>();
+        for (Supplier supplier : listAll){
+            if(supplier.getName().contains(name)){
+                listSearch.add(supplier);
+            }
+        }
+        return listSearch;
+    }
+
+
 }

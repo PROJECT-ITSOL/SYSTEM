@@ -20,7 +20,7 @@ public class SupplierApiController {
     @GetMapping("")
 
     public ResponseEntity<?> getListSupplier() {
-        List<Supplier> suppliers = supplierService.getListAllSupplier();
+        List<Supplier> suppliers = supplierService.getAllListSuppliers();
         return ResponseEntity.ok(suppliers);
     }
 

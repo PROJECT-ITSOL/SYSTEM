@@ -9,28 +9,29 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
-public class SupplierService implements ISupplierService {
+@Service
+public class SupplierService{
 
     @Autowired
     SupplierRepository supplierRepository;
 
 
-    @Override
-    public List<Supplier> getListAllSupplier() {
+
+    public List<Supplier> getAllListSuppliers() {
         return supplierRepository.findAll();
     }
 
-    @Override
+
     public Supplier getSupplierById(int id) {
         return supplierRepository.findById(id).orElse(null);
     }
 
-    @Override
+
     public Supplier findOne(int id) {
         return supplierRepository.findById(id).orElse(null);
     }
@@ -51,7 +52,7 @@ public class SupplierService implements ISupplierService {
         return supplierRepository.getListSupplierByStatus(status);
     }
 
-    @Override
+
     public Boolean addNewSupplier(Supplier supplier) {
         try {
             supplierRepository.save(supplier);
@@ -63,7 +64,7 @@ public class SupplierService implements ISupplierService {
 
     }
 
-    @Override
+
     public List<Supplier> searchSupplier(String name) {
         List<Supplier> listAll = supplierRepository.findAll();
         List<Supplier> listSearch = new ArrayList<>();

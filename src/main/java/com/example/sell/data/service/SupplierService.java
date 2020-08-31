@@ -39,7 +39,6 @@ public class SupplierService implements ISupplierService {
     public Boolean deleteSupplierById(int id) {
         try {
             supplierRepository.deleteById(id);
-
             return true;
         } catch (Exception e) {
             e.printStackTrace();

@@ -4,6 +4,7 @@ import com.example.sell.constanst.RandomData;
 import com.example.sell.data.model.Category;
 import com.example.sell.data.model.Product;
 import com.example.sell.data.model.Supplier;
+import com.example.sell.data.repository.ProductRepository;
 import com.example.sell.data.service.CategoryService;
 import com.example.sell.data.service.ProductService;
 import com.example.sell.data.service.SupplierService;
@@ -11,12 +12,15 @@ import com.example.sell.model.api.BaseApiResult;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.RequestEntity;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 @RestController
@@ -67,5 +71,34 @@ public class ProductApiController {
             logger.error(e.getMessage());
         }
         return result;
+    }
+
+    @GetMapping("/products")
+    public List<Product> findAll() {
+
+        return  productService.findAll();
+    }
+
+    @GetMapping("/{idProduct}")
+    public ResponseEntity<Product> findOne(@PathVariable String idProduct){
+        return  productService.get(idProduct).map(product -> new ResponseEntity<>(product, HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    @DeleteMapping("/{idProduct}")
+    public  ResponseEntity<Void> delete(@PathVariable String idProduct){
+        productService.delete(idProduct);
+        return  new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping
+    public Product save(@RequestBody Product product){
+        product.setStatus(true);
+        return productService.save(product);
+    }
+    @PutMapping
+    public ResponseEntity<Void> update(@RequestBody Product product){
+        productService.update(product);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

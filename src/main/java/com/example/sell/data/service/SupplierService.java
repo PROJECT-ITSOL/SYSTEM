@@ -4,11 +4,9 @@ package com.example.sell.data.service;
 
 import com.example.sell.data.model.Supplier;
 import com.example.sell.data.repository.SupplierRepository;
-import com.example.sell.data.service.SupplierService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Component;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -74,6 +72,11 @@ public class SupplierService{
             }
         }
         return listSearch;
+    }
+
+    public Page<Supplier> findAll(Pageable pageable) {
+        Page<Supplier> listPT =  supplierRepository.findAll(pageable);
+        return listPT;
     }
 
 

@@ -16,8 +16,9 @@ import java.util.List;
 @Entity(name = "dbo_supplier")
 public class Supplier {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id_supplier")
-    private String idSupplier;
+    private int idSupplier;
 
     @Column(name = "name")
     private String name;

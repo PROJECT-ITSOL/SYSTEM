@@ -5,9 +5,14 @@ import com.example.sell.data.model.Supplier;
 import com.example.sell.data.service.SupplierService;
 import com.example.sell.model.api.BaseApiResult;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -94,6 +99,15 @@ public class SupplierApiController {
             result.setSuccess(false);
         }
         return result;
+    }
+
+
+    @GetMapping(value = "/phanTrang")
+    public Page<Supplier> phanTrang(@RequestParam( value = "page") int page
+                                    ) {
+        Pageable pageable =  PageRequest.of(page,5);
+        Page<Supplier> listPhanTrang = supplierService.findAll(pageable);
+        return listPhanTrang;
     }
 }
 

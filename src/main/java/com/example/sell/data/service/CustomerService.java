@@ -42,13 +42,13 @@ public class CustomerService {
             return false;
         }
     }
-//    public boolean deleteCustomer(String id){
-//        try {
-//            customerRepository.deleteById(id);
-//            return true;
-//        } catch (Exception e) {
-//            logger.error(e.getMessage());
-//            return false;
-//        }
-//    }
+    public boolean deleteCustomer(String id){
+        try {
+            customerRepository.deleteById(id);
+            return true;
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return false;
+        }
+    }
 }

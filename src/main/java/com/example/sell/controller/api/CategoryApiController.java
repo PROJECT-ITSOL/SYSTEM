@@ -85,18 +85,25 @@ public class CategoryApiController {
     @PostMapping("/addNew")
     public BaseApiResult addNew(@RequestBody CategoryDTO categoryDTO) {
         BaseApiResult result = new BaseApiResult();
-        Category category = new Category();
-        try {
-            category.setIdCategory(categoryDTO.getId());
-            category.setName(categoryDTO.getName());
-            category.setStatus(true);
-            categoryService.addNewCategory(category);
-            result.setSuccess(true);
-            result.setMessage("Add new category success: " + category.getIdCategory());
-        } catch (Exception e) {
+
+        Category category = categoryService.findOne(categoryDTO.getId());
+        if (category == null) {
+            try {
+                category=new Category();
+//                category.setIdCategory(categoryDTO.getId());
+                category.setName(categoryDTO.getName());
+                category.setStatus(true);
+                categoryService.addNewCategory(category);
+                result.setSuccess(true);
+                result.setMessage("Add new category success: " + category.getIdCategory());
+            } catch (Exception e) {
+                result.setSuccess(false);
+                result.setMessage("Add new category fail!");
+                logger.error(e.getMessage());
+            }
+        }else {
             result.setSuccess(false);
-            result.setMessage("Add new category fail!");
-            logger.error(e.getMessage());
+            result.setMessage("ID Already exist!");
         }
         return result;
     }
@@ -106,6 +113,7 @@ public class CategoryApiController {
         BaseApiResult result = new BaseApiResult();
         Category categoryEntity = categoryService.findOne(id);
         try {
+            categoryEntity.setIdCategory(id);
             categoryEntity.setName(categoryDTO.getName());
             categoryEntity.setStatus(categoryDTO.isStatus());
             categoryService.addNewCategory(categoryEntity);
@@ -121,19 +129,19 @@ public class CategoryApiController {
 
     @GetMapping("/search")
     public BaseApiResult getCategory(@RequestParam(value = "keyword") String keyWord,
-                                      @RequestParam(value = "pageNo", required = false, defaultValue = "0") int pageNo,
-                                      @RequestParam(value = "pageSize", required = false, defaultValue = "7") int pageSize) {
-        DataApiResult result= new DataApiResult();
+                                     @RequestParam(value = "pageNo", required = false, defaultValue = "0") int pageNo,
+                                     @RequestParam(value = "pageSize", required = false, defaultValue = "7") int pageSize) {
+        DataApiResult result = new DataApiResult();
 
-        Sort sort= Sort.by("id").ascending();
-        Pageable pageable=PageRequest.of(pageNo,pageSize , sort);
+        Sort sort = Sort.by("id").ascending();
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
 
         try {
-            Page<Category> pageCategory=categoryService.getCategoriesByIdOrName(pageable,keyWord);
-            if (pageCategory.isEmpty()){
+            Page<Category> pageCategory = categoryService.getCategoriesByIdOrName(pageable, keyWord);
+            if (pageCategory.isEmpty()) {
                 result.setSuccess(false);
                 result.setMessage("Not Found");
-            }else {
+            } else {
                 result.setSuccess(true);
                 result.setData(pageCategory);
             }

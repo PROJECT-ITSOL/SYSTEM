@@ -7,12 +7,15 @@ import com.example.sell.data.model.Product;
 import com.example.sell.data.service.CommentService;
 import com.example.sell.data.service.CustomerService;
 import com.example.sell.data.service.ProductService;
-import com.example.sell.exception.NotFoundException;
 import com.example.sell.model.api.BaseApiResult;
+import com.example.sell.model.api.DataApiResult;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -85,21 +88,27 @@ public class CommentApiController {
     }
 
     @GetMapping("/search")
-    public Comment getCommentById(@RequestParam(value = "id") int id) {
-        if (commentService.findComment(id)==null){
-            throw new NotFoundException("Not found");
+    public BaseApiResult getCommentById(@RequestParam(value = "keyword", required = false, defaultValue = "") String id,
+                                        @RequestParam(value = "pageNo", required = false, defaultValue = "0") int pageNo,
+                                        @RequestParam(value = "pageSize", required = false, defaultValue = "7") int pageSize) {
+        DataApiResult result = new DataApiResult();
+        Sort sort = Sort.by("id").ascending();
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
+        try {
+            Page<Comment> comments = commentService.getListCommentById(pageable,id);
+            if (comments.isEmpty()) {
+                result.setSuccess(false);
+                result.setMessage("Not Found");
+            } else {
+                result.setData(comments);
+                result.setSuccess(true);
+            }
+        } catch (Exception e) {
+            result.setSuccess(false);
+            result.setMessage("Process Handler Error");
+            logger.error(e.getMessage());
         }
-        return commentService.findComment(id);
+
+        return result;
     }
-
-//    @GetMapping("/getList/idCustomer")
-//    public List<Comment> getListCommentByIdCustomer(@RequestParam(value = "id", required = true) String id) {
-//        return commentService.getListCommentByIdCustomer(id);
-//    }
-//
-//    @GetMapping("/getList/idProduct")
-//    public List<Comment> getListCommentByIdProduct(@RequestParam(value = "id", required = true) String id) {
-//        return commentService.getListCommentByIdProduct(id);
-//    }
-
 }

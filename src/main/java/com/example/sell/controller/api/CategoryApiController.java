@@ -5,10 +5,15 @@ import com.example.sell.data.model.Category;
 import com.example.sell.data.service.CategoryService;
 import com.example.sell.exception.NotFoundException;
 import com.example.sell.model.api.BaseApiResult;
+import com.example.sell.model.api.DataApiResult;
+import com.example.sell.model.dto.CategoryDTO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +25,7 @@ import java.util.Random;
 
 @RestController
 @RequestMapping("/api/category")
-
+@CrossOrigin(origins = "*")
 public class CategoryApiController {
 
     private static final Logger logger = LogManager.getLogger(CategoryApiController.class);
@@ -59,10 +64,9 @@ public class CategoryApiController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<Page<Category>> getListCategories(@RequestParam(value = "pageNo", required = false,defaultValue = "0") int pageNo,
-                                                            @RequestParam(value = "pageSize",required = false,defaultValue = "7")int pageSize) {
-//        logger.debug("--------------Request ");
-        return new ResponseEntity<Page<Category>>(categoryService.getPageListCategories(pageNo,pageSize), HttpStatus.OK);
+    public ResponseEntity<Page<Category>> getListCategories(@RequestParam(value = "pageNo", required = false, defaultValue = "0") int pageNo,
+                                                            @RequestParam(value = "pageSize", required = false, defaultValue = "7") int pageSize) {
+        return new ResponseEntity<Page<Category>>(categoryService.getPageListCategories(pageNo, pageSize), HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")
@@ -79,27 +83,39 @@ public class CategoryApiController {
     }
 
     @PostMapping("/addNew")
-    public BaseApiResult addNew(@RequestBody Category category) {
+    public BaseApiResult addNew(@RequestBody CategoryDTO categoryDTO) {
         BaseApiResult result = new BaseApiResult();
-        try {
-            categoryService.addNewCategory(category);
-            result.setSuccess(true);
-            result.setMessage("Add new category success: " + category.getIdCategory());
-        } catch (Exception e) {
+
+        Category category = categoryService.findOne(categoryDTO.getId());
+        if (category == null) {
+            try {
+                category=new Category();
+//                category.setIdCategory(categoryDTO.getId());
+                category.setName(categoryDTO.getName());
+                category.setStatus(true);
+                categoryService.addNewCategory(category);
+                result.setSuccess(true);
+                result.setMessage("Add new category success: " + category.getIdCategory());
+            } catch (Exception e) {
+                result.setSuccess(false);
+                result.setMessage("Add new category fail!");
+                logger.error(e.getMessage());
+            }
+        }else {
             result.setSuccess(false);
-            result.setMessage("Add new category fail!");
-            logger.error(e.getMessage());
+            result.setMessage("ID Already exist!");
         }
         return result;
     }
 
-    @PostMapping("/update/{id}")
-    public BaseApiResult updateCategory(@PathVariable String id, @RequestBody Category category) {
+    @PutMapping("/update/{id}")
+    public BaseApiResult updateCategory(@PathVariable String id, @RequestBody CategoryDTO categoryDTO) {
         BaseApiResult result = new BaseApiResult();
         Category categoryEntity = categoryService.findOne(id);
         try {
-            categoryEntity.setName(category.getName());
-            categoryEntity.setStatus(category.getStatus());
+            categoryEntity.setIdCategory(id);
+            categoryEntity.setName(categoryDTO.getName());
+            categoryEntity.setStatus(categoryDTO.isStatus());
             categoryService.addNewCategory(categoryEntity);
             result.setMessage("Update category success!");
             result.setSuccess(true);
@@ -112,10 +128,28 @@ public class CategoryApiController {
     }
 
     @GetMapping("/search")
-    public Category getCategory(@RequestParam(value = "id", required = true) String id) {
-        if (categoryService.findOne(id)==null){
-            throw new NotFoundException("Not Found");
+    public BaseApiResult getCategory(@RequestParam(value = "keyword") String keyWord,
+                                     @RequestParam(value = "pageNo", required = false, defaultValue = "0") int pageNo,
+                                     @RequestParam(value = "pageSize", required = false, defaultValue = "7") int pageSize) {
+        DataApiResult result = new DataApiResult();
+
+        Sort sort = Sort.by("id").ascending();
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
+
+        try {
+            Page<Category> pageCategory = categoryService.getCategoriesByIdOrName(pageable, keyWord);
+            if (pageCategory.isEmpty()) {
+                result.setSuccess(false);
+                result.setMessage("Not Found");
+            } else {
+                result.setSuccess(true);
+                result.setData(pageCategory);
+            }
+        } catch (Exception e) {
+            result.setSuccess(false);
+            result.setMessage(e.getMessage());
+            logger.error(e.getMessage());
         }
-        return categoryService.findOne(id);
+        return result;
     }
 }

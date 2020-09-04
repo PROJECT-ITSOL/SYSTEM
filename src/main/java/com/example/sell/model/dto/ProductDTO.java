@@ -10,7 +10,6 @@ import lombok.*;
 @AllArgsConstructor
 public class ProductDTO {
     private String idProduct;
-    private String idCategory;
     private Category category;
     private String idSupplier;
     private Supplier supplier;

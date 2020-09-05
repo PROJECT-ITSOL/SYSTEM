@@ -13,15 +13,12 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface SupplierRepository  extends JpaRepository< Supplier, Integer> {
+public interface SupplierRepository extends JpaRepository<Supplier, Integer> {
 
 
     @Query("select sup from dbo_supplier sup " +
             "where sup.status=:status")
-    List<Supplier> getListSupplierByStatus(@Param("status") boolean status) ;
-
-
-
+    List<Supplier> getListSupplierByStatus(@Param("status") boolean status);
 
 
 }

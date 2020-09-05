@@ -3,16 +3,14 @@ package com.example.sell.controller.api;
 
 import com.example.sell.data.model.Supplier;
 import com.example.sell.data.service.SupplierService;
-import com.example.sell.model.api.BaseApiResult;
+import com.example.sell.model.resutlData.BaseApiResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController

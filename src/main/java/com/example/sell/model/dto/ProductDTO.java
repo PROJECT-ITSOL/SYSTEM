@@ -1,7 +1,6 @@
 package com.example.sell.model.dto;
 
 import com.example.sell.data.model.Category;
-import com.example.sell.data.model.Supplier;
 import lombok.*;
 
 @Getter
@@ -10,9 +9,8 @@ import lombok.*;
 @AllArgsConstructor
 public class ProductDTO {
     private String idProduct;
-    private Category category;
+    private Category idCategory;
     private String idSupplier;
-    private Supplier supplier;
     private String name;
     private double price;
     private String image;

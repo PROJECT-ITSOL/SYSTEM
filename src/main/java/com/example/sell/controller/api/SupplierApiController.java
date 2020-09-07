@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("api/supplier")
 public class SupplierApiController {
@@ -34,12 +34,6 @@ public class SupplierApiController {
 
         Supplier supplier =  supplierService.getSupplierById(id);
         return ResponseEntity.ok(supplier);
-    }
-
-    @GetMapping("/search")
-    public ResponseEntity<?> searchSupp(@RequestParam(name = "name") String name){
-        List<Supplier> listSearchByName = supplierService.searchSupplier(name);
-        return ResponseEntity.ok(listSearchByName);
     }
 
 
@@ -102,13 +96,23 @@ public class SupplierApiController {
     }
 
 
-    @GetMapping(value = "/phanTrang")
-    public Page<Supplier> phanTrang(@RequestParam( value = "page") int page
-                                    ) {
+    @GetMapping(value = "/list")
+    public Page<Supplier> phanTrang(@RequestParam( value = "page") int page) {
         Pageable pageable =  PageRequest.of(page,5);
         Page<Supplier> listPhanTrang = supplierService.findAll(pageable);
         return listPhanTrang;
     }
+
+
+    @GetMapping("/search")
+    public Page<Supplier> searchSupplier(@RequestParam( value = "page") int page,
+                                         @RequestParam(name = "name") String name)
+                                         {
+        Pageable pageable =  PageRequest.of(page,5);
+        Page<Supplier> listSearch = supplierService.searchSupplierPage(pageable,name);
+        return listSearch ;
+    }
+
 }
 
 

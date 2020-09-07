@@ -53,6 +53,7 @@ public class SupplierService{
 
     public Boolean addNewSupplier(Supplier supplier) {
         try {
+            
             supplierRepository.save(supplier);
             return true;
         } catch (Exception e) {
@@ -72,6 +73,10 @@ public class SupplierService{
             }
         }
         return listSearch;
+    }
+
+    public Page<Supplier> searchSupplierPage(Pageable pageable,String name) {
+        return supplierRepository.getSuppByName(pageable,name);
     }
 
     public Page<Supplier> findAll(Pageable pageable) {

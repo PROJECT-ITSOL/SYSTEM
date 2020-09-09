@@ -56,12 +56,13 @@ public class CommentService {
         }
     }
 
-    public Page<Comment> getListCommentById(Pageable pageable, String id) {
-        return commentRepository.getListCommentById(pageable, id);
+
+    public Iterable<Comment> getListCommentByKeyword(String id) {
+        return commentRepository.getListCommentByKeyword(id);
     }
 
-    public Page<Comment> commentPage(int pageNo, int pageSize) {
-        return commentRepository.findAll(PageRequest.of(pageNo, pageSize));
-    }
+//    public Page<Comment> commentPage(int pageNo, int pageSize) {
+//        return commentRepository.findAll(PageRequest.of(pageNo, pageSize));
+//    }
 
 }

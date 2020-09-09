@@ -9,13 +9,11 @@ import com.example.sell.data.service.CustomerService;
 import com.example.sell.data.service.ProductService;
 import com.example.sell.model.api.BaseApiResult;
 import com.example.sell.model.api.DataApiResult;
+import com.example.sell.model.dto.CommentDTO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -69,9 +67,29 @@ public class CommentApiController {
     }
 
     @GetMapping("/getList")
-    public Page<Comment> getListComment(@RequestParam(name = "page", required = false, defaultValue = "0") int pageNo,
-                                        @RequestParam(name = "size", required = false, defaultValue = "7") int pageSize) {
-        return commentService.commentPage(pageNo, pageSize);
+    public BaseApiResult getListComment(@RequestParam(name = "pageNo", required = false, defaultValue = "0") int pageNo,
+                                        @RequestParam(name = "pageSize", required = false, defaultValue = "7") int pageSize) {
+        DataApiResult result= new DataApiResult();
+        List<CommentDTO> commentDTOS=new ArrayList<>();
+        try {
+            List<Comment> comments=commentService.getListComment();
+            comments.stream().forEach(comment -> {
+                CommentDTO commentDTO = new CommentDTO().convertComment(comment);
+                commentDTOS.add(commentDTO);
+            });
+            Sort sort = Sort.by("name");
+            Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
+            int start = (int) pageable.getOffset();
+            int end = (start + pageable.getPageSize())>commentDTOS.size() ? commentDTOS.size() : (start + pageable.getPageSize());
+            Page<CommentDTO> page=new PageImpl<>(commentDTOS.subList(start,end),pageable,commentDTOS.size());
+            result.setData(page);
+            result.setSuccess(true);
+        } catch (Exception e) {
+            result.setMessage(e.getMessage());
+            result.setSuccess(false);
+            logger.error(e.getMessage());
+        }
+        return result;
     }
 
     @DeleteMapping("/delete/{id}")
@@ -87,26 +105,36 @@ public class CommentApiController {
         return result;
     }
 
+
     @GetMapping("/search")
-    public BaseApiResult getCommentById(@RequestParam(value = "keyword", required = false, defaultValue = "") String id,
-                                        @RequestParam(value = "pageNo", required = false, defaultValue = "0") int pageNo,
-                                        @RequestParam(value = "pageSize", required = false, defaultValue = "7") int pageSize) {
+    public BaseApiResult getCommentByKeyword(@RequestParam(value = "keyword", required = false, defaultValue = "") String keyword,
+                                       @RequestParam(value = "pageNo", required = false, defaultValue = "0") int pageNo,
+                                       @RequestParam(value = "pageSize", required = false, defaultValue = "7") int pageSize) {
+
         DataApiResult result = new DataApiResult();
+        List<CommentDTO> commentDTOS = new ArrayList<>();
         Sort sort = Sort.by("id").ascending();
         Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
         try {
-            Page<Comment> comments = commentService.getListCommentById(pageable,id);
-            if (comments.isEmpty()) {
+            List<Comment> comments = (List<Comment>) commentService.getListCommentByKeyword(keyword);
+            if (!comments.isEmpty()) {
+                comments.stream().forEach(comment -> {
+                    CommentDTO commentDTO = new CommentDTO().convertComment(comment);
+                    commentDTOS.add(commentDTO);
+                });
+                int start = (int) pageable.getOffset();
+                int end = (start + pageable.getPageSize())>commentDTOS.size() ? commentDTOS.size() : (start + pageable.getPageSize());
+                Page<CommentDTO> page = new PageImpl<CommentDTO>(commentDTOS.subList(start,end), pageable, commentDTOS.size());
+                result.setData(page);
+                result.setSuccess(true);
+            } else {
                 result.setSuccess(false);
                 result.setMessage("Not Found");
-            } else {
-                result.setData(comments);
-                result.setSuccess(true);
             }
         } catch (Exception e) {
-            result.setSuccess(false);
-            result.setMessage("Process Handler Error");
             logger.error(e.getMessage());
+            result.setSuccess(false);
+            result.setMessage(e.getMessage());
         }
 
         return result;

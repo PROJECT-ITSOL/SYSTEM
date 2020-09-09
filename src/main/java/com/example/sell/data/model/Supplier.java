@@ -34,6 +34,6 @@ public class Supplier {
     @Column(name = "logo")
     private String logo;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "supplier")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "supplier",fetch = FetchType.LAZY)
     private List<Product> productList =  new ArrayList<>();
 }

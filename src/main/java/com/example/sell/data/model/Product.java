@@ -23,7 +23,7 @@ public class Product {
     @Column(name = "id_category", insertable = false, updatable = false)
     private String idCategory;
 
-    @ManyToOne(optional = true, fetch = FetchType.LAZY)
+    @ManyToOne(optional = true)
     @JsonIgnore
     @JoinColumn(name = "id_category")
     private Category category;
@@ -31,7 +31,7 @@ public class Product {
     @Column(name = "id_supplier", insertable = false, updatable = false)
     private String idSupplier;
 
-    @ManyToOne(optional = true, fetch = FetchType.LAZY)
+    @ManyToOne(optional = true)
     @JsonIgnore
     @JoinColumn(name = "id_supplier")
     private Supplier supplier;

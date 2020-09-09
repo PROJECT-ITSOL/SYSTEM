@@ -37,16 +37,6 @@ public class CustomerService {
         }
     }
 
-
-//    public boolean updateCustomer(Customer customer){
-//        try {
-//            customerRepository.save(customer);
-//            return true;
-//        } catch (Exception e) {
-//            logger.error(e.getMessage());
-//            return false;
-//        }
-//    }
     public boolean deleteCustomer(String id){
         try {
             customerRepository.deleteById(id);

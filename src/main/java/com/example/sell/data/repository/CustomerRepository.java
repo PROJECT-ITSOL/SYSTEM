@@ -11,7 +11,7 @@ public interface CustomerRepository extends JpaRepository<Customer,String> {
     @Query("select count (ct.idCustomer) from dbo_customer ct")
     int getTotalCustomers();
 
-    @Query("select c from dbo_customer ct " +
+    @Query("select ct from dbo_customer ct " +
             "where (upper(ct.idCustomer) like concat('%',upper(:keyword),'%') ) " +
             "or (upper(ct.name) like concat('%',upper(:keyword),'%') )")
     Page<Customer> getCustomersByIdOrName(Pageable pageable, @Param("keyword") String keyWord);

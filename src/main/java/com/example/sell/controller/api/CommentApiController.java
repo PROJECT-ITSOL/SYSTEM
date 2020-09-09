@@ -136,7 +136,6 @@ public class CommentApiController {
             result.setSuccess(false);
             result.setMessage(e.getMessage());
         }
-
         return result;
     }
 }

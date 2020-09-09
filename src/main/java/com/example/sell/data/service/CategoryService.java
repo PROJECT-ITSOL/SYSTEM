@@ -71,6 +71,7 @@ public class CategoryService {
         return categoryRepository.getTotalCategories();
     }
 
+    @Transactional
     public Page<Category> getPageListCategories(int pageNo, int pageSize) {
         return categoryRepository.findAll(PageRequest.of(pageNo, pageSize));
     }

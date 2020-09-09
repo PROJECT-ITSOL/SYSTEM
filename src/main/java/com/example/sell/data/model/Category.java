@@ -22,6 +22,6 @@ public class Category {
     @Column(name = "status")
     private Boolean status;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "category")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "category", fetch = FetchType.LAZY)
     private List<Product> listProduct = new ArrayList<>();
 }

@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.omg.IOP.Codec;
+//import org.omg.IOP.Codec;
 
 import javax.persistence.*;
 @Getter

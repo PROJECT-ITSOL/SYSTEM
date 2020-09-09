@@ -3,7 +3,7 @@ package com.example.sell.controller.api;
 import com.example.sell.constanst.RandomData;
 import com.example.sell.data.model.Customer;
 import com.example.sell.data.service.CustomerService;
-import com.example.sell.model.api.BaseApiResult;
+import com.example.sell.model.resutlData.BaseApiResult;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;

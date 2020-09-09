@@ -29,7 +29,7 @@ public class Product {
     private Category category;
 
     @Column(name = "id_supplier", insertable = false, updatable = false)
-    private String idSupplier;
+    private int idSupplier;
 
     @ManyToOne(optional = true)
     @JsonIgnore

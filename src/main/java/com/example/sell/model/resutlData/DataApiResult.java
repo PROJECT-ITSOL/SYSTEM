@@ -1,4 +1,4 @@
-package com.example.sell.model.api;
+package com.example.sell.model.resutlData;
 
 import lombok.Getter;
 import lombok.Setter;

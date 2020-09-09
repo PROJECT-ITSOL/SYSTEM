@@ -7,7 +7,7 @@ import com.example.sell.data.model.Supplier;
 import com.example.sell.data.service.CategoryService;
 import com.example.sell.data.service.ProductService;
 import com.example.sell.data.service.SupplierService;
-import com.example.sell.model.api.BaseApiResult;
+import com.example.sell.model.resutlData.BaseApiResult;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;

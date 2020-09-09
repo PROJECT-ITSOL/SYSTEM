@@ -3,13 +3,16 @@ package com.example.sell.controller.api;
 
 import com.example.sell.data.model.Supplier;
 import com.example.sell.data.service.SupplierService;
-import com.example.sell.model.api.BaseApiResult;
+import com.example.sell.model.resutlData.BaseApiResult;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("api/supplier")
 public class SupplierApiController {
@@ -29,12 +32,6 @@ public class SupplierApiController {
 
         Supplier supplier =  supplierService.getSupplierById(id);
         return ResponseEntity.ok(supplier);
-    }
-
-    @GetMapping("/search")
-    public ResponseEntity<?> searchSupp(@RequestParam(name = "name") String name){
-        List<Supplier> listSearchByName = supplierService.searchSupplier(name);
-        return ResponseEntity.ok(listSearchByName);
     }
 
 
@@ -95,6 +92,25 @@ public class SupplierApiController {
         }
         return result;
     }
+
+
+    @GetMapping(value = "/list")
+    public Page<Supplier> phanTrang(@RequestParam( value = "page") int page) {
+        Pageable pageable =  PageRequest.of(page,5);
+        Page<Supplier> listPhanTrang = supplierService.findAll(pageable);
+        return listPhanTrang;
+    }
+
+
+    @GetMapping("/search")
+    public Page<Supplier> searchSupplier(@RequestParam( value = "page") int page,
+                                         @RequestParam(name = "name") String name)
+                                         {
+        Pageable pageable =  PageRequest.of(page,5);
+        Page<Supplier> listSearch = supplierService.searchSupplierPage(pageable,name);
+        return listSearch ;
+    }
+
 }
 
 

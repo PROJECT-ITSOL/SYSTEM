@@ -82,8 +82,8 @@ public class ProductApiController {
     }
 
 // API xóa sản phẩm.
-    @DeleteMapping("/delete/{id}")
-    public  BaseApiResult deleteProduct(@PathVariable String idProduct){
+    @DeleteMapping("/delete")
+    public  BaseApiResult deleteProduct(@RequestParam(value = "id") String idProduct){
         BaseApiResult result = new BaseApiResult();
         if (productService.deleteProduct(idProduct)){
            result.setSuccess(true);
@@ -105,7 +105,7 @@ public class ProductApiController {
             try {
                 product = new Product();
                 product.setIdProduct(productDTO.getIdProduct());
-//                product.setIdCategory(productDTO.getIdCategory());
+                product.setIdCategory(productDTO.getIdCategory());
                 product.setIdSupplier(productDTO.getIdSupplier());
                 product.setName(productDTO.getName());
                 product.setPrice(productDTO.getPrice());
@@ -131,8 +131,8 @@ public class ProductApiController {
     }
 
 // API Cập nhập(Sửa) sản phẩm.
-    @PutMapping("/update/{id}")
-    public BaseApiResult updateProduct(@PathVariable String id, @RequestBody ProductDTO productDTO){
+    @PutMapping("/update")
+    public BaseApiResult updateProduct(@RequestParam(value = "id") String id, @RequestBody ProductDTO productDTO){
       BaseApiResult result = new BaseApiResult();
       Product productEntity = productService.findOne(id);
       try {

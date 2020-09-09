@@ -180,4 +180,7 @@ public class Product {
     public void setProductReturn(ProductReturn productReturn) {
         this.productReturn = productReturn;
     }
+
+    public void setIdCategory(Category idCategory) {
+    }
 }

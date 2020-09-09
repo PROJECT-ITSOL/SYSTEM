@@ -66,7 +66,7 @@ public class Product {
     @OneToMany(mappedBy = "productReturn",cascade = CascadeType.ALL)
     private List<ProductReturn> productReturnList=new ArrayList<>();
 
-    @OneToMany(mappedBy = "productImport",cascade = CascadeType.ALL)
-    private List<BillImportDetail> billImportDetails=new ArrayList<>();
-
+    @OneToOne(mappedBy = "productImport")
+//    @JoinColumn(name = "")
+    private BillImportDetail billImport;
 }

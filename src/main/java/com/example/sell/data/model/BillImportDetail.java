@@ -23,13 +23,14 @@ public class BillImportDetail {
     private String idBillImport;
 
     @ManyToOne(optional = true,fetch = FetchType.LAZY)
+    @JsonIgnore
     @JoinColumn(name = "id_bill_import")
     private BillImport billImport;
 
     @Column(name = "id_product",insertable = false,updatable = false)
     private String idProduct;
 
-    @ManyToOne(optional = true,fetch = FetchType.LAZY)
+    @OneToOne(optional = true,fetch = FetchType.LAZY)
     @JsonIgnore
     @JoinColumn(name = "id_product")
     private Product productImport;

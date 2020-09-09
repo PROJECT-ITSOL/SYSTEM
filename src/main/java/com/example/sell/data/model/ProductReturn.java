@@ -1,5 +1,6 @@
 package com.example.sell.data.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,6 +30,7 @@ public class ProductReturn {
     private String idOrder;
 
     @ManyToOne(optional = true,fetch = FetchType.LAZY)
+    @JsonIgnore
     @JoinColumn(name = "id_order")
     private Order orderFail;
 

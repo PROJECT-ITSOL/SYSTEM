@@ -1,5 +1,6 @@
 package com.example.sell.data.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,6 +27,7 @@ public class Order {
     private String idCustomer;
 
     @ManyToOne(optional = true, fetch = FetchType.LAZY)
+    @JsonIgnore
     @JoinColumn(name = "id_customer")
     private Customer customerOrder;
 
@@ -44,4 +46,9 @@ public class Order {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "orderFail")
     private List<ProductReturn> productReturns = new ArrayList<>();
 
+//    public void setCustomer(Customer customer) {
+//    }
+
+//    public void setIdCustomer(Customer customer) {
+//    }
 }

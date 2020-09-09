@@ -60,8 +60,8 @@ public class Product {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
     private List<Comment> comments = new ArrayList<>()  ;
 
-    @OneToOne(mappedBy = "productOrderDetail")
-    private OrderDetail orderDetail;
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "productOrderDetail")
+    private List<OrderDetail> orderDetails = new ArrayList<>();
 
     @OneToOne(mappedBy = "productReturn")
     private ProductReturn productReturn;

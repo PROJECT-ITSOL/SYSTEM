@@ -39,7 +39,7 @@ public class CommentApiController {
 
         try {
             List<Comment> commentList = new ArrayList<>();
-            int totalComment = commentService.getTotalComment();
+            int totalComment = commentService.getTotalComment();// so luong oj
             Random random = new Random();
             RandomData randomData = new RandomData();
             List<Customer> customerList = customerService.getAllListCustomer();

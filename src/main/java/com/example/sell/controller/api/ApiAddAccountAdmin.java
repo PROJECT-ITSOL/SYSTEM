@@ -1,4 +1,4 @@
-package com.example.sell.controller;
+package com.example.sell.controller.api;
 
 import com.example.sell.data.model.Admin;
 import com.example.sell.data.service.AdminService;

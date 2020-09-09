@@ -12,24 +12,32 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+
 @Service
 public class OrderDetailService {
     private static final Logger logger = LogManager.getLogger(OrderDetailService.class);
     @Autowired
     private OrderDetailRepository orderDetailRepository;
 
-
+    public List<OrderDetail> getOrderDetailsByIdOrder(String idOrder) {
+        try {
+            return orderDetailRepository.getOrderDetailByIdOrder(idOrder);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return new ArrayList<>();
+        }
+    }
 
     public void addNewListOrderDetail(List<OrderDetail> orderDetails) {
         orderDetailRepository.saveAll(orderDetails);
     }
 
-   public int  getTotailOrderDetail() {
+    public int getTotailOrderDetail() {
         return orderDetailRepository.getTotailOrderDetail();
     }
 
     public Page<OrderDetail> getPageListOrdersDetail(int pageNo, int pageSize) {
-        return orderDetailRepository.findAll(PageRequest.of(pageNo,pageSize));
+        return orderDetailRepository.findAll(PageRequest.of(pageNo, pageSize));
     }
 
     //public Object getPageListOdersDetail(int pageNo, int pageSize) {

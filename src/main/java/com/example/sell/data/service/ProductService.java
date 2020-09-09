@@ -15,21 +15,27 @@ public class ProductService {
     private ProductRepository productRepository;
 
 
-    public List<Product> findAll(){
+    public List<Product> findAll() {
         return productRepository.findAll();
     }
-    public int getTotalProducts(){
+
+    public Product getProductById(String id) {
+        return productRepository.findById(id).orElse(null);
+    }
+
+    public int getTotalProducts() {
         return productRepository.getTotalProducts();
     }
+
     @Transactional
-    public void addNewListProduct(List<Product> products){
+    public void addNewListProduct(List<Product> products) {
         productRepository.saveAll(products);
     }
 
     public List<Product> getAllProductList() {
         try {
             return productRepository.findAll();
-        }catch (Exception e){
+        } catch (Exception e) {
             return new ArrayList<>();
         }
     }

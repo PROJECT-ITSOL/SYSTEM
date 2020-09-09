@@ -28,7 +28,7 @@ public class RandomData {
     public String randomPhone() {
         final String[] FIRST_NUMBER = {"3", "9"};
         StringBuilder phone = new StringBuilder("0");
-//        int number = (int) Math.floor(Math.random() * (1 - 0 + 1) + 1);
+////        int number = (int) Math.floor(Math.random() * (1 - 0 + 1) + 1);
         int number = (int) (new Random().nextInt(1));
         int min = new ListConstant().minNumber;
         int max = new ListConstant().maxNumber;
@@ -55,6 +55,12 @@ public class RandomData {
         result.append(numberImage);
         result.append(".jpg");
         return result.toString();
+    }
+
+    public String randomStatusProductReturn(){
+        int number = new Random().nextInt(1);
+        String result = ListConstant.STATUS_PRODUCT_RETURN[number];
+        return result;
     }
 
 }

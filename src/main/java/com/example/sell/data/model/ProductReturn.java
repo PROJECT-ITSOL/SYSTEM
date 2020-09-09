@@ -19,17 +19,18 @@ public class ProductReturn {
     @Column(name = "id_product_return")
     private int idProductReturn;
 
-    @Column(name = "id_product",updatable = false,insertable = false)
+    @Column(name = "id_product", updatable = false, insertable = false)
     private String idProduct;
 
-    @OneToOne(optional = true)
+    @ManyToOne(optional = true, fetch = FetchType.LAZY)
+    @JsonIgnore
     @JoinColumn(name = "id_product")
     private Product productReturn;
 
-    @Column(name = "id_order",insertable = false,updatable = false)
+    @Column(name = "id_order", insertable = false, updatable = false)
     private String idOrder;
 
-    @ManyToOne(optional = true,fetch = FetchType.LAZY)
+    @ManyToOne(optional = true, fetch = FetchType.LAZY)
     @JsonIgnore
     @JoinColumn(name = "id_order")
     private Order orderFail;

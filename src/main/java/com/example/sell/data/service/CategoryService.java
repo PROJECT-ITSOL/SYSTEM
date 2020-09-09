@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 @Service
 public class CategoryService {
 
@@ -22,7 +21,7 @@ public class CategoryService {
 
     @Autowired
     private CategoryRepository categoryRepository;
-
+    // get tat ca
     public List<Category> getAllListCategories() {
         try {
             return categoryRepository.findAll();
@@ -30,7 +29,7 @@ public class CategoryService {
             return new ArrayList<>();
         }
     }
-
+    // add new
     @Transactional
     public void addNewListCategories(List<Category> categories) {
         categoryRepository.saveAll(categories);
@@ -47,7 +46,7 @@ public class CategoryService {
             logger.error(e.getMessage());
         }
     }
-
+    //
     public boolean updateCategory(Category category) {
         try {
             categoryRepository.save(category);
@@ -57,7 +56,7 @@ public class CategoryService {
             return false;
         }
     }
-
+    // xoa
     public boolean deleteCategory(String id) {
         try {
             categoryRepository.deleteById(id);
@@ -67,7 +66,7 @@ public class CategoryService {
             return false;
         }
     }
-
+    // page
     public int getTotalCategories() {
         return categoryRepository.getTotalCategories();
     }
@@ -75,7 +74,7 @@ public class CategoryService {
     public Page<Category> getPageListCategories(int pageNo, int pageSize) {
         return categoryRepository.findAll(PageRequest.of(pageNo, pageSize));
     }
-
+    // page
     public Page<Category> getCategoriesByIdOrName(Pageable pageable, String keyword) {
         return categoryRepository.getCategoriesByIdOrName(pageable, keyword);
     }

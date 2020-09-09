@@ -41,10 +41,6 @@ public class CategoryApiController {
             int totalCategories = categoryService.getTotalCategories();
             for (int i = totalCategories + 1; i < totalCategories + 20; i++) {
                 Category category = new Category();
-                /*
-                 * random code category
-                 * */
-
                 category.setIdCategory(new RandomData().randomText(6));
                 category.setName("Category " + i);
                 category.setStatus(true);

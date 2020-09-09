@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -23,5 +24,13 @@ public class ProductService {
     @Transactional
     public void addNewListProduct(List<Product> products){
         productRepository.saveAll(products);
+    }
+
+    public List<Product> getAllProductList() {
+        try {
+            return productRepository.findAll();
+        }catch (Exception e){
+            return new ArrayList<>();
+        }
     }
 }

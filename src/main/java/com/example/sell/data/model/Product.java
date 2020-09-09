@@ -58,15 +58,17 @@ public class Product {
     private Boolean status;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
-    private List<Comment> comments = new ArrayList<>()  ;
+    private List<Comment> comments = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "productOrderDetail")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productOrderDetail")
     private List<OrderDetail> orderDetails = new ArrayList<>();
 
-    @OneToMany(mappedBy = "productReturn",cascade = CascadeType.ALL)
-    private List<ProductReturn> productReturnList=new ArrayList<>();
+    @OneToMany(mappedBy = "productReturn", cascade = CascadeType.ALL)
+    private List<ProductReturn> productReturnList = new ArrayList<>();
 
-    @OneToOne(mappedBy = "productImport")
+//    @OneToOne(mappedBy = "productImport")
+    @OneToMany(mappedBy = "productImport",cascade = CascadeType.ALL)
+    private List<BillImportDetail> importDetailList=new ArrayList<>();
 //    @JoinColumn(name = "")
-    private BillImportDetail billImport;
+//    private BillImportDetail billImport;
 }

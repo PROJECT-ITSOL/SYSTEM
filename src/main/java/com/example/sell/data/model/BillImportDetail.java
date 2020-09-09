@@ -30,7 +30,7 @@ public class BillImportDetail {
     @Column(name = "id_product",insertable = false,updatable = false)
     private String idProduct;
 
-    @OneToOne(optional = true,fetch = FetchType.LAZY)
+    @ManyToOne(optional = true,fetch = FetchType.LAZY)
     @JsonIgnore
     @JoinColumn(name = "id_product")
     private Product productImport;

@@ -15,4 +15,7 @@ public interface BillImportRepository extends JpaRepository<BillImport,String> {
     List<BillImport> getListBillportByDate(@Param("date") boolean date);
 
     // tim kiem theo id
+
+    @Query("select count(b.idBillImport) from dbo_bill_import b")
+    Integer getTotalBillImport();
 }

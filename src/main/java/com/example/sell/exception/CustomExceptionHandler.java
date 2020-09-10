@@ -13,10 +13,4 @@ public class CustomExceptionHandler {
     public ErrorResponse handlerNotFoundExceptionHandler(NotFoundException ex, WebRequest req) {
         return new ErrorResponse(HttpStatus.NOT_FOUND, ex.getMessage());
     }
-
-//    @ExceptionHandler(JwtException.class)
-//    @ResponseStatus(HttpStatus.UNAUTHORIZED)
-//    public ErrorResponse handlerJwtException(JwtException ex,WebRequest req){
-//        return new ErrorResponse(HttpStatus.UNAUTHORIZED,ex.getMessage());
-//    }
 }

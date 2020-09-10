@@ -44,19 +44,19 @@ public class OrderDetailController {
 
         try {
             List<OrderDetail> orderDetails = new ArrayList<>();
-            int totalOrderDetail =orderDetailService.getTotailOrderDetail();
+            int totalOrderDetail = orderDetailService.getTotailOrderDetail();
             Random random = new Random();
-            RandomData randomData= new RandomData();
+            RandomData randomData = new RandomData();
             // fake list orderlist
-            List<Order> ordersList= orderService.getAllOrderList();
-            List<Product> productList= productService.getAllProductList();
-            for (int i= totalOrderDetail+1;i<totalOrderDetail+30;i++){
-                OrderDetail orderDetail=new OrderDetail();
+            List<Order> ordersList = orderService.getAllOrderList();
+            List<Product> productList = productService.findAll();
+            for (int i = totalOrderDetail + 1; i < totalOrderDetail + 30; i++) {
+                OrderDetail orderDetail = new OrderDetail();
                 //orderDetail.setIdOrderDetail();
-               // orderDetail.setIdOrder(ordersList.get(random.nextInt(ordersList.size())));
+                // orderDetail.setIdOrder(ordersList.get(random.nextInt(ordersList.size())));
                 orderDetail.setOrder(ordersList.get(random.nextInt(ordersList.size())));
                 orderDetail.setProductOrderDetail(productList.get(random.nextInt(productList.size())));
-                orderDetail.setAmount(100+i);
+                orderDetail.setAmount(100 + i);
                 orderDetails.add(orderDetail);
 
             }
@@ -80,7 +80,7 @@ public class OrderDetailController {
                     int pageNo,
             @RequestParam(value = "pageSize", required = false, defaultValue = "7")
                     int pageSize) {
-        return new ResponseEntity<Page<OrderDetail>>( orderDetailService.getPageListOrdersDetail(pageNo, pageSize), HttpStatus.OK);
+        return new ResponseEntity<Page<OrderDetail>>(orderDetailService.getPageListOrdersDetail(pageNo, pageSize), HttpStatus.OK);
     }
 
 

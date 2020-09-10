@@ -56,7 +56,7 @@ public class ProductReturnController {
                 if (!orderDetails.isEmpty()){
                     OrderDetail orderDetail=orderDetails.get(random.nextInt(orderDetails.size()));
                     productReturn.setOrderFail(order);
-                    productReturn.setProductReturn(productService.getProductById(orderDetail.getIdProduct()));
+                    productReturn.setProductReturn(productService.findOne(orderDetail.getIdProduct()));
                     productReturn.setAmount(random.nextInt(20));
                     productReturn.setStatus(new RandomData().randomStatusProductReturn());
     //                productReturn

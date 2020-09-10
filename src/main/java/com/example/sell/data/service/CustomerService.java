@@ -1,10 +1,14 @@
 package com.example.sell.data.service;
 
+import com.example.sell.data.model.Category;
 import com.example.sell.data.model.Customer;
 import com.example.sell.data.repository.CustomerRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,15 +37,6 @@ public class CustomerService {
         }
     }
 
-    public boolean updateCustomer(Customer customer){
-        try {
-            customerRepository.save(customer);
-            return true;
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-            return false;
-        }
-    }
     public boolean deleteCustomer(String id){
         try {
             customerRepository.deleteById(id);
@@ -50,5 +45,16 @@ public class CustomerService {
             logger.error(e.getMessage());
             return false;
         }
+    }
+
+    public int getTotalCustomers() {
+        return customerRepository.getTotalCustomers();
+    }
+    public Page<Customer> getPageListCustomers(int pageNo, int pageSize) {
+        return customerRepository.findAll(PageRequest.of(pageNo, pageSize));
+    }
+
+    public Page<Customer> getCustomersByIdOrName(Pageable pageable, String keyword) {
+        return customerRepository.getCustomersByIdOrName(pageable, keyword);
     }
 }

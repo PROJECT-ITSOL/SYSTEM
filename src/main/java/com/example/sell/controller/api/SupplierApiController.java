@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 @CrossOrigin(origins = "*")
 @RestController
@@ -21,10 +22,15 @@ public class SupplierApiController {
     private SupplierService supplierService;
 
     @GetMapping("")
-
     public ResponseEntity<?> getListSupplier() {
         List<Supplier> suppliers = supplierService.getAllListSuppliers();
         return ResponseEntity.ok(suppliers);
+    }
+    @GetMapping(value = "/list")
+    public Page<Supplier> phanTrang(@RequestParam( value = "page") int page) {
+        Pageable pageable =  PageRequest.of(page,5);
+        Page<Supplier> listPhanTrang = supplierService.findAll(pageable);
+        return listPhanTrang;
     }
 
     @GetMapping("/{id}")
@@ -80,7 +86,6 @@ public class SupplierApiController {
         sup.setName(supplier.getName());
         sup.setPhoneNumber(supplier.getPhoneNumber());
         sup.setStatus(supplier.getStatus());
-
         try {
             supplierService.addNewSupplier(sup);
             result.setMessage("Update success");
@@ -93,13 +98,6 @@ public class SupplierApiController {
         return result;
     }
 
-
-    @GetMapping(value = "/list")
-    public Page<Supplier> phanTrang(@RequestParam( value = "page") int page) {
-        Pageable pageable =  PageRequest.of(page,5);
-        Page<Supplier> listPhanTrang = supplierService.findAll(pageable);
-        return listPhanTrang;
-    }
 
 
     @GetMapping("/search")

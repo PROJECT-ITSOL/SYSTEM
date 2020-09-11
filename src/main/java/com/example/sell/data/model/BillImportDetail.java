@@ -22,6 +22,7 @@ public class BillImportDetail {
     private String idBillImport;
 
     @ManyToOne(optional = true,fetch = FetchType.LAZY)
+//    @JsonIn
     @JoinColumn(name = "id_bill_import")
     private BillImport billImport;
 

@@ -23,7 +23,7 @@ public class Product {
     @Column(name = "id_category", insertable = false, updatable = false)
     private String idCategory;
 
-    @ManyToOne(optional = true, fetch = FetchType.LAZY)
+    @ManyToOne(optional = true)
     @JsonIgnore
     @JoinColumn(name = "id_category")
     private Category category;
@@ -31,7 +31,7 @@ public class Product {
     @Column(name = "id_supplier", insertable = false, updatable = false)
     private int idSupplier;
 
-    @ManyToOne(optional = true, fetch = FetchType.LAZY)
+    @ManyToOne(optional = true)
     @JsonIgnore
     @JoinColumn(name = "id_supplier")
     private Supplier supplier;
@@ -58,15 +58,16 @@ public class Product {
     private Boolean status;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
-    private List<Comment> comments = new ArrayList<>()  ;
+    private List<Comment> comments = new ArrayList<>();
 
-    @OneToOne(mappedBy = "productOrderDetail")
-    private OrderDetail orderDetail;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productOrderDetail")
+    private List<OrderDetail> orderDetails = new ArrayList<>();
 
-    @OneToOne(mappedBy = "productReturn")
-    private ProductReturn productReturn;
+    @OneToMany(mappedBy = "productReturn", cascade = CascadeType.ALL)
+    private List<ProductReturn> productReturnList = new ArrayList<>();
 
-    @OneToOne(mappedBy = "productImport")
-    private BillImportDetail billImportDetail;
+    @JsonIgnore
+    @OneToMany(mappedBy = "productImport", cascade = CascadeType.ALL)
+    private List<BillImportDetail> importDetailList = new ArrayList<>();
 
 }

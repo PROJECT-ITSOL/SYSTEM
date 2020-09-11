@@ -14,15 +14,7 @@ public interface CommentRepository extends JpaRepository<Comment, Integer> {
     int getTotalComment();
 
     @Query("select cmt from dbo_comment cmt " +
-            "where cmt.idCustomer=:idCustomer")
-    List<Comment> getListCommentByIdCustomer(@Param("idCustomer") String idCustomer);
-
-    @Query("select cmt from dbo_comment cmt " +
-            "where cmt.idProduct=:idProduct")
-    List<Comment> getListCommentByIdProduct(@Param("idProduct") String idProduct);
-
-    @Query("select cmt from dbo_comment cmt " +
-            "where (upper(cmt.idProduct) like concat('%',upper(:id),'%') )" +
-            "or (upper(cmt.idCustomer) like concat('%',upper(:id),'%' ) )")
-    Page<Comment> getListCommentById(Pageable pageable, @Param("id") String id);
+            "where (upper(cmt.product.name) like concat('%',upper(:keyword),'%') )" +
+            "or (upper(cmt.customer.name) like concat('%',upper(:keyword),'%' ) )")
+    Iterable<Comment> getListCommentByKeyword(@Param("keyword") String keyword);
 }

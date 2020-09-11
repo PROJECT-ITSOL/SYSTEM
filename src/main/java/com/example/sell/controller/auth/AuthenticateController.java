@@ -1,4 +1,4 @@
-package com.example.sell.controller;
+package com.example.sell.controller.auth;
 
 
 import com.example.sell.authen.AuthenticationRequest;

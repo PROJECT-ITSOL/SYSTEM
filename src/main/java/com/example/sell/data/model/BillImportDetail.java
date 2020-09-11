@@ -1,5 +1,7 @@
 package com.example.sell.data.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,14 +24,15 @@ public class BillImportDetail {
     private String idBillImport;
 
     @ManyToOne(optional = true,fetch = FetchType.LAZY)
-//    @JsonIn
+    @JsonIgnore
     @JoinColumn(name = "id_bill_import")
     private BillImport billImport;
 
     @Column(name = "id_product",insertable = false,updatable = false)
     private String idProduct;
 
-    @OneToOne(optional = true)
+    @ManyToOne(optional = true)
+    @JsonIgnore
     @JoinColumn(name = "id_product")
     private Product productImport;
 

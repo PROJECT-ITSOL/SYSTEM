@@ -17,15 +17,18 @@ public class BillImportService {
     @Autowired
     private BillImportRepository billImportRepository;
 
+
+    //Lấy tất cả bill
     public List<BillImport> getAllBillImport(){
         return billImportRepository.findAll();
     }
 
+    //Lấy bill theo id
     public BillImport getBillImportById(String id){
         return billImportRepository.findById(id).orElse(null);
     }
 
-
+    //Thêm mới bill
     public Boolean addNewBillImport(BillImport billImport) {
         try {
             billImportRepository.save(billImport);

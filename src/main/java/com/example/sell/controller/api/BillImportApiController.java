@@ -2,19 +2,27 @@ package com.example.sell.controller.api;
 
 
 import com.example.sell.data.model.BillImport;
+import com.example.sell.data.model.Comment;
+import com.example.sell.data.model.Supplier;
 import com.example.sell.data.service.BillImportService;
+import com.example.sell.model.dto.BillImportDTO;
+import com.example.sell.model.dto.CommentDTO;
 import com.example.sell.model.resutlData.BaseApiResult;
+import com.example.sell.model.resutlData.DataApiResult;
+import org.apache.logging.log4j.LogManager;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.web.bind.annotation.*;
+import org.apache.logging.log4j.Logger;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("BillImport")
+@RequestMapping("api/billImport")
 public class BillImportApiController {
+
+    private static final Logger logger = LogManager.getLogger(CommentApiController.class);
 
     @Autowired
     private BillImportService billImportService;
@@ -31,7 +39,30 @@ public class BillImportApiController {
         Pageable pageable =  PageRequest.of(page,5);
         Page<BillImport> listBillPage = billImportService.getAllPage(pageable);
         return listBillPage;
+    }
 
+    @GetMapping("/billPage")
+    public BaseApiResult getListBill(@RequestParam(value = "page") int page){
+        DataApiResult result= new DataApiResult();
+        try {
+            List<BillImport> listBill =billImportService.getAllBillImport();
+            for (BillImport billImport : listBill){
+                billImport.setTotalMoney(billImportService.getTotalPrice(billImport.getIdBillImport()));
+                billImport.setTotalProduct(billImportService.getTotalAmount(billImport.getIdBillImport()));
+            }
+
+            Pageable pageable = PageRequest.of(page,5);
+            int start = (int) pageable.getOffset();
+            int end = (start + pageable.getPageSize())>listBill.size() ? listBill.size() : (start + pageable.getPageSize());
+            Page<BillImport> listBillPage1=new PageImpl<>(listBill.subList(start,end),pageable,listBill.size());
+            result.setData(listBillPage1);
+            result.setSuccess(true);
+        } catch (Exception e) {
+            result.setMessage(e.getMessage());
+            result.setSuccess(false);
+            logger.error(e.getMessage());
+        }
+        return result;
     }
 
     //Lấy bill theo id
@@ -91,6 +122,22 @@ public class BillImportApiController {
 
         }
         return  baseApiResult;
+    }
+
+    //Search bill
+    @GetMapping("/search")
+    public Page<BillImport> searchBillImport(@RequestParam( value = "page") int page,
+                                         @RequestParam(value = "keyWord") String keyWord){
+
+        Pageable pageable =  PageRequest.of(page,5);
+        Page<BillImport> listBill = billImportService.searchBillById(pageable,keyWord);
+        return listBill  ;
+    }
+
+    @RequestMapping(value = "/getTotalPrice/{idBill}",method = RequestMethod.GET)
+    public Double getTotalPrice(@PathVariable("idBill")String idBill){
+
+        return billImportService.getTotalPrice(idBill);
     }
 
 

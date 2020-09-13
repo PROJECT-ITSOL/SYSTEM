@@ -2,6 +2,7 @@ package com.example.sell.data.service;
 
 
 import com.example.sell.data.model.BillImport;
+import com.example.sell.data.model.Supplier;
 import com.example.sell.data.repository.BillImportRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -57,4 +58,20 @@ public class BillImportService {
 
     }
 
+    //Tìm kiếm theo id
+    public Page<BillImport> searchBillById(Pageable pageable, String id) {
+        return billImportRepository.searchById(pageable,id);
+    }
+
+    //Tính tổng price trong bill
+    public Double getTotalPrice(String idBillImport){
+        return billImportRepository.totalPrice(idBillImport);
+    }
+
+    //Tính tổng amount trong bill
+    public Integer getTotalAmount(String idBillImport){
+        return billImportRepository.totalAmount(idBillImport);
+    }
+
 }
+

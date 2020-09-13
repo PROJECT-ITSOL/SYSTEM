@@ -2,7 +2,6 @@ package com.example.sell.data.service;
 
 
 import com.example.sell.data.model.BillImportDetail;
-import com.example.sell.data.model.Product;
 import com.example.sell.data.repository.BillImportDetailRepository;
 import com.example.sell.model.dto.BillImportDetailDTO;
 import org.apache.logging.log4j.LogManager;
@@ -16,13 +15,10 @@ import java.util.List;
 @Service
 public class BillImportDetailService {
 
-    private static final Logger logger= LogManager.getLogger(BillImportDetailService.class);
     @Autowired
     private BillImportDetailRepository billImportDetailRepository;
 
-    @Autowired
-    private ProductService productService;
-
+    private static final Logger logger= LogManager.getLogger(BillImportDetailService.class);
 
 
     //Lấy bill import detail theo id
@@ -36,7 +32,6 @@ public class BillImportDetailService {
         List<BillImportDetail> listBillDetail = billImportDetailRepository.findAll();
         try {
             for(BillImportDetail billImportDetail : listBillDetail){
-                Product product=billImportDetail.getProductImport();
                 BillImportDetailDTO billImportDetailDTO1 = new BillImportDetailDTO().convertBillDetail(billImportDetail);
 
                 listBillDetailDTO.add(billImportDetailDTO1);
@@ -49,9 +44,40 @@ public class BillImportDetailService {
     }
 
     //Lấy bill detail theo id bill
-    public List<BillImportDetail> getListByIdBill(String id ){
-        return billImportDetailRepository.getBillImportDetailByIdBillImport(id);
+    public List<BillImportDetailDTO> getListByIdBill(String id ){
+        List<BillImportDetailDTO> listBillDetailDTO = new ArrayList<BillImportDetailDTO>();
+        List<BillImportDetail> listBillDetail = billImportDetailRepository.getBillImportDetailByIdBillImport(id);
+        try {
+            for(BillImportDetail billImportDetail : listBillDetail){
+                BillImportDetailDTO billImportDetailDTO1 = new BillImportDetailDTO().convertBillDetail(billImportDetail);
+                listBillDetailDTO.add(billImportDetailDTO1);
+            }
+            return listBillDetailDTO;
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+           return  null;
+        }
     }
+
+   /* public int getTotalAmount(String idBillImport){
+        int totalAmount =0;
+        List<BillImportDetail> listBillDetail = billImportDetailRepository.getBillImportDetailByIdBillImport(idBillImport);
+
+            for(BillImportDetail billImportDetail : listBillDetail){
+                totalAmount+=billImportDetail.getAmount();
+            }
+        return totalAmount;
+    }
+    public double getTotalPrice(String idBillImport){
+        double totalPrice=0;
+        List<BillImportDetail> listBillDetail2 = billImportDetailRepository.getBillImportDetailByIdBillImport(idBillImport);
+
+        for(BillImportDetail billImportDetail : listBillDetail2){
+            totalPrice+=billImportDetail.getPrice();
+        }
+        return totalPrice;
+
+    }*/
 
     //Thêm bill detail
     public  boolean addNewBillDetail(BillImportDetail billImportDetail){

@@ -14,6 +14,9 @@ public interface ProductRepository extends JpaRepository<Product, String> {
     @Query("select count(p.idProduct) from dbo_product p")
     int getTotalProducts();
 
+    @Query("select p from dbo_product p where p.idProduct=:id")
+    Product getProductById(@Param("id")String id);
+
     @Query("select p from dbo_product p " +
             "where (upper(p.idProduct) like concat('%',upper(:keyword),'%') ) " +
             "or (upper(p.name) like concat('%',upper(:keyword),'%') )")

@@ -1,5 +1,6 @@
 package com.example.sell.data.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,8 +21,12 @@ public class BillImport {
     @Column(name = "id_bill_import")
     private String idBillImport;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     @Column(name = "create_date")
     private Date createDate;
+
+    @Column(name = "total_product")
+    private Integer totalProduct;
 
     @Column(name = "total_money")
     private Double totalMoney;

@@ -49,7 +49,13 @@ public class ProductService {
             logger.error(e.getMessage());
         }
     }
-    public  Product findOne(String id){return productRepository.findById(id).orElse(null);}
+    public  Product findOne(String id){
+        return productRepository.findById(id).orElse(null);
+    }
+
+    public Product getProduct(String id) {
+        return productRepository.getProductById(id);
+    }
 
     public  boolean  deleteProduct(String idProduct) {
         try {

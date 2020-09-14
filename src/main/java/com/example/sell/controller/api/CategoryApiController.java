@@ -83,8 +83,8 @@ public class CategoryApiController {
         Category category = categoryService.findOne(categoryDTO.getId());
         if (category == null) {
             try {
-                category=new Category();
-//                category.setIdCategory(categoryDTO.getId());
+                category = new Category();
+                category.setIdCategory(categoryDTO.getId());
                 category.setName(categoryDTO.getName());
                 category.setStatus(true);
                 categoryService.addNewCategory(category);
@@ -95,7 +95,7 @@ public class CategoryApiController {
                 result.setMessage("Add new category fail!");
                 logger.error(e.getMessage());
             }
-        }else {
+        } else {
             result.setSuccess(false);
             result.setMessage("ID Already exist!");
         }

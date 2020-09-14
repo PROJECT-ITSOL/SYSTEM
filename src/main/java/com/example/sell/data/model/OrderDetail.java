@@ -39,10 +39,4 @@ public class OrderDetail {
     @Column(name = "amount")
     private int amount;
 
-//    public void setProduct(Product product) {
-//    }
-
-
-//    public void setIdOrderDetail(Order order) {
-//    }
 }

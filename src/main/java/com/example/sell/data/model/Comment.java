@@ -31,7 +31,7 @@ public class Comment {
     @Column(name = "id_Product", insertable = false, updatable = false)
     private String idProduct;
 
-    @ManyToOne(optional = true, fetch = FetchType.LAZY)
+    @ManyToOne(optional = true)
     @JsonIgnore
     @JoinColumn(name = "id_product")
     private Product product;

@@ -24,8 +24,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
 @RestController
-@RequestMapping ("/api/order")
-@CrossOrigin (origins = "*")
+@RequestMapping("/api/order")
+@CrossOrigin(origins = "*")
 public class OrderController {
     private static final Logger logger = LogManager.getLogger(CategoryApiController.class);
     @Autowired
@@ -35,7 +35,7 @@ public class OrderController {
 
     //
     //@GetMapping("")
-   // public ResponseEntity<?> getL
+    // public ResponseEntity<?> getL
     @GetMapping("/fake")
     public BaseApiResult faBaseApiResult() {
         BaseApiResult result = new BaseApiResult();
@@ -82,9 +82,9 @@ public class OrderController {
 
     // delete Mapping
     @DeleteMapping("/delete/{id}")
-    public BaseApiResult deleteOrder(@PathVariable String id){
-        BaseApiResult result=new BaseApiResult();
-        if (orderService.deleteOrder(id)){
+    public BaseApiResult deleteOrder(@PathVariable String id) {
+        BaseApiResult result = new BaseApiResult();
+        if (orderService.deleteOrder(id)) {
             result.setSuccess(true);
             result.setMessage("delete Success!!!");
         } else {
@@ -118,8 +118,8 @@ public class OrderController {
 
     @GetMapping("/search")
     public BaseApiResult getOrder(@RequestParam(value = "keyword") String keyWord,
-                                     @RequestParam(value = "pageNo", required = false, defaultValue = "0") int pageNo,
-                                     @RequestParam(value = "pageSize", required = false, defaultValue = "7") int pageSize) {
+                                  @RequestParam(value = "pageNo", required = false, defaultValue = "0") int pageNo,
+                                  @RequestParam(value = "pageSize", required = false, defaultValue = "7") int pageSize) {
         DataApiResult result = new DataApiResult();
 
         Sort sort = Sort.by("id").ascending();

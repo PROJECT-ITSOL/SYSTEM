@@ -19,18 +19,18 @@ public class BillImportDetail {
     @Column(name = "id_bill_import_detail")
     private int id;
 
-    @Column(name = "id_bill_import",insertable = false,updatable = false)
+    @Column(name = "id_bill_import", insertable = false, updatable = false)
     private String idBillImport;
 
-    @ManyToOne(optional = true,fetch = FetchType.LAZY)
+    @ManyToOne(optional = true)
     @JsonIgnore
     @JoinColumn(name = "id_bill_import")
     private BillImport billImport;
 
-    @Column(name = "id_product",insertable = false,updatable = false)
+    @Column(name = "id_product", insertable = false, updatable = false)
     private String idProduct;
 
-    @ManyToOne(optional = true,fetch = FetchType.LAZY)
+    @ManyToOne(optional = true)
     @JsonIgnore
     @JoinColumn(name = "id_product")
     private Product productImport;

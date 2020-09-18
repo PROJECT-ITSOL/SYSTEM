@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/billDetail")
+@CrossOrigin(origins = "*")
 public class BillImportDetailApiController {
 
     @Autowired
@@ -26,6 +27,7 @@ public class BillImportDetailApiController {
 
     @GetMapping("/all")
     public List<BillImportDetailDTO> getListBillDetail(){
+
         return billImportDetailService.getAllBill();
     }
 

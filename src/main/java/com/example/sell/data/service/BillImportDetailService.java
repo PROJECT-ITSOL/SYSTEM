@@ -2,6 +2,7 @@ package com.example.sell.data.service;
 
 
 import com.example.sell.data.model.BillImportDetail;
+import com.example.sell.data.model.Order;
 import com.example.sell.data.model.Product;
 import com.example.sell.data.repository.BillImportDetailRepository;
 import com.example.sell.model.dto.BillImportDetailDTO;
@@ -37,6 +38,7 @@ public class BillImportDetailService {
         try {
             for(BillImportDetail billImportDetail : listBillDetail){
                 Product product=billImportDetail.getProductImport();
+
                 BillImportDetailDTO billImportDetailDTO1 = new BillImportDetailDTO().convertBillDetail(billImportDetail);
 
                 listBillDetailDTO.add(billImportDetailDTO1);

@@ -14,12 +14,23 @@ public interface BillImportRepository extends JpaRepository<BillImport,String> {
             "where (upper(bill.idBillImport) like concat('%',upper(:keyWord),'%') ) ")
     Page<BillImport> searchById(Pageable pageable, @Param("keyWord") String keyWord);
 
-    @Query("select sum(detail.price) from dbo_bill_import_detail detail " +
+    @Query("select sum(detail.totalPrice) from dbo_bill_import_detail detail " +
             "where detail.idBillImport=:idBillImport")
     Double totalPrice(@Param("idBillImport") String idBillImport);
 
     @Query("select sum(detail.amount) from dbo_bill_import_detail detail " +
             "where detail.idBillImport=:idBillImport")
     Integer totalAmount(@Param("idBillImport") String idBillImport);
+
+    @Query("UPDATE dbo_bill_import SET totalProduct =: totalProduct WHERE idBillImport =: idBillImport")
+    Void setTotalProduct(@Param("totalProduct") Integer totalProduct, @Param("idBillImport") String idBillImport);
+
+
+    @Query("UPDATE dbo_bill_import SET totalMoney =: totalPrice WHERE idBillImport =: idBillImport")
+    Void setTotalPrice(@Param("totalPrice") Double totalPrice,
+                            @Param("idBillImport") String idBillImport);
+
+
+
 
 }

@@ -22,29 +22,27 @@ public class SupplierApiController {
     private SupplierService supplierService;
 
     @GetMapping("")
-    public ResponseEntity<?> getListSupplier() {
-        List<Supplier> suppliers = supplierService.getAllListSuppliers();
-        return ResponseEntity.ok(suppliers);
+    public List<Supplier> getListSupplier() {
+        return supplierService.getAllListSuppliers();
     }
     @GetMapping(value = "/list")
-    public Page<Supplier> phanTrang(@RequestParam( value = "page") int page) {
+    public Page<Supplier> listSupplierPage(@RequestParam( value = "page") int page) {
         Pageable pageable =  PageRequest.of(page,5);
-        Page<Supplier> listPhanTrang = supplierService.findAll(pageable);
-        return listPhanTrang;
+        Page<Supplier> listSupplierPage = supplierService.findAll(pageable);
+        return listSupplierPage;
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getSupplierById(@PathVariable int id) {
+    public Supplier getSupplierById(@PathVariable int id) {
 
-        Supplier supplier =  supplierService.getSupplierById(id);
-        return ResponseEntity.ok(supplier);
+        return supplierService.getSupplierById(id);
     }
 
 
     @GetMapping("/status")
-    public ResponseEntity<?> getSupplierByStatus(@RequestParam(value = "status", required = true) boolean status) {
+    public List<Supplier> getSupplierByStatus(@RequestParam(value = "status", required = true) boolean status) {
         List<Supplier> listSupp = supplierService.getListSupplierByStatus(status);
-        return ResponseEntity.ok(listSupp);
+        return listSupp;
     }
 
     @DeleteMapping("/delete")

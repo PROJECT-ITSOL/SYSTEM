@@ -1,5 +1,6 @@
 package com.example.sell.model.dto;
 
+import com.example.sell.data.model.BillImport;
 import com.example.sell.data.model.BillImportDetail;
 import com.example.sell.data.model.Product;
 import lombok.AllArgsConstructor;
@@ -16,10 +17,12 @@ import lombok.Setter;
 public class BillImportDetailDTO {
     private int id;
     private String idBillImport;
+    private BillImport billImport;
     private String idProduct;
     private Product product;
     private int amount;
     private double price;
+    private double totalPrice;
 
 
 
@@ -29,7 +32,8 @@ public class BillImportDetailDTO {
         billImportDetailDTO.setId(billImportDetail.getId());
         billImportDetailDTO.setAmount(billImportDetail.getAmount());
         billImportDetailDTO.setIdBillImport(billImportDetail.getIdBillImport());
-        billImportDetailDTO.setPrice(billImportDetail.getProductImport().getPrice()*billImportDetail.getAmount());
+        billImportDetailDTO.setPrice(billImportDetail.getPrice());
+        billImportDetailDTO.setTotalPrice(billImportDetail.getProductImport().getPrice()* billImportDetail.getAmount());
         billImportDetailDTO.setProduct(billImportDetail.getProductImport());
         billImportDetailDTO.setIdProduct(billImportDetail.getIdProduct());
 

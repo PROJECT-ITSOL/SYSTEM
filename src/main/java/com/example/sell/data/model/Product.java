@@ -66,7 +66,7 @@ public class Product {
     @OneToMany(mappedBy = "productReturn", cascade = CascadeType.ALL)
     private List<ProductReturn> productReturnList = new ArrayList<>();
 
-    @JsonIgnore
+
     @OneToMany(mappedBy = "productImport", cascade = CascadeType.ALL)
     private List<BillImportDetail> importDetailList = new ArrayList<>();
 

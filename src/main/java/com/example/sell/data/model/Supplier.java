@@ -38,10 +38,10 @@ public class Supplier {
     @Column(name = "logo")
     private String logo;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "supplier",fetch = FetchType.LAZY)
-    private List<Product> productList =  new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "supplier", fetch = FetchType.LAZY)
+    private List<Product> productList = new ArrayList<>();
 
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "supplierImport",fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "supplierImport", fetch = FetchType.LAZY)
     private List<BillImport> billImportList = new ArrayList<>();
 }

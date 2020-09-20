@@ -11,5 +11,7 @@ import java.util.List;
 public interface BillImportDetailRepository extends JpaRepository<BillImportDetail,Integer> {
 
 
-    List<BillImportDetail> getBillImportDetailByIdBillImport(@Param("idBillImport") String id);
+        List<BillImportDetail> getBillImportDetailByIdBillImport(@Param("idBillImport") String idBillImport);
+
+
 }

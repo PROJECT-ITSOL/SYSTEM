@@ -11,8 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/billDetail")
 @CrossOrigin(origins = "*")
+@RequestMapping("api/billDetail")
 public class BillImportDetailApiController {
 
     @Autowired
@@ -21,19 +21,24 @@ public class BillImportDetailApiController {
 
 
     @GetMapping("")
-    public List<BillImportDetail> getListBillByIdBillImport(@RequestParam(value = "idBillImport",required = true)String id){
+    public List<BillImportDetailDTO> getListBillByIdBillImport(@RequestParam(value = "idBillImport",required = true)String id){
         return billImportDetailService.getListByIdBill(id);
     }
 
-    @GetMapping("/all")
-    public List<BillImportDetailDTO> getListBillDetail(){
-
-        return billImportDetailService.getAllBill();
-    }
+//    @GetMapping("/all")
+//    public List<BillImportDetailDTO> getListBillDetail(){
+//        return billImportDetailService.getAllBill();
+//    }
 
     @PostMapping("/addNewBillDetail")
-    public BaseApiResult addNewBillDetail(@RequestBody BillImportDetail billImportDetail){
+    public BaseApiResult addNewBillDetail(@RequestBody BillImportDetailDTO billImportDetailDTO){
         BaseApiResult baseApiResult = new BaseApiResult();
+        BillImportDetail billImportDetail = new BillImportDetail();
+        billImportDetail.setPrice(billImportDetailDTO.getPrice());
+        billImportDetail.setAmount(billImportDetailDTO.getAmount());
+        billImportDetail.setProductImport(billImportDetailDTO.getProduct());
+        billImportDetail.setBillImport(billImportDetailDTO.getBillImport());
+        billImportDetail.setTotalPrice(billImportDetailDTO.getPrice()*billImportDetailDTO.getAmount());
         if(billImportDetailService.addNewBillDetail(billImportDetail)){
             baseApiResult.setSuccess(true);
             baseApiResult.setMessage("Success to add new Bill Import !");

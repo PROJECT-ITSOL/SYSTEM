@@ -25,8 +25,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
 @RestController
-@RequestMapping ("/api/order")
-@CrossOrigin (origins = "*")
+@RequestMapping("/api/order")
+@CrossOrigin(origins = "*")
 public class OrderController {
     private static final Logger logger = LogManager.getLogger(OrderController.class);
     @Autowired
@@ -38,7 +38,7 @@ public class OrderController {
 
     //
     //@GetMapping("")
-   // public ResponseEntity<?> getL
+    // public ResponseEntity<?> getL
     @GetMapping("/fake")
     public BaseApiResult faBaseApiResult() {
         BaseApiResult result = new BaseApiResult();
@@ -166,57 +166,12 @@ public class OrderController {
     }
 
 
-//    // get Mapping List
-//    @GetMapping("/list")
-//    public ResponseEntity<Page<Order>> getListOrders(
-//            @RequestParam(value = "pageNo", required = false, defaultValue = "0")
-//                    int pageNo,
-//            @RequestParam(value = "pageSize", required = false, defaultValue = "7")
-//                    int pageSize) {
-//        return new ResponseEntity<Page<Order>>(
-//                orderService.getPageListOders(pageNo, pageSize), HttpStatus.OK);
-//    }
-//
-//    // delete Mapping
-//    @DeleteMapping("/delete/{id}")
-//    public BaseApiResult deleteOrder(@PathVariable String id){
-//        BaseApiResult result=new BaseApiResult();
-//        if (orderService.deleteOrder(id)){
-//            result.setSuccess(true);
-//            result.setMessage("delete Success!!!");
-//        } else {
-//            result.setSuccess(false);
-//            result.setMessage("delete false!!");
-//        }
-//        return result;
-//    }
-//    // PostMapping add new
-//    // ko can add new
-//
-//     //PutMapping update
-//    @PutMapping("/update/{id}")
-//    public BaseApiResult updateOrder(@PathVariable String id, @RequestBody Order order){
-//        BaseApiResult result =new BaseApiResult();
-//        Order orderEntity = orderService.findOne(id);
-//        try {
-//            orderEntity.setIdOrder(id);
-//            orderEntity.setIdCustomer(order.getIdCustomer());
-//            orderEntity.setStatus(order.getStatus());
-//            orderService.addNewOrder(orderEntity);
-//            result.setMessage("Update category success!");
-//            result.setSuccess(true);
-//        } catch (Exception e) {
-//            result.setSuccess(false);
-//            result.setMessage(e.getMessage());
-//            logger.error(e.getMessage());
-//        }
-//        return result;
-//    }
-//
+
+
 //    @GetMapping("/search")
 //    public BaseApiResult getOrder(@RequestParam(value = "keyword") String keyWord,
-//                                     @RequestParam(value = "pageNo", required = false, defaultValue = "0") int pageNo,
-//                                     @RequestParam(value = "pageSize", required = false, defaultValue = "7") int pageSize) {
+//                                  @RequestParam(value = "pageNo", required = false, defaultValue = "0") int pageNo,
+//                                  @RequestParam(value = "pageSize", required = false, defaultValue = "7") int pageSize) {
 //        DataApiResult result = new DataApiResult();
 //
 //        Sort sort = Sort.by("id").ascending();
@@ -238,6 +193,7 @@ public class OrderController {
 //        }
 //        return result;
 //    }
+
 
 
 }

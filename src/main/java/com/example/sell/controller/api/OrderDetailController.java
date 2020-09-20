@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Random;
 
 @RestController
-@RequestMapping("/api/orderDetail")
+@RequestMapping("/api/orderdetail")
 @CrossOrigin(origins = "*")
 public class OrderDetailController {
     // logger dung de text api
@@ -85,6 +85,10 @@ public class OrderDetailController {
     public List<OrderDetailDTO> getOrderDetailDTOList(){
         return orderDetailService.getAllOrderDetailList();
     }
+//    @GetMapping("/all2")
+//        public List<OrderDetail> getOderDetail(){
+//            return orderDetailService.findAll();
+//        }
     // lay theo id
 //    @GetMapping("/{id}")
 //    public ResponseEntity<?> getOrderById(@PathVariable String id){
@@ -94,6 +98,8 @@ public class OrderDetailController {
     @PostMapping("/addOrderDetail")
     public BaseApiResult addNewOrderDetail(@RequestBody OrderDetail orderDetail) {
         BaseApiResult result = new BaseApiResult();
+       // OrderDetail orderDetail1=new OrderDetail();
+
         try {
             orderDetailService.addNewOrderDetail(orderDetail);
             result.setSuccess(true);

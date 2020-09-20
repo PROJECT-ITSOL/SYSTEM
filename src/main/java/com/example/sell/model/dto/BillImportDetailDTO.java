@@ -1,14 +1,13 @@
 package com.example.sell.model.dto;
 
+import com.example.sell.data.model.BillImport;
 import com.example.sell.data.model.BillImportDetail;
 import com.example.sell.data.model.Product;
-import com.example.sell.data.repository.ProductRepository;
-import com.example.sell.data.service.ProductService;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
+
 
 
 @Getter
@@ -18,10 +17,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class BillImportDetailDTO {
     private int id;
     private String idBillImport;
+    private BillImport billImport;
     private String idProduct;
     private Product product;
     private int amount;
     private double price;
+    private double totalPrice;
+
 
 
 
@@ -31,7 +33,10 @@ public class BillImportDetailDTO {
         billImportDetailDTO.setAmount(billImportDetail.getAmount());
         billImportDetailDTO.setIdBillImport(billImportDetail.getIdBillImport());
         billImportDetailDTO.setPrice(billImportDetail.getPrice());
+        billImportDetailDTO.setTotalPrice(billImportDetail.getProductImport().getPrice()* billImportDetail.getAmount());
         billImportDetailDTO.setProduct(billImportDetail.getProductImport());
+        billImportDetailDTO.setIdProduct(billImportDetail.getIdProduct());
+
         return billImportDetailDTO;
     }
 }

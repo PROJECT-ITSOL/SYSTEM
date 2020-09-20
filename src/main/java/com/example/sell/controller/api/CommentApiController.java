@@ -74,6 +74,7 @@ public class CommentApiController {
         try {
             List<Comment> comments=commentService.getListComment();
             comments.stream().forEach(comment -> {
+                Product product = comment.getProduct();
                 CommentDTO commentDTO = new CommentDTO().convertComment(comment);
                 commentDTOS.add(commentDTO);
             });
@@ -138,4 +139,9 @@ public class CommentApiController {
         }
         return result;
     }
+
+//    @GetMapping("/list")
+//    public List<Comment> getList(){
+//        return commentService.getListComment();
+//    }
 }

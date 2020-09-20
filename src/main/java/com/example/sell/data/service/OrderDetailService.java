@@ -65,8 +65,8 @@ public class OrderDetailService {
         }
     }
 
-    public Page<OrderDetail> findAll(Pageable pageable) {
-        Page<OrderDetail> listPageOrderDetail= orderDetailRepository.findAll(pageable);
+    public List<OrderDetail> findAll() {
+        List<OrderDetail> listPageOrderDetail= orderDetailRepository.findAll();
         return  listPageOrderDetail;
     }
 
@@ -97,6 +97,10 @@ public class OrderDetailService {
             loggle.error(e.getMessage());
             return false;
         }
+    }
+
+    public OrderDetail getOrderById(String id) {
+        return orderDetailRepository.findById(id).orElse(null);
     }
 
 //    public Page<OrderDetail> searchOrderPage(Pageable pageable, String keyWord) {

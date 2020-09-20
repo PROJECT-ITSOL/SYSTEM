@@ -65,17 +65,6 @@ public class SupplierService{
     }
 
 
-    public List<Supplier> searchSupplier(String name) {
-        List<Supplier> listAll = supplierRepository.findAll();
-        List<Supplier> listSearch = new ArrayList<>();
-        for (Supplier supplier : listAll){
-            if(supplier.getName().contains(name)){
-                listSearch.add(supplier);
-            }
-        }
-        return listSearch;
-    }
-
     public Page<Supplier> searchSupplierPage(Pageable pageable,String name) {
         return supplierRepository.getSuppByName(pageable,name);
     }

@@ -26,31 +26,31 @@ public class BillImportDetailService {
         return billImportDetailRepository.findById(id).orElse(null);
     }
 
-    //Lấy tất cả bill import detail
-    public List<BillImportDetailDTO> getAllBill(){
-        List<BillImportDetailDTO> listBillDetailDTO = new ArrayList<BillImportDetailDTO>();
-        List<BillImportDetail> listBillDetail = billImportDetailRepository.findAll();
-        try {
-            for(BillImportDetail billImportDetail : listBillDetail){
-                BillImportDetailDTO billImportDetailDTO1 = new BillImportDetailDTO().convertBillDetail(billImportDetail);
-
-                listBillDetailDTO.add(billImportDetailDTO1);
-            }
-            return listBillDetailDTO;
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-            return  new ArrayList<>();
-        }
-    }
+//    Lấy tất cả bill import detail
+//    public List<BillImportDetailDTO> getAllBill(){
+//        List<BillImportDetailDTO> listBillDetailDTO = new ArrayList<BillImportDetailDTO>();
+//        List<BillImportDetail> listBillDetail = billImportDetailRepository.findAll();
+//        try {
+//            for(BillImportDetail billImportDetail : listBillDetail){
+//                BillImportDetailDTO billImportDetailDTO1 = new BillImportDetailDTO().convertBillDetail(billImportDetail);
+//
+//                listBillDetailDTO.add(billImportDetailDTO1);
+//            }
+//            return listBillDetailDTO;
+//        } catch (Exception e) {
+//            logger.error(e.getMessage());
+//            return  new ArrayList<>();
+//        }
+//    }
 
     //Lấy bill detail theo id bill
     public List<BillImportDetailDTO> getListByIdBill(String id ){
-        List<BillImportDetailDTO> listBillDetailDTO = new ArrayList<BillImportDetailDTO>();
+        List<BillImportDetailDTO> listBillDetailDTO = new ArrayList<>();
         List<BillImportDetail> listBillDetail = billImportDetailRepository.getBillImportDetailByIdBillImport(id);
         try {
             for(BillImportDetail billImportDetail : listBillDetail){
-                BillImportDetailDTO billImportDetailDTO1 = new BillImportDetailDTO().convertBillDetail(billImportDetail);
-                listBillDetailDTO.add(billImportDetailDTO1);
+                BillImportDetailDTO billImportDetailDTO = new BillImportDetailDTO().convertBillDetail(billImportDetail);
+                listBillDetailDTO.add(billImportDetailDTO);
             }
             return listBillDetailDTO;
         } catch (Exception e) {

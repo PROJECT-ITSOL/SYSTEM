@@ -16,7 +16,7 @@ import java.util.List;
 public class SupplierService{
 
     @Autowired
-    SupplierRepository supplierRepository;
+    private SupplierRepository supplierRepository;
 
 
 

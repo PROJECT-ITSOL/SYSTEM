@@ -20,6 +20,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/billImport")
+@CrossOrigin(origins = "*")
 public class BillImportApiController {
 
     private static final Logger logger = LogManager.getLogger(CommentApiController.class);
@@ -44,13 +45,18 @@ public class BillImportApiController {
     @GetMapping("/billPage")
     public BaseApiResult getListBill(@RequestParam(value = "page") int page){
         DataApiResult result= new DataApiResult();
+
+        List<BillImport> listBill =billImportService.getAllBillImport();
         try {
-            List<BillImport> listBill =billImportService.getAllBillImport();
-            for (BillImport billImport : listBill){
+//
+            for (BillImport billImport : listBill) {
+
                 billImport.setTotalMoney(billImportService.getTotalPrice(billImport.getIdBillImport()));
                 billImport.setTotalProduct(billImportService.getTotalAmount(billImport.getIdBillImport()));
-            }
 
+//                BillImportDTO billImportDTO = new BillImportDTO().convertBill(billImport);
+//                listBillDTO.add(billImportDTO);
+            }
             Pageable pageable = PageRequest.of(page,5);
             int start = (int) pageable.getOffset();
             int end = (start + pageable.getPageSize())>listBill.size() ? listBill.size() : (start + pageable.getPageSize());
@@ -68,34 +74,48 @@ public class BillImportApiController {
     //Lấy bill theo id
     @GetMapping("/{id}")
     public BillImport getBillById(@PathVariable String id){
-        return billImportService.getBillImportById(id);
+        BillImport billImport = new BillImport();
+        billImport = billImportService.getBillImportById(id);
+
+        return  billImport;
     }
 
     //Thêm mới bill
     @PostMapping("/addBillImport")
-    public BaseApiResult addNewBill(@RequestBody BillImport billImport){
+    public BaseApiResult addNewBill(@RequestBody BillImportDTO billImportDTO){
         BaseApiResult baseApiResult = new BaseApiResult();
-        try {
-            billImportService.addNewBillImport(billImport);
-            baseApiResult.setSuccess(true);
-            baseApiResult.setMessage("Success add new Bill Import !");
-        } catch (Exception e) {
-            e.printStackTrace();
-            baseApiResult.setSuccess(false);
-            baseApiResult.setMessage("Fail to add new Bill Import!");
+        BillImport billImport = billImportService.getBillImportById(billImportDTO.getIdBillImport());
+        if(billImport==null) {
+            try {
+                billImport = new BillImport();
+                billImport.setIdBillImport(billImportDTO.getIdBillImport());
+                billImport.setCreateDate(billImportDTO.getCreateDate());
+                billImport.setSupplierImport(billImportDTO.getSupplier());
+                billImportService.addNewBillImport(billImport);
+                baseApiResult.setSuccess(true);
+                baseApiResult.setMessage("Success add new Bill Import !");
+            } catch (Exception e) {
+                e.printStackTrace();
+                baseApiResult.setSuccess(false);
+                baseApiResult.setMessage("Fail to add new Bill Import!");
+            }
         }
         return baseApiResult;
     }
 
     //Sửa bill
     @PutMapping("/update/{id}")
-    public BaseApiResult editBill(@RequestBody BillImport billImport,
+    public BaseApiResult editBill(@RequestBody BillImportDTO billImportDTO,
                                   @PathVariable String id){
         BaseApiResult baseApiResult = new BaseApiResult();
-        BillImport billImport1 = billImportService.getBillImportById(id);
-        billImport1.setCreateDate(billImport.getCreateDate());
+        BillImport billImport = billImportService.getBillImportById(id);
+
+        billImport.setIdBillImport(billImportDTO.getIdBillImport());
+        billImport.setCreateDate(billImportDTO.getCreateDate());
+        billImport.setSupplierImport(billImportDTO.getSupplier());
+        billImport.setTotalProduct(billImportDTO.getTotalProduct());
         try{
-            billImportService.addNewBillImport(billImport1);
+            billImportService.addNewBillImport(billImport);
             baseApiResult.setMessage("Update success");
             baseApiResult.setSuccess(true);
         } catch (Exception e){
@@ -134,11 +154,6 @@ public class BillImportApiController {
         return listBill  ;
     }
 
-    @RequestMapping(value = "/getTotalPrice/{idBill}",method = RequestMethod.GET)
-    public Double getTotalPrice(@PathVariable("idBill")String idBill){
-
-        return billImportService.getTotalPrice(idBill);
-    }
 
 
 }

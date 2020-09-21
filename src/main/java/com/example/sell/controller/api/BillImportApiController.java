@@ -63,6 +63,29 @@ public class BillImportApiController {
         return  billImport;
     }
 
+    //Lấy bill theo idSupplier
+
+    @GetMapping("/searchByIdSupp")
+    public BaseApiResult getListBillByIdSupplier(@RequestParam(value = "page") int page,
+                                                 @RequestParam(value = "idSupplier") int idSupplier){
+        DataApiResult result= new DataApiResult();
+        List<BillImport> listBill =billImportService.getBillByIdSupplier(idSupplier);
+        try {
+
+            Pageable pageable = PageRequest.of(page,5);
+            int start = (int) pageable.getOffset();
+            int end = (start + pageable.getPageSize())>listBill.size() ? listBill.size() : (start + pageable.getPageSize());
+            Page<BillImport> listBillPage1=new PageImpl<>(listBill.subList(start,end),pageable,listBill.size());
+            result.setData(listBillPage1);
+            result.setSuccess(true);
+        } catch (Exception e) {
+            result.setMessage(e.getMessage());
+            result.setSuccess(false);
+            logger.error(e.getMessage());
+        }
+        return result;
+    }
+
     //Thêm mới bill
     @PostMapping("/addBillImport")
     public BaseApiResult addNewBill(@RequestBody BillImportDTO billImportDTO){
@@ -97,7 +120,6 @@ public class BillImportApiController {
                                   @PathVariable String id){
         BaseApiResult baseApiResult = new BaseApiResult();
         BillImport billImport = billImportService.getBillImportById(id);
-
 
         billImport.setCreateDate(billImportDTO.getCreateDate());
 

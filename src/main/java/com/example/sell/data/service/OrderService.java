@@ -2,6 +2,8 @@ package com.example.sell.data.service;
 
 import com.example.sell.data.model.Category;
 import com.example.sell.data.model.Order;
+import com.example.sell.data.model.OrderDetail;
+import com.example.sell.data.model.Supplier;
 import com.example.sell.data.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,7 +22,7 @@ import java.util.List;
 @Service
 public class OrderService {
     // ham logger dung de thong bao loi
-    private static final Logger loggle = LogManager.getLogger(OrderService.class);
+    static final Logger loggle = LogManager.getLogger(OrderService.class);
     @Autowired
     private OrderRepository orderRepository;
 
@@ -52,7 +54,15 @@ public class OrderService {
 //    public Order findOne(String id) {
 //    }
 
-    public void addNewOrder(Order orderEntity) {
+    public Boolean addNewOrder(Order order) {
+        try {
+
+            orderRepository.save(order);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public Page<Order> getOrderByIdOrName(Pageable pageable, String keyWord) {
@@ -67,4 +77,43 @@ public class OrderService {
         }
 
     }
+
+    public Order findOne(String id) {
+        return orderRepository.findById(id).orElse(null);
+    }
+
+    public Page<Order> findAll(Pageable pageable) {
+        Page<Order> listPageOrder= orderRepository.findAll(pageable);
+        return listPageOrder;
+    }
+
+    public Order getOrderById(String id) {
+        return  orderRepository.findById(id).orElse(null);
+    }
+
+    public List<Order> getListOrderByStatus(boolean status) {
+        return orderRepository.getListOrderByStatus(status);
+    }
+
+//    public boolean deleteInBatch(String id) {
+//        try {
+//            orderRepository.deleteInBatch(id);
+//            return true;
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return false;
+//        }
+//    }
+
+
+    public Page<Order> searchOrderPage(Pageable pageable, String keyWord) {
+        return orderRepository.getOrderByIdOrName(pageable,keyWord);
+    }
+
+
+    public void addNewOrderDetail(OrderDetail odrdl) {
+    }
+
+//    public boolean deleteOrderDetail(String id) {
+//    }
 }

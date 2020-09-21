@@ -1,6 +1,7 @@
 package com.example.sell.model.dto;
 
 import com.example.sell.data.model.BillImport;
+import com.example.sell.data.model.Supplier;
 import com.example.sell.data.service.BillImportDetailService;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,6 +24,8 @@ public class BillImportDTO {
     private Date createDate;
     private int totalProduct;
     private Double totalMoney;
+    private Supplier supplier;
+    private int idSupplier;
 
 
 
@@ -30,6 +33,10 @@ public class BillImportDTO {
         BillImportDTO billImportDTO = new BillImportDTO();
         billImportDTO.setIdBillImport(billImport.getIdBillImport());
         billImportDTO.setCreateDate(billImport.getCreateDate());
+//        billImportDTO.setIdSupplier(billImport.getIdSupplier());
+        billImportDTO.setTotalMoney(billImport.getTotalMoney());
+        billImportDTO.setTotalProduct(billImport.getTotalProduct());
+        billImportDTO.setSupplier(billImport.getSupplierImport());
 
         return billImportDTO;
     }

@@ -39,7 +39,7 @@ public class CommentApiController {
 
         try {
             List<Comment> commentList = new ArrayList<>();
-            int totalComment = commentService.getTotalComment();// so luong oj
+            int totalComment = commentService.getTotalComment();
             Random random = new Random();
             RandomData randomData = new RandomData();
             List<Customer> customerList = customerService.getAllListCustomer();
@@ -69,20 +69,20 @@ public class CommentApiController {
     @GetMapping("/getList")
     public BaseApiResult getListComment(@RequestParam(name = "pageNo", required = false, defaultValue = "0") int pageNo,
                                         @RequestParam(name = "pageSize", required = false, defaultValue = "7") int pageSize) {
-        DataApiResult result= new DataApiResult();
-        List<CommentDTO> commentDTOS=new ArrayList<>();
+        DataApiResult result = new DataApiResult();
+        List<CommentDTO> commentDTOS = new ArrayList<>();
         try {
-            List<Comment> comments=commentService.getListComment();
+            List<Comment> comments = commentService.getListComment();
             comments.stream().forEach(comment -> {
-                Product product = comment.getProduct();
+//                Product product = comment.getProduct();
                 CommentDTO commentDTO = new CommentDTO().convertComment(comment);
                 commentDTOS.add(commentDTO);
             });
             Sort sort = Sort.by("name");
             Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
             int start = (int) pageable.getOffset();
-            int end = (start + pageable.getPageSize())>commentDTOS.size() ? commentDTOS.size() : (start + pageable.getPageSize());
-            Page<CommentDTO> page=new PageImpl<>(commentDTOS.subList(start,end),pageable,commentDTOS.size());
+            int end = (start + pageable.getPageSize()) > commentDTOS.size() ? commentDTOS.size() : (start + pageable.getPageSize());
+            Page<CommentDTO> page = new PageImpl<>(commentDTOS.subList(start, end), pageable, commentDTOS.size());
             result.setData(page);
             result.setSuccess(true);
         } catch (Exception e) {
@@ -109,9 +109,8 @@ public class CommentApiController {
 
     @GetMapping("/search")
     public BaseApiResult getCommentByKeyword(@RequestParam(value = "keyword", required = false, defaultValue = "") String keyword,
-                                       @RequestParam(value = "pageNo", required = false, defaultValue = "0") int pageNo,
-                                       @RequestParam(value = "pageSize", required = false, defaultValue = "7") int pageSize) {
-
+                                             @RequestParam(value = "pageNo", required = false, defaultValue = "0") int pageNo,
+                                             @RequestParam(value = "pageSize", required = false, defaultValue = "7") int pageSize) {
         DataApiResult result = new DataApiResult();
         List<CommentDTO> commentDTOS = new ArrayList<>();
         Sort sort = Sort.by("id").ascending();
@@ -124,8 +123,8 @@ public class CommentApiController {
                     commentDTOS.add(commentDTO);
                 });
                 int start = (int) pageable.getOffset();
-                int end = (start + pageable.getPageSize())>commentDTOS.size() ? commentDTOS.size() : (start + pageable.getPageSize());
-                Page<CommentDTO> page = new PageImpl<CommentDTO>(commentDTOS.subList(start,end), pageable, commentDTOS.size());
+                int end = (start + pageable.getPageSize()) > commentDTOS.size() ? commentDTOS.size() : (start + pageable.getPageSize());
+                Page<CommentDTO> page = new PageImpl<CommentDTO>(commentDTOS.subList(start, end), pageable, commentDTOS.size());
                 result.setData(page);
                 result.setSuccess(true);
             } else {
@@ -139,9 +138,4 @@ public class CommentApiController {
         }
         return result;
     }
-
-//    @GetMapping("/list")
-//    public List<Comment> getList(){
-//        return commentService.getListComment();
-//    }
 }

@@ -1,5 +1,6 @@
 package com.example.sell.data.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -31,6 +32,7 @@ public class Order {
     @JoinColumn(name = "id_customer")
     private Customer customerOrder;
 
+//    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "dd/MM/yyyy")
     @Column(name = "create_date")
     private Date createDate;
 

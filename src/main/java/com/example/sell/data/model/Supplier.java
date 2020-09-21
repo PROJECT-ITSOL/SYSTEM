@@ -1,5 +1,6 @@
 package com.example.sell.data.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -39,4 +40,9 @@ public class Supplier {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "supplier",fetch = FetchType.LAZY)
     private List<Product> productList =  new ArrayList<>();
+
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "supplierImport",fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<BillImport> billImportList = new ArrayList<>();
 }

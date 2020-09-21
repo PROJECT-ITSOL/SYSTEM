@@ -25,9 +25,4 @@ public interface SupplierRepository extends JpaRepository<Supplier, Integer> {
             "where (upper(s.name) like concat('%',upper(:name),'%') ) ")
     Page<Supplier> getSuppByName( Pageable pageable,@Param("name") String name);
 
-
-
-
-
-
 }

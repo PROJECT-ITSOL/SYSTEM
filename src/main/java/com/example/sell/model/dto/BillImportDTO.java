@@ -33,7 +33,7 @@ public class BillImportDTO {
         BillImportDTO billImportDTO = new BillImportDTO();
         billImportDTO.setIdBillImport(billImport.getIdBillImport());
         billImportDTO.setCreateDate(billImport.getCreateDate());
-        billImportDTO.setIdSupplier(billImport.getIdSupplier());
+//        billImportDTO.setIdSupplier(billImport.getIdSupplier());
         billImportDTO.setTotalMoney(billImport.getTotalMoney());
         billImportDTO.setTotalProduct(billImport.getTotalProduct());
         billImportDTO.setSupplier(billImport.getSupplierImport());

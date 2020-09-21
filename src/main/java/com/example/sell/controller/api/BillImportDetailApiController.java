@@ -18,8 +18,7 @@ public class BillImportDetailApiController {
     @Autowired
     private BillImportDetailService billImportDetailService;
 
-
-
+    //Lấy bill detail theo idBillimport
     @GetMapping("")
     public List<BillImportDetailDTO> getListBillByIdBillImport(@RequestParam(value = "idBillImport",required = true)String id){
         return billImportDetailService.getListByIdBill(id);
@@ -30,6 +29,7 @@ public class BillImportDetailApiController {
 //        return billImportDetailService.getAllBill();
 //    }
 
+    //Thêm mới billdetail
     @PostMapping("/addNewBillDetail")
     public BaseApiResult addNewBillDetail(@RequestBody BillImportDetailDTO billImportDetailDTO){
         BaseApiResult baseApiResult = new BaseApiResult();
@@ -38,7 +38,7 @@ public class BillImportDetailApiController {
         billImportDetail.setAmount(billImportDetailDTO.getAmount());
         billImportDetail.setProductImport(billImportDetailDTO.getProduct());
         billImportDetail.setBillImport(billImportDetailDTO.getBillImport());
-        billImportDetail.setTotalPrice(billImportDetailDTO.getPrice()*billImportDetailDTO.getAmount());
+        billImportDetail.setTotalPrice(billImportDetailDTO.getTotalPrice());
         if(billImportDetailService.addNewBillDetail(billImportDetail)){
             baseApiResult.setSuccess(true);
             baseApiResult.setMessage("Success to add new Bill Import !");
@@ -50,15 +50,16 @@ public class BillImportDetailApiController {
 
     }
 
+    //Cập nhật
     @PutMapping("update/{id}")
     public BaseApiResult editBillDetail(@RequestBody BillImportDetail billImportDetail,
                                         @PathVariable int id){
         BaseApiResult baseApiResult = new BaseApiResult();
         BillImportDetail billImportDetail1 = billImportDetailService.getBillDetailById(id);
         billImportDetail1.setAmount(billImportDetail.getAmount());
-        billImportDetail1.setProductImport(billImportDetail.getProductImport());
-        billImportDetail1.setIdProduct(billImportDetail.getIdProduct());
-        billImportDetail1.setIdBillImport(billImportDetail.getIdBillImport());
+//        billImportDetail1.setProductImport(billImportDetail.getProductImport());
+//        billImportDetail1.setIdProduct(billImportDetail.getIdProduct());
+//        billImportDetail1.setIdBillImport(billImportDetail.getIdBillImport());
         if(billImportDetailService.addNewBillDetail(billImportDetail1)){
             baseApiResult.setSuccess(true);
             baseApiResult.setMessage("Success to update Bill Import !");
@@ -69,6 +70,7 @@ public class BillImportDetailApiController {
         return baseApiResult;
     }
 
+    //Xóa
     @DeleteMapping("delete/{id}")
     public BaseApiResult deleteBillDetail(@PathVariable int id){
         BaseApiResult baseApiResult = new BaseApiResult();

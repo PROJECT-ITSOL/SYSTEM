@@ -2,11 +2,10 @@ package com.example.sell.controller.api;
 
 
 import com.example.sell.data.model.BillImport;
-import com.example.sell.data.model.Comment;
-import com.example.sell.data.model.Supplier;
+
 import com.example.sell.data.service.BillImportService;
 import com.example.sell.model.dto.BillImportDTO;
-import com.example.sell.model.dto.CommentDTO;
+import com.example.sell.model.dto.BillImportDetailDTO;
 import com.example.sell.model.resutlData.BaseApiResult;
 import com.example.sell.model.resutlData.DataApiResult;
 import org.apache.logging.log4j.LogManager;
@@ -15,7 +14,7 @@ import org.springframework.data.domain.*;
 import org.springframework.web.bind.annotation.*;
 import org.apache.logging.log4j.Logger;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 @RestController
@@ -34,29 +33,14 @@ public class BillImportApiController {
         return billImportService.getAllBillImport();
     }
 
-    //Lấy bill theo page
-    @GetMapping("")
-    public Page<BillImport> getListBillPage(@RequestParam(value = "page") int page){
-        Pageable pageable =  PageRequest.of(page,5);
-        Page<BillImport> listBillPage = billImportService.getAllPage(pageable);
-        return listBillPage;
-    }
 
+    //Lấy bill theo page
     @GetMapping("/billPage")
     public BaseApiResult getListBill(@RequestParam(value = "page") int page){
         DataApiResult result= new DataApiResult();
-
         List<BillImport> listBill =billImportService.getAllBillImport();
         try {
-//
-            for (BillImport billImport : listBill) {
 
-                billImport.setTotalMoney(billImportService.getTotalPrice(billImport.getIdBillImport()));
-                billImport.setTotalProduct(billImportService.getTotalAmount(billImport.getIdBillImport()));
-
-//                BillImportDTO billImportDTO = new BillImportDTO().convertBill(billImport);
-//                listBillDTO.add(billImportDTO);
-            }
             Pageable pageable = PageRequest.of(page,5);
             int start = (int) pageable.getOffset();
             int end = (start + pageable.getPageSize())>listBill.size() ? listBill.size() : (start + pageable.getPageSize());
@@ -76,7 +60,6 @@ public class BillImportApiController {
     public BillImport getBillById(@PathVariable String id){
         BillImport billImport = new BillImport();
         billImport = billImportService.getBillImportById(id);
-
         return  billImport;
     }
 
@@ -91,6 +74,8 @@ public class BillImportApiController {
                 billImport.setIdBillImport(billImportDTO.getIdBillImport());
                 billImport.setCreateDate(billImportDTO.getCreateDate());
                 billImport.setSupplierImport(billImportDTO.getSupplier());
+                billImport.setTotalMoney(billImportDTO.getTotalMoney());
+                billImport.setTotalProduct(billImportDTO.getTotalProduct());
                 billImportService.addNewBillImport(billImport);
                 baseApiResult.setSuccess(true);
                 baseApiResult.setMessage("Success add new Bill Import !");
@@ -99,6 +84,9 @@ public class BillImportApiController {
                 baseApiResult.setSuccess(false);
                 baseApiResult.setMessage("Fail to add new Bill Import!");
             }
+        } else{
+            baseApiResult.setSuccess(false);
+            baseApiResult.setMessage("Bill Import đã tồn tại");
         }
         return baseApiResult;
     }
@@ -110,10 +98,9 @@ public class BillImportApiController {
         BaseApiResult baseApiResult = new BaseApiResult();
         BillImport billImport = billImportService.getBillImportById(id);
 
-        billImport.setIdBillImport(billImportDTO.getIdBillImport());
+
         billImport.setCreateDate(billImportDTO.getCreateDate());
-        billImport.setSupplierImport(billImportDTO.getSupplier());
-        billImport.setTotalProduct(billImportDTO.getTotalProduct());
+
         try{
             billImportService.addNewBillImport(billImport);
             baseApiResult.setMessage("Update success");
@@ -139,7 +126,6 @@ public class BillImportApiController {
         } else {
             baseApiResult.setMessage("Delete fail");
             baseApiResult.setSuccess(false);
-
         }
         return  baseApiResult;
     }
@@ -154,6 +140,42 @@ public class BillImportApiController {
         return listBill  ;
     }
 
-
-
+    /*//Cập nhật giá tổng tiền & tổng sp
+    @PutMapping("/updateMoney/{id}")
+    public  BaseApiResult updateTotalMoney(@RequestBody BillImportDetailDTO billImportDetailDTO,
+                                           @PathVariable String id){
+        BaseApiResult baseApiResult = new BaseApiResult();
+        BillImport billImport = billImportService.getBillImportById(id);
+        billImport.setTotalProduct(billImport.getTotalProduct()+billImportDetailDTO.getAmount());
+        billImport.setTotalMoney(billImport.getTotalMoney()+billImportDetailDTO.getTotalPrice());
+        try{
+            billImportService.addNewBillImport(billImport);
+            baseApiResult.setMessage("Update success");
+            baseApiResult.setSuccess(true);
+        } catch (Exception e){
+            e.printStackTrace();
+            baseApiResult.setMessage("Update fail");
+            baseApiResult.setSuccess(false);
+        }
+        return baseApiResult;
+    }
+*/
+    @PutMapping("/updateMoney/{id}")
+    public  BaseApiResult updateBillImport(@RequestBody BillImportDetailDTO billImportDetailDTO,
+                                            @PathVariable String id){
+        BaseApiResult baseApiResult = new BaseApiResult();
+        BillImport billImport = billImportService.getBillImportById(id);
+        billImport.setTotalProduct(billImportService.getTotalAmount(id));
+        billImport.setTotalMoney(billImportService.getTotalPrice(id));
+        try{
+            billImportService.addNewBillImport(billImport);
+            baseApiResult.setMessage("Update success");
+            baseApiResult.setSuccess(true);
+        } catch (Exception e){
+            e.printStackTrace();
+            baseApiResult.setMessage("Update fail");
+            baseApiResult.setSuccess(false);
+        }
+        return baseApiResult;
+    }
 }

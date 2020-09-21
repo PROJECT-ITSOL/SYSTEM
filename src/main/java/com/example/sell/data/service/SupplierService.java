@@ -24,16 +24,13 @@ public class SupplierService{
         return supplierRepository.findAll();
     }
 
-
     public Supplier getSupplierById(int id) {
         return supplierRepository.findById(id).orElse(null);
     }
 
-
     public Supplier findOne(int id) {
         return supplierRepository.findById(id).orElse(null);
     }
-
 
     public Boolean deleteSupplierById(int id) {
         try {
@@ -54,7 +51,6 @@ public class SupplierService{
 
     public Boolean addNewSupplier(Supplier supplier) {
         try {
-            
             supplierRepository.save(supplier);
             return true;
         } catch (Exception e) {

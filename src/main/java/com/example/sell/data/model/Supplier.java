@@ -8,6 +8,7 @@ import lombok.Setter;
 
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity(name = "dbo_supplier")
 
-public class Supplier {
+public class Supplier implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id_supplier")
@@ -43,5 +44,6 @@ public class Supplier {
 
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "supplierImport",fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<BillImport> billImportList = new ArrayList<>();
 }

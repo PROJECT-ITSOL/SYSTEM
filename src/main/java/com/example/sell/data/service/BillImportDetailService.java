@@ -59,25 +59,7 @@ public class BillImportDetailService {
         }
     }
 
-   /* public int getTotalAmount(String idBillImport){
-        int totalAmount =0;
-        List<BillImportDetail> listBillDetail = billImportDetailRepository.getBillImportDetailByIdBillImport(idBillImport);
 
-            for(BillImportDetail billImportDetail : listBillDetail){
-                totalAmount+=billImportDetail.getAmount();
-            }
-        return totalAmount;
-    }
-    public double getTotalPrice(String idBillImport){
-        double totalPrice=0;
-        List<BillImportDetail> listBillDetail2 = billImportDetailRepository.getBillImportDetailByIdBillImport(idBillImport);
-
-        for(BillImportDetail billImportDetail : listBillDetail2){
-            totalPrice+=billImportDetail.getPrice();
-        }
-        return totalPrice;
-
-    }*/
 
     //Thêm bill detail
     public  boolean addNewBillDetail(BillImportDetail billImportDetail){
@@ -90,6 +72,7 @@ public class BillImportDetailService {
             return false;
         }
     }
+
 
     //Xóa bill detail
     public boolean deleteBillDetail(int id){

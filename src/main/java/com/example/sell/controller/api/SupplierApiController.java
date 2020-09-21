@@ -21,10 +21,13 @@ public class SupplierApiController {
     @Autowired
     private SupplierService supplierService;
 
+    //Lấy tất cả supplier
     @GetMapping("")
     public List<Supplier> getListSupplier() {
         return supplierService.getAllListSuppliers();
     }
+
+    //Lấy supplier theo page
     @GetMapping(value = "/list")
     public Page<Supplier> listSupplierPage(@RequestParam( value = "page") int page) {
         Pageable pageable =  PageRequest.of(page,5);
@@ -32,19 +35,20 @@ public class SupplierApiController {
         return listSupplierPage;
     }
 
+    //Lấy supplier theo id
     @GetMapping("/{id}")
     public Supplier getSupplierById(@PathVariable int id) {
-
         return supplierService.getSupplierById(id);
     }
 
-
+    //Lấy supplier theo status
     @GetMapping("/status")
     public List<Supplier> getSupplierByStatus(@RequestParam(value = "status", required = true) boolean status) {
         List<Supplier> listSupp = supplierService.getListSupplierByStatus(status);
         return listSupp;
     }
 
+    //Xóa supplier theo id
     @DeleteMapping("/delete")
     public BaseApiResult delete(@RequestParam(value = "id", required = true) int id) {
         BaseApiResult result = new BaseApiResult();
@@ -58,7 +62,7 @@ public class SupplierApiController {
         return result;
     }
 
-
+    //Thêm mới supplier
     @PostMapping("/addSupplier")
     public BaseApiResult addNewSupplier(@RequestBody Supplier supplier) {
         BaseApiResult result = new BaseApiResult();
@@ -75,6 +79,8 @@ public class SupplierApiController {
 
     }
 
+
+    //Cập nhật supplier
     @PutMapping("/update/{id}")
     public BaseApiResult updateSupplier(@PathVariable int id, @RequestBody Supplier supplier) {
         BaseApiResult result = new BaseApiResult();
@@ -97,7 +103,7 @@ public class SupplierApiController {
     }
 
 
-
+    //Tìm kiếm theo tên
     @GetMapping("/search")
     public Page<Supplier> searchSupplier(@RequestParam( value = "page") int page,
                                          @RequestParam(name = "name") String name)

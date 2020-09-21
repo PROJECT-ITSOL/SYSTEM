@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -13,12 +14,13 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@CrossOrigin(origins = "*")
 @Entity(name = "dbo_customer")
 public class Customer {
 
     @Id
-    @Column(name = "id_customer")
-    private String idCustomer;
+    @Column(name = "id")
+    private int id;
 
     @Column(name = "name")
     private String name;

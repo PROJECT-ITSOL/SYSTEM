@@ -28,6 +28,11 @@ public class BillImportService {
         return billImportRepository.findById(id).orElse(null);
     }
 
+    //Lấy bill theo id supplier
+    public List<BillImport> getBillByIdSupplier(int id){
+        return billImportRepository.getBillImportByIdSupplier(id);
+    }
+
     //Thêm mới bill
     public Boolean addNewBillImport(BillImport billImport) {
         try {

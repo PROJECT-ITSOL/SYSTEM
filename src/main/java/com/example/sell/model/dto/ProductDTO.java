@@ -1,6 +1,5 @@
 package com.example.sell.model.dto;
 
-import com.example.sell.data.model.Category;
 import lombok.*;
 
 @Getter
@@ -18,4 +17,5 @@ public class ProductDTO {
     private int favorite;
     private int amount;
     private Boolean status;
+
 }

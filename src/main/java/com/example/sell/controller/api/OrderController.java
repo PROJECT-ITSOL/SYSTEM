@@ -4,6 +4,7 @@ import com.example.sell.constanst.RandomData;
 import com.example.sell.data.model.Category;
 import com.example.sell.data.model.Customer;
 import com.example.sell.data.model.Order;
+import com.example.sell.data.model.Supplier;
 import com.example.sell.data.service.CustomerService;
 import com.example.sell.data.service.OrderService;
 import com.example.sell.model.dto.CategoryDTO;
@@ -27,11 +28,13 @@ import java.util.*;
 @RequestMapping("/api/order")
 @CrossOrigin(origins = "*")
 public class OrderController {
-    private static final Logger logger = LogManager.getLogger(CategoryApiController.class);
+    private static final Logger logger = LogManager.getLogger(OrderController.class);
     @Autowired
     private OrderService orderService;
     @Autowired
     private CustomerService customerService;
+    @Autowired
+    //private
 
     //
     //@GetMapping("")
@@ -51,7 +54,7 @@ public class OrderController {
             for (int i = totalOrder + 1; i < totalOrder + 30; i++) {
                 Order order = new Order();
 //                order.setIdOrder(i); ko can
-                order.setIdOrder(new RandomData().randomText(6));
+                order.setIdOrder(new RandomData().randomText(4));
                 order.setCustomerOrder(customerList.get(random.nextInt(customerList.size())));
                 order.setCreateDate(new Date());
                 order.setStatus(random.toString());
@@ -69,45 +72,120 @@ public class OrderController {
         return result;
     }
 
-    // get Mapping List
+    // lay  tat ca danh sach
+    @GetMapping("")
+    public ResponseEntity<?> getListOrder(){
+        List<Order> orderList= orderService.getAllOrderList();
+        return ResponseEntity.ok(orderList);
+    }
+    // lay danh sach phan theo trang
     @GetMapping("/list")
-    public ResponseEntity<Page<Order>> getListOrders(
-            @RequestParam(value = "pageNo", required = false, defaultValue = "0")
-                    int pageNo,
-            @RequestParam(value = "pageSize", required = false, defaultValue = "7")
-                    int pageSize) {
-        return new ResponseEntity<Page<Order>>(
-                orderService.getPageListOders(pageNo, pageSize), HttpStatus.OK);
+    public Page<Order> PageOrder(@RequestParam(value = "page") int page){
+        Pageable pageable = PageRequest.of(page,5);
+        Page<Order> listPage= orderService.findAll(pageable);
+        return listPage;
+    }
+    // lay theo id
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getOrderById(@PathVariable String id){
+        Order order= orderService.getOrderById(id);
+        return ResponseEntity.ok(order);
+    }
+    // lay theo status
+    @GetMapping("/status")
+    public ResponseEntity<?> getSupplierByStatus(@RequestParam(value = "status", required = true) boolean status) {
+        List<Order> listOrder = orderService.getListOrderByStatus(status);
+        return ResponseEntity.ok(listOrder);
     }
 
-    // delete Mapping
+
+    // thuc hien xoa doi tuong theo id
     @DeleteMapping("/delete/{id}")
     public BaseApiResult deleteOrder(@PathVariable String id) {
         BaseApiResult result = new BaseApiResult();
         if (orderService.deleteOrder(id)) {
             result.setSuccess(true);
-            result.setMessage("delete Success!!!");
+            result.setMessage("Delete success");
         } else {
             result.setSuccess(false);
-            result.setMessage("delete false!!");
+            result.setMessage("Delete fail");
         }
         return result;
     }
-    // PostMapping add new
-    // ko can add new
 
-    // PutMapping update
-//    @PutMapping("/update/{id}")
-//    public BaseApiResult updateOrder(@PathVariable String id, @RequestBody CategoryDTO){
-//        BaseApiResult result =new BaseApiResult();
-//        Order orderEntity = orderService.findOne(id);
+   @PostMapping("/addOrder")
+   public BaseApiResult addNewOrder(@RequestBody Order order) {
+       BaseApiResult result = new BaseApiResult();
+       try {
+           orderService.addNewOrder(order);
+           result.setSuccess(true);
+           result.setMessage("Success add new order !");
+       } catch (Exception e) {
+           e.printStackTrace();
+           result.setSuccess(false);
+           result.setMessage("Fail to add new order!");
+       }
+       return result;
+
+   }
+    // update theo id
+    @PutMapping("/update/{id}")
+    public BaseApiResult updateOrder(@PathVariable String id,@RequestBody Order order){
+        BaseApiResult result=new BaseApiResult();
+        Order odr= orderService.findOne(id);
+
+        odr.setIdOrder(order.getIdOrder());
+        odr.setIdCustomer(order.getIdCustomer());
+        odr.setCreateDate(order.getCreateDate());
+        odr.setCustomerOrder(order.getCustomerOrder());
+        odr.setOrderDetails(order.getOrderDetails());
+        odr.setProductReturns(order.getProductReturns());
+        odr.setStatus(order.getStatus());
+        odr.setTotalMoney(order.getTotalMoney());
+
+        try{
+            orderService.addNewOrder(odr);
+            result.setMessage("Update succes");
+            result.setSuccess(true);
+        } catch (Exception e){
+            e.printStackTrace();
+            result.setMessage("Update fail");
+            result.setSuccess(false);
+        }
+        return result;
+
+    }
+    // tim kiem
+    @GetMapping("/search")
+    public Page<Order> searchOrder(@RequestParam( value = "page") int page,
+                                         @RequestParam(name = "name") String name)
+    {
+        Pageable pageable =  PageRequest.of(page,5);
+        Page<Order> listSearch = orderService.searchOrderPage(pageable,name);
+        return listSearch ;
+    }
+
+
+
+
+//    @GetMapping("/search")
+//    public BaseApiResult getOrder(@RequestParam(value = "keyword") String keyWord,
+//                                  @RequestParam(value = "pageNo", required = false, defaultValue = "0") int pageNo,
+//                                  @RequestParam(value = "pageSize", required = false, defaultValue = "7") int pageSize) {
+//        DataApiResult result = new DataApiResult();
+//
+//        Sort sort = Sort.by("id").ascending();
+//        Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
+//
 //        try {
-//            orderEntity.setIdOrder(id);
-//            orderEntity.setName(orderDTO.getName());
-//            orderEntity.setStatus(orerDTO.isStatus());
-//            orderService.addNewOrder(orderEntity);
-//            result.setMessage("Update category success!");
-//            result.setSuccess(true);
+//            Page<Order> pageOrder = orderService.getOrderByIdOrName(pageable, keyWord);
+//            if (pageOrder.isEmpty()) {
+//                result.setSuccess(false);
+//                result.setMessage("Not Found");
+//            } else {
+//                result.setSuccess(true);
+//                result.setData(pageOrder);
+//            }
 //        } catch (Exception e) {
 //            result.setSuccess(false);
 //            result.setMessage(e.getMessage());
@@ -116,31 +194,6 @@ public class OrderController {
 //        return result;
 //    }
 
-    @GetMapping("/search")
-    public BaseApiResult getOrder(@RequestParam(value = "keyword") String keyWord,
-                                  @RequestParam(value = "pageNo", required = false, defaultValue = "0") int pageNo,
-                                  @RequestParam(value = "pageSize", required = false, defaultValue = "7") int pageSize) {
-        DataApiResult result = new DataApiResult();
-
-        Sort sort = Sort.by("id").ascending();
-        Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
-
-        try {
-            Page<Order> pageOrder = orderService.getOrderByIdOrName(pageable, keyWord);
-            if (pageOrder.isEmpty()) {
-                result.setSuccess(false);
-                result.setMessage("Not Found");
-            } else {
-                result.setSuccess(true);
-                result.setData(pageOrder);
-            }
-        } catch (Exception e) {
-            result.setSuccess(false);
-            result.setMessage(e.getMessage());
-            logger.error(e.getMessage());
-        }
-        return result;
-    }
 
 
 }

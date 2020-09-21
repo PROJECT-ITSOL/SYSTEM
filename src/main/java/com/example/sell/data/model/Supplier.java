@@ -8,7 +8,6 @@ import lombok.Setter;
 
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity(name = "dbo_supplier")
 
-public class Supplier implements Serializable {
+public class Supplier {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id_supplier")

@@ -60,6 +60,7 @@ public class Product {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
     private List<Comment> comments = new ArrayList<>();
 
+//    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productOrderDetail")
     private List<OrderDetail> orderDetails = new ArrayList<>();
 

@@ -73,7 +73,6 @@ public class BillImportDetailService {
         }
     }
 
-
     //Xóa bill detail
     public boolean deleteBillDetail(int id){
         try {

@@ -36,7 +36,28 @@ public interface OrderRepository extends JpaRepository<Order,String> {
             "where (upper(oder.idOrder) like concat('%',upper(:keyword),'%') )")
     Page<Order> getOrderByIdOrName(Pageable pageable, @Param("keyword") String keyWord);
 
-   // Page<Order> getOrderById
+
+    // cac ham tim kiem
+            // + theo status
+    @Query("select oder from dbo_order oder " +
+            "where oder.status=:status")
+    List<Order> getListOrderByStatus(@Param("status") boolean status);
+
+    @Query("delete from dbo_order where idOrder=:id ")
+    //void deleteInBatch(String id);
+
+    void deleteById(int id);
+
+    // void deleteInBatch(String id);
+
+//    @Query("delete from dbo_order where order=:order ")
+//    void deleteOrderById(@Param("id") Order order);
+
+    //void delete(int parseInt);
+    // + theo
+    //Page<Order> getOrderByName(Pageable pageable, String name);
+
+    // Page<Order> getOrderById
 
 
 }

@@ -37,7 +37,7 @@ public class CategoryApiController {
         BaseApiResult result = new BaseApiResult();
         List<Category> categories = new ArrayList<>();
         try {
-            Random random = new Random();
+//            Random random = new Random();
             int totalCategories = categoryService.getTotalCategories();
             for (int i = totalCategories + 1; i < totalCategories + 20; i++) {
                 Category category = new Category();

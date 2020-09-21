@@ -39,7 +39,6 @@ public class CustomerApiController {
             RandomData randomData = new RandomData();
             for (int i = totalCustomer + 1; i < totalCustomer + 20; i++) {
                 Customer customer = new Customer();
-//                customer.setId(randomData.randomText(6));
                 customer.setName("Customer " + i);
                 customer.setPasswordHash(randomData.randomText(3));
                 customer.setPhoneNumber(randomData.randomPhone());

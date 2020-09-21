@@ -51,6 +51,7 @@ public class ProductReturnController {
         int totalOrder=orderService.getTotalOrder();
         List<OrderDetail> orderDetails;
         Random random = new Random();
+
         try {
             for (int i = totalOrder + 1; i <totalOrder + orderList.size(); i++) {
                 ProductReturn productReturn=new ProductReturn();

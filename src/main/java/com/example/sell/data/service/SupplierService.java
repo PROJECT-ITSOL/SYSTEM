@@ -43,8 +43,8 @@ public class SupplierService{
 
     }
 
-    public List<Supplier> getListSupplierByStatus(boolean status) {
-        return supplierRepository.getListSupplierByStatus(status);
+    public Page<Supplier> getListSupplierByStatus(Pageable pageable,boolean status) {
+        return supplierRepository.getListSupplierByStatus(pageable,status);
     }
 
 

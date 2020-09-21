@@ -43,9 +43,11 @@ public class SupplierApiController {
 
     //Lấy supplier theo status
     @GetMapping("/status")
-    public List<Supplier> getSupplierByStatus(@RequestParam(value = "status", required = true) boolean status) {
-        List<Supplier> listSupp = supplierService.getListSupplierByStatus(status);
-        return listSupp;
+    public Page<Supplier> getSupplierByStatus(@RequestParam( value = "page") int page,
+                                              @RequestParam(value = "status") Boolean status) {
+        Pageable pageable =  PageRequest.of(page,5);
+        Page<Supplier> listSupplier = supplierService.getListSupplierByStatus(pageable,status);
+        return listSupplier;
     }
 
     //Xóa supplier theo id

@@ -10,12 +10,12 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CustomerDTO {
-    private String idCustomer;
+    private int id;
     private String name;
     private String passwordHash;
     private String phoneNumber;
     private String address;
     private String email;
-    private boolean status;
+    private Boolean status;
     private int amountBoom;
 }

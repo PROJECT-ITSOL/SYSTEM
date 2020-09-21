@@ -26,6 +26,7 @@ import java.util.Random;
 
 @RestController
 @RequestMapping("/api/product")
+@CrossOrigin(origins = "*")
 public class ProductApiController {
     private static final Logger logger = LogManager.getLogger(ProductApiController.class);
 
@@ -80,10 +81,9 @@ public class ProductApiController {
                                                          @RequestParam(value = "pageSize", required = false, defaultValue = "7") int pageSize){
         return new ResponseEntity<Page<Product>>(productService.getPageListProducts(pageNo, pageSize), HttpStatus.OK);
     }
-
 // API xóa sản phẩm.
-    @DeleteMapping("/delete")
-    public  BaseApiResult deleteProduct(@RequestParam(value = "id") String idProduct){
+    @DeleteMapping("/delete/{idProduct}")
+    public  BaseApiResult deleteProduct(@PathVariable String idProduct){
         BaseApiResult result = new BaseApiResult();
         if (productService.deleteProduct(idProduct)){
            result.setSuccess(true);
@@ -101,23 +101,24 @@ public class ProductApiController {
         BaseApiResult result = new BaseApiResult();
 
         Product product = productService.findOne(productDTO.getIdProduct());
+        Category category =categoryService.findOne(productDTO.getIdCategory());
+        Supplier supplier = supplierService.getSupplierById(productDTO.getIdSupplier());
         if (product == null){
             try {
                 product = new Product();
                 product.setIdProduct(productDTO.getIdProduct());
-                product.setIdCategory(productDTO.getIdCategory());
-                product.setIdSupplier(productDTO.getIdSupplier());
+                product.setCategory(category);
+                product.setSupplier(supplier);
                 product.setName(productDTO.getName());
                 product.setPrice(productDTO.getPrice());
                 product.setContent(productDTO.getContent());
                 product.setFavorite(productDTO.getFavorite());
                 product.setImage(productDTO.getImage());
                 product.setAmount(productDTO.getAmount());
-
                 product.setStatus(true);
                 productService.addNewProduct(product);
                 result.setSuccess(true);
-                result.setMessage("Add new product success: " +product.getIdProduct());
+                result.setMessage("Add new product success: " + product.getIdProduct());
             }catch (Exception e){
                 result.setSuccess(false);
                 result.setMessage("Add new product fail.");
@@ -131,12 +132,12 @@ public class ProductApiController {
     }
 
 // API Cập nhập(Sửa) sản phẩm.
-    @PutMapping("/update")
-    public BaseApiResult updateProduct(@RequestParam(value = "id") String id, @RequestBody ProductDTO productDTO){
+    @PutMapping("/update/{idProduct}")
+    public BaseApiResult updateProduct(@PathVariable String idProduct, @RequestBody ProductDTO productDTO){
       BaseApiResult result = new BaseApiResult();
-      Product productEntity = productService.findOne(id);
+      Product productEntity = productService.findOne(idProduct);
       try {
-          productEntity.setIdProduct(id);
+          productEntity.setIdProduct(idProduct);
           productEntity.setIdCategory(productDTO.getIdCategory());
           productEntity.setIdSupplier(productDTO.getIdSupplier());
           productEntity.setName(productDTO.getName());

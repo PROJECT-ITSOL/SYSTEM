@@ -48,10 +48,9 @@ public class OrderController {
             int totalOrder = orderService.getTotalOrder(); // so luong oj
             Random random = new Random();
             RandomData randomData = new RandomData();
-            // int totailOrder =  orderService.getAllListOrders();
             List<Customer> customerList = customerService.getAllListCustomer();
 
-            for (int i = totalOrder + 1; i < totalOrder + 30; i++) {
+            for (int i = totalOrder + 1; i < totalOrder + 10; i++) {
                 Order order = new Order();
 //                order.setIdOrder(i); ko can
                 order.setIdOrder(new RandomData().randomText(4));

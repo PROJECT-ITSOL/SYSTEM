@@ -1,11 +1,5 @@
 package com.example.sell.controller;
 
-import com.example.sell.data.model.Category;
-import com.example.sell.data.model.Product;
-import com.example.sell.data.model.Supplier;
-import com.example.sell.data.service.ProductService;
-import com.example.sell.data.service.SupplierService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;

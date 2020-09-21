@@ -10,8 +10,10 @@ import com.example.sell.data.service.OrderService;
 import com.example.sell.data.service.ProductService;
 import com.example.sell.model.dto.OrderDetailDTO;
 import com.example.sell.model.resutlData.BaseApiResult;
+import com.example.sell.model.resutlData.DataApiResult;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.exception.DataException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -53,15 +55,17 @@ public class OrderDetailController {
             // fake list orderlist
             List<Order> ordersList = orderService.getAllOrderList();
             List<Product> productList = productService.findAll();
-            for (int i = totalOrderDetail + 1; i < totalOrderDetail + 30; i++) {
-                OrderDetail orderDetail = new OrderDetail();
-                orderDetail.setIdOrderDetail(random.nextInt(20));
-                orderDetail.setOrder(ordersList.get(random.nextInt(ordersList.size())));
-                orderDetail.setProductOrderDetail(productList.get(random.nextInt(productList.size())));
-                orderDetail.setAmount(100 + i);
-                orderDetails.add(orderDetail);
 
-            }
+            ordersList.stream().forEach(order -> {
+//                orderDetail.setIdOrderDetail(random.nextInt(20));
+                for (int i = 0; i < 2; i++) {
+                    OrderDetail orderDetail = new OrderDetail();
+                    orderDetail.setOrder(order);
+                    orderDetail.setProductOrderDetail(productList.get(random.nextInt(productList.size())));
+                    orderDetail.setAmount(100 + i);
+                    orderDetails.add(orderDetail);
+                }
+            });
             orderDetailService.addNewListOrderDetail(orderDetails);
             result.setSuccess(true);
             result.setMessage("fake list OrderDetail");
@@ -76,16 +80,38 @@ public class OrderDetailController {
 
     // get mapping List lay ra danh sach
 
-    @GetMapping("")
-    public List<OrderDetail> getListOrderDetailById(@RequestParam(value = "idOrder",required = true) String id){
-        return orderDetailService.getOrderDetailsByIdOrder(id);
+    @GetMapping("{id}")
+    public DataApiResult getListOrderDetailById(@PathVariable String id) {
+        DataApiResult result = new DataApiResult();
+        List<OrderDetail> orderDetails = orderDetailService.getOrderDetailsByIdOrder(id);
+        try {
+            if (!orderDetails.isEmpty()) {
+                List<OrderDetailDTO> orderDetailDTOList = new ArrayList<>();
+                orderDetails.stream().forEach(orderDetail -> {
+                    orderDetailDTOList.add(new OrderDetailDTO().converOrderDetail(orderDetail));
+                });
+                result.setSuccess(true);
+                result.setData(orderDetailDTOList);
+            } else {
+                result.setSuccess(false);
+                result.setMessage("Not Found");
+            }
+        } catch (Exception e) {
+            result.setSuccess(false);
+            result.setMessage(e.getMessage());
+            logger.error(e.getMessage());
+        }
+
+        return result;
     }
+
     // lay ds phan theo trang
     @GetMapping("/all")
-    public List<OrderDetailDTO> getOrderDetailDTOList(){
+    public List<OrderDetailDTO> getOrderDetailDTOList() {
         return orderDetailService.getAllOrderDetailList();
     }
-//    @GetMapping("/all2")
+
+    //    @GetMapping("/all2")
 //        public List<OrderDetail> getOderDetail(){
 //            return orderDetailService.findAll();
 //        }
@@ -98,7 +124,7 @@ public class OrderDetailController {
     @PostMapping("/addOrderDetail")
     public BaseApiResult addNewOrderDetail(@RequestBody OrderDetail orderDetail) {
         BaseApiResult result = new BaseApiResult();
-       // OrderDetail orderDetail1=new OrderDetail();
+        // OrderDetail orderDetail1=new OrderDetail();
 
         try {
             orderDetailService.addNewOrderDetail(orderDetail);
@@ -114,22 +140,22 @@ public class OrderDetailController {
     }
 
     @PutMapping("update/{id}")
-    public BaseApiResult updateOrderDetail(@PathVariable String id,@RequestBody OrderDetail orderDetail){
-        BaseApiResult result=new BaseApiResult();
-        OrderDetail odrdl= orderDetailService.findOne(id);
+    public BaseApiResult updateOrderDetail(@PathVariable String id, @RequestBody OrderDetail orderDetail) {
+        BaseApiResult result = new BaseApiResult();
+        OrderDetail odrdl = orderDetailService.findOne(id);
 
-           odrdl.setIdOrderDetail(orderDetail.getIdOrderDetail());
-           odrdl.setIdOrder(orderDetail.getIdOrder());
-           odrdl.setIdProduct(orderDetail.getIdProduct());
-           odrdl.setAmount(orderDetail.getAmount());
-           odrdl.setOrder(orderDetail.getOrder());
-           odrdl.setProductOrderDetail(orderDetail.getProductOrderDetail());
+        odrdl.setIdOrderDetail(orderDetail.getIdOrderDetail());
+        odrdl.setIdOrder(orderDetail.getIdOrder());
+        odrdl.setIdProduct(orderDetail.getIdProduct());
+        odrdl.setAmount(orderDetail.getAmount());
+        odrdl.setOrder(orderDetail.getOrder());
+        odrdl.setProductOrderDetail(orderDetail.getProductOrderDetail());
 
-        try{
+        try {
             orderService.addNewOrderDetail(odrdl);
             result.setMessage("Update succes");
             result.setSuccess(true);
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             result.setMessage("Update fail");
             result.setSuccess(false);
@@ -137,6 +163,7 @@ public class OrderDetailController {
         return result;
 
     }
+
     @DeleteMapping("delete/{id}")
     public BaseApiResult deleteOrderDetail(@RequestParam(value = "id", required = true) String id) {
         BaseApiResult result = new BaseApiResult();

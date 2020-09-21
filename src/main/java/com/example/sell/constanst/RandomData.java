@@ -10,7 +10,7 @@ public class RandomData {
         StringBuilder code = new StringBuilder();
         for (int j = 0; j < limit; j++) {
             int value = (int) (random.nextInt((new ListConstant().max - new ListConstant().min) + 1 + new ListConstant().min));
-            if (j%7==0){
+            if (j%7==0 && code.length()>0){
                 code.append(" ");
             }
             code.append(ListConstant.ALPHABET[value].toUpperCase());

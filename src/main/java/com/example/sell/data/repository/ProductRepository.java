@@ -22,10 +22,6 @@ public interface ProductRepository extends JpaRepository<Product, String> {
             "or (upper(p.name) like concat('%',upper(:keyword),'%') )")
     Page<Product> getProductsByIdOrName(Pageable pageable, @Param("keyword") String keyword);
 
-//    List<Product> sortedByPriceDesc(double price, Pageable pageable);
-//    List<Product> sortedByName(String name, Pageable pageable);
-//    List<Product> sortedByPriceDescNameAsc(String name, Pageable pageable);
-
 }
 
 

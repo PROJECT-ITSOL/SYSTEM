@@ -1,9 +1,9 @@
 package com.example.sell.controller.api;
 
 import com.example.sell.constanst.RandomData;
-import com.example.sell.data.model.Category;
 import com.example.sell.data.model.Customer;
 import com.example.sell.data.service.CustomerService;
+import com.example.sell.model.dto.CustomerDTO;
 import com.example.sell.model.resutlData.BaseApiResult;
 import com.example.sell.model.resutlData.DataApiResult;
 import org.apache.logging.log4j.LogManager;
@@ -19,9 +19,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Random;
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/customer")
+
 public class CustomerApiController {
     private static final Logger logger = LogManager.getLogger(CustomerApiController.class);
 
@@ -37,7 +39,7 @@ public class CustomerApiController {
             RandomData randomData = new RandomData();
             for (int i = totalCustomer + 1; i < totalCustomer + 20; i++) {
                 Customer customer = new Customer();
-                customer.setIdCustomer(randomData.randomText(6));
+//                customer.setId(randomData.randomText(6));
                 customer.setName("Customer " + i);
                 customer.setPasswordHash(randomData.randomText(3));
                 customer.setPhoneNumber(randomData.randomPhone());
@@ -64,7 +66,7 @@ public class CustomerApiController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public  BaseApiResult deleteCustomer(@PathVariable String id){
+    public  BaseApiResult deleteCustomer(@PathVariable int id){
         BaseApiResult result = new BaseApiResult();
         if (customerService.deleteCustomer(id)){
             result.setSuccess(true);
@@ -72,6 +74,60 @@ public class CustomerApiController {
         }else {
             result.setSuccess(false);
             result.setMessage("Delete false.");
+        }
+        return result;
+    }
+//API add customer
+    @PostMapping("/addNew")
+    public BaseApiResult addNew(@RequestBody CustomerDTO customerDTO){
+        BaseApiResult result = new BaseApiResult();
+
+        Customer customer = customerService.findOne(customerDTO.getId());
+        if (customer == null){
+            try {
+                customer = new Customer();
+                customer.setId(customerDTO.getId());
+                customer.setName(customerDTO.getName());
+                customer.setPasswordHash(customerDTO.getPasswordHash());
+                customer.setPhoneNumber(customerDTO.getPhoneNumber());
+                customer.setAddress(customerDTO.getAddress());
+                customer.setEmail(customerDTO.getEmail());
+                customer.setAmountBoom(customerDTO.getAmountBoom());
+                customer.setStatus(true);
+                customerService.addNewCustomer(customer);
+                result.setSuccess(true);
+                result.setMessage("Add new customer success: " + customer.getId());
+            }catch (Exception e){
+                result.setSuccess(false);
+                result.setMessage("Add new customer fail.");
+                logger.error(e.getMessage());
+            }
+        }else {
+            result.setSuccess(false);
+            result.setMessage("ID Already exitst.");
+        }
+        return result;
+    }
+//API cap nhap khach hang
+    @PutMapping("/update/{id}")
+    public BaseApiResult updateCustomer(@PathVariable int id, @RequestBody CustomerDTO customerDTO){
+        BaseApiResult result = new BaseApiResult();
+        Customer customerEntity = customerService.findOne(id);
+        try {
+            customerEntity.setId(id);
+            customerEntity.setName(customerDTO.getName());
+            customerEntity.setPasswordHash(customerDTO.getPasswordHash());
+            customerEntity.setPhoneNumber(customerDTO.getPhoneNumber());
+            customerEntity.setAddress(customerDTO.getAddress());
+            customerEntity.setEmail(customerDTO.getEmail());
+            customerEntity.setAmountBoom(customerDTO.getAmountBoom());
+            customerEntity.setStatus(customerDTO.getStatus());
+            customerService.addNewCustomer(customerEntity);
+            result.setMessage("Update product success.");
+            result.setSuccess(true);
+        }catch (Exception e){
+            result.setSuccess(false);
+            result.setMessage(e.getMessage());
         }
         return result;
     }

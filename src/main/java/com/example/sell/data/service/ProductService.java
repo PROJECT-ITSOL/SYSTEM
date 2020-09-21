@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -49,12 +48,12 @@ public class ProductService {
             logger.error(e.getMessage());
         }
     }
-    public  Product findOne(String id){
-        return productRepository.findById(id).orElse(null);
+    public  Product findOne(String idProduct){
+        return productRepository.findById(idProduct).orElse(null);
     }
 
-    public Product getProduct(String id) {
-        return productRepository.getProductById(id);
+    public Product getProduct(String idProduct) {
+        return productRepository.getProductById(idProduct);
     }
 
     public  boolean  deleteProduct(String idProduct) {
@@ -66,9 +65,6 @@ public class ProductService {
             return false;
         }
     }
-
-//    public Product save(Product product) {return  productRepository.save(product);}
-
     public boolean updateProduct(Product product) {
         try {
             productRepository.save(product);
@@ -86,18 +82,5 @@ public class ProductService {
     public Page<Product> getProductsByIdOrName(Pageable pageable, String keyword) {
         return productRepository.getProductsByIdOrName(pageable, keyword);
     }
-
-    //sort product
-
-//    Page<Product> allProductsSortedByName = (Page<Product>) productRepository.findAll(Sort.by("name"));
-//
-//    Pageable sortedByName =
-//            PageRequest.of(0, 7, Sort.by("name"));
-//
-//    Pageable sortedByPriceDesc =
-//            PageRequest.of(0, 7, Sort.by("price").descending());
-//
-//    Pageable sortedByPriceDescNameAsc =
-//            PageRequest.of(0, 7, Sort.by("price").descending().and(Sort.by("name")));
 
 }

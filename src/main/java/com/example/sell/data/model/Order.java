@@ -25,7 +25,7 @@ public class Order {
     private String idOrder;
 
     @Column(name = "id_customer", updatable = false, insertable = false)
-    private String idCustomer;
+    private int idCustomer;
 
     @ManyToOne(optional = true, fetch = FetchType.LAZY)
     @JsonIgnore

@@ -87,11 +87,11 @@ public class OrderDetailService {
         orderDetailRepository.saveAll(orderDetails);
     }
 
-    public OrderDetail findOne(String id) {
+    public OrderDetail findOne(int id) {
         return  orderDetailRepository.findById(id).orElse(null);
     }
 
-    public Boolean deleteOrderDetail(String id) {
+    public Boolean deleteOrderDetail(int id) {
         try {
             orderDetailRepository.deleteById(id);
             return true;
@@ -102,7 +102,7 @@ public class OrderDetailService {
         }
     }
 
-    public OrderDetail getOrderById(String id) {
+    public OrderDetail getOrderById(int id) {
         return orderDetailRepository.findById(id).orElse(null);
     }
 
@@ -119,4 +119,5 @@ public class OrderDetailService {
     //}
 //    public int getTotailOrderDetail() {
 //    }
+
 }

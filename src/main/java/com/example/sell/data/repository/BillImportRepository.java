@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface BillImportRepository extends JpaRepository<BillImport,String> {
     @Query("select bill from dbo_bill_import bill " +
-            "where (upper(bill.idBillImport) like concat('%',upper(:keyWord),'%') ) ")
+            "where bill.idBillImport=:keyWord ")
     Page<BillImport> searchById(Pageable pageable, @Param("keyWord") String keyWord);
 
     @Query("select sum(detail.totalPrice) from dbo_bill_import_detail detail " +

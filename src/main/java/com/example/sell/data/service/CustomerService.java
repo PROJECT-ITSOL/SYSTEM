@@ -73,4 +73,8 @@ public class CustomerService {
     public Page<Customer> getCustomersByIdOrName(Pageable pageable, String keyword) {
         return customerRepository.getCustomersByIdOrName(pageable, keyword);
     }
+
+    public List<String> getListNameCustomer(){
+        return customerRepository.getListNameCustomer();
+    }
 }

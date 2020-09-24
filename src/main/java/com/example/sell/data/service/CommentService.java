@@ -61,8 +61,30 @@ public class CommentService {
         return commentRepository.getListCommentByKeyword(id);
     }
 
-//    public Page<Comment> commentPage(int pageNo, int pageSize) {
-//        return commentRepository.findAll(PageRequest.of(pageNo, pageSize));
-//    }
+    public Iterable<Comment> getListCommentByNameProductAndCustomer(String nameProduct,String nameCustomer) {
+        try {
+            return commentRepository.getListCommentByNameProductAndCustomer(nameProduct,nameCustomer);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return new ArrayList<>();
+        }
+    }
 
+    public Iterable<Comment> getListCommentByNameProduct(String nameProduct) {
+        try {
+            return commentRepository.getListCommentByNameProduct(nameProduct);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return new ArrayList<>();
+        }
+    }
+
+    public Iterable<Comment> getListCommentByNameCustomer(String nameCustomer) {
+        try {
+            return commentRepository.getListCommentByNameCustomer(nameCustomer);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return new ArrayList<>();
+        }
+    }
 }

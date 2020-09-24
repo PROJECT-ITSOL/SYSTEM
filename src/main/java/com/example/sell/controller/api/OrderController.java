@@ -33,7 +33,7 @@ public class OrderController {
     private OrderService orderService;
     @Autowired
     private CustomerService customerService;
-    @Autowired
+//    @Autowired
     //private
 
     //
@@ -42,7 +42,6 @@ public class OrderController {
     @GetMapping("/fake")
     public BaseApiResult faBaseApiResult() {
         BaseApiResult result = new BaseApiResult();
-
         try {
             List<Order> orders = new ArrayList<>();
             int totalOrder = orderService.getTotalOrder(); // so luong oj

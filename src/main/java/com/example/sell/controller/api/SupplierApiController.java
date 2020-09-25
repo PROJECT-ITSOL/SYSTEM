@@ -23,7 +23,7 @@ public class SupplierApiController {
 
     //Lấy tất cả supplier
     @GetMapping("")
-    public List<Supplier> getListSupplier() {
+    public List<Supplier> getListSupplier()  {
         return supplierService.getAllListSuppliers();
     }
 
@@ -107,11 +107,8 @@ public class SupplierApiController {
 
     //Tìm kiếm theo tên
     @GetMapping("/search")
-    public Page<Supplier> searchSupplier(@RequestParam( value = "page") int page,
-                                         @RequestParam(name = "name") String name)
-                                         {
-        Pageable pageable =  PageRequest.of(page,5);
-        Page<Supplier> listSearch = supplierService.searchSupplierPage(pageable,name);
+    public List<Supplier> searchSupplier(@RequestParam(name = "name") String name){
+        List<Supplier> listSearch = supplierService.searchSupplier(name);
         return listSearch ;
     }
 

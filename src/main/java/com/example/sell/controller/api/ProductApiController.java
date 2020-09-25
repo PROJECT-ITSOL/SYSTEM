@@ -49,7 +49,7 @@ public class ProductApiController {
             int totalProduct = productService.getTotalProducts();
             List<Category> categoryList = categoryService.getAllListCategories();
             List<Supplier> supplierList = supplierService.getAllListSuppliers();
-            for (int i = totalProduct + 1; i < totalProduct + 40; i++) {
+            for (int i = totalProduct + 1; i < totalProduct + 20; i++) {
                 Product product = new Product();
                 product.setIdProduct(randomData.randomText(6));
                 product.setCategory(categoryList.get(random.nextInt(categoryList.size())));
@@ -180,6 +180,10 @@ public class ProductApiController {
             logger.error(e.getMessage());
         }
         return result;
+    }
+    @GetMapping("/products")
+    public ResponseEntity<?> getAll(){
+        return ResponseEntity.ok(productService.findAll());
     }
 
 }

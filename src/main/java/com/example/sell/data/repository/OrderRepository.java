@@ -41,7 +41,7 @@ public interface OrderRepository extends JpaRepository<Order,String> {
             // + theo status
     @Query("select oder from dbo_order oder " +
             "where oder.status=:status")
-    List<Order> getListOrderByStatus(@Param("status") boolean status);
+    List<Order> getListOrderByStatus(@Param("status") String status);
 
     @Query("delete from dbo_order where idOrder=:id ")
     //void deleteInBatch(String id);

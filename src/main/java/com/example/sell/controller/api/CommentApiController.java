@@ -68,17 +68,27 @@ public class CommentApiController {
 
     @GetMapping("/getList")
     public BaseApiResult getListComment(@RequestParam(name = "pageNo", required = false, defaultValue = "0") int pageNo,
-                                        @RequestParam(name = "pageSize", required = false, defaultValue = "7") int pageSize) {
+                                        @RequestParam(name = "pageSize", required = false, defaultValue = "7") int pageSize,
+                                        @RequestParam(name = "nameProduct", required = false, defaultValue = "") String nameProduct,
+                                        @RequestParam(name = "nameCustomer", required = false, defaultValue = "") String nameCustomer) {
         DataApiResult result = new DataApiResult();
         List<CommentDTO> commentDTOS = new ArrayList<>();
         try {
-            List<Comment> comments = commentService.getListComment();
+            List<Comment> comments;
+            if (nameCustomer.isEmpty() && !nameProduct.isEmpty()) {
+                comments = (List<Comment>) commentService.getListCommentByNameProduct(nameProduct);
+            } else if (!nameCustomer.isEmpty() && nameProduct.isEmpty()) {
+                comments = (List<Comment>) commentService.getListCommentByNameCustomer(nameCustomer);
+            } else if (!nameCustomer.isEmpty() && !nameProduct.isEmpty()) {
+                comments = (List<Comment>) commentService.getListCommentByNameProductAndCustomer(nameProduct, nameCustomer);
+            } else {
+                comments = commentService.getListComment();
+            }
             comments.stream().forEach(comment -> {
-//                Product product = comment.getProduct();
                 CommentDTO commentDTO = new CommentDTO().convertComment(comment);
                 commentDTOS.add(commentDTO);
             });
-            Sort sort = Sort.by("name");
+            Sort sort = Sort.by("id");
             Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
             int start = (int) pageable.getOffset();
             int end = (start + pageable.getPageSize()) > commentDTOS.size() ? commentDTOS.size() : (start + pageable.getPageSize());

@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-public interface OrderDetailRepository extends JpaRepository<OrderDetail,String> {
+public interface OrderDetailRepository extends JpaRepository<OrderDetail,Integer> {
 
     @Query("select count(o.idOrderDetail) from dbo_order_detail o")
     int getTotailOrderDetail();

@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -17,6 +19,7 @@ public class CommentDTO {
     private String content;
     private String nameCustomer;
     private String nameProduct;
+    private Date createDate;
 
     public CommentDTO convertComment(Comment comment){
         CommentDTO commentDTO= new CommentDTO();
@@ -25,6 +28,7 @@ public class CommentDTO {
         commentDTO.setContent(comment.getContent());
         commentDTO.setNameCustomer(comment.getCustomer().getName());
         commentDTO.setNameProduct(comment.getProduct().getName());
+        commentDTO.setCreateDate(comment.getCreateDate());
         return commentDTO;
     }
 }

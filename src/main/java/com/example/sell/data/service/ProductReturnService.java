@@ -35,31 +35,35 @@ public class ProductReturnService {
         productReturnRepository.saveAll(productReturns);
     }
 
-    public List<ProductReturnDTO> getAllListProductReturn(){
-
-        List<ProductReturnDTO> productReturnDTOS=new ArrayList<ProductReturnDTO>();
-        List<ProductReturn> productReturns= productReturnRepository.findAll();
-
-        try {
-            for(ProductReturn productReturn: productReturns){
-               //Product product= productReturn.getIdProduct();
-                Product product= productReturn.getProductReturn();
-                ProductReturnDTO productReturnDTO=new ProductReturnDTO().convertProductReturn(productReturn);
-
-                productReturnDTOS.add(productReturnDTO);
-            }
-            return productReturnDTOS;
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-            return new ArrayList<>();
-        }
-    }
+//    public List<ProductReturnDTO> getAllListProductReturn(){
+//
+//        List<ProductReturnDTO> productReturnDTOS=new ArrayList<ProductReturnDTO>();
+//        List<ProductReturn> productReturns= productReturnRepository.findAll();
+//
+//        try {
+//            for(ProductReturn productReturn: productReturns){
+//               //Product product= productReturn.getIdProduct();
+//                Product product= productReturn.getProductReturn();
+//                ProductReturnDTO productReturnDTO=new ProductReturnDTO().convertProductReturn(productReturn);
+//
+//                productReturnDTOS.add(productReturnDTO);
+//            }
+//            return productReturnDTOS;
+//        } catch (Exception e) {
+//            logger.error(e.getMessage());
+//            return new ArrayList<>();
+//        }
+//    }
 
     public List<ProductReturn> getAllProductReturnListById(int id) {
         return  productReturnRepository.getProductReturnByIdOrder(id);
     }
 
-    public List<ProductReturn> getAllOrderList() {
+    public ProductReturn getOne(int id){
+        return productReturnRepository.findById(id).orElse(null);
+    }
+
+    public List<ProductReturn> getAllProductReturnList() {
         try{
             return  productReturnRepository.findAll();
         }catch (Exception e){
@@ -76,11 +80,11 @@ public class ProductReturnService {
         return  productReturnRepository.findById(id).orElse(null);
     }
 
-    public List<ProductReturn> getListOrderByStatus(boolean status) {
+    public List<ProductReturn> getListOrderByStatus(String status) {
         return productReturnRepository.getProductReturnByIdOrder(status);
     }
 
-    public boolean deleteOrder(int id) {
+    public boolean deleteProductReturn(int id) {
         try {
             productReturnRepository.deleteById(id);
             return true;
@@ -91,7 +95,7 @@ public class ProductReturnService {
         }
     }
 
-    public boolean addNewProductReturn(ProductReturn productReturn) {
+    public Boolean addNewProductReturn(ProductReturn productReturn) {
         try {
 
             productReturnRepository.save(productReturn);
@@ -102,7 +106,11 @@ public class ProductReturnService {
         }
     }
 
-    public Page<ProductReturn> searchOrderPage(Pageable pageable, String keyWord) {
+    public Page<ProductReturn> searchProductReturnPage(Pageable pageable, String keyWord) {
         return productReturnRepository.getOrderByIdOrName(pageable,keyWord);
     }
+
+//    public Page<ProductReturn> searchProductReturnStatusPage(Pageable pageable, boolean keyWord) {
+//        return productReturnRepository.getProductReturnByIdStatus(pageable,keyWord);
+//    }
 }

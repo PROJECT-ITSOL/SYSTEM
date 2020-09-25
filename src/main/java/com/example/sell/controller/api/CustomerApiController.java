@@ -39,7 +39,6 @@ public class CustomerApiController {
             RandomData randomData = new RandomData();
             for (int i = totalCustomer + 1; i < totalCustomer + 20; i++) {
                 Customer customer = new Customer();
-//                customer.setId(randomData.randomText(6));
                 customer.setName("Customer " + i);
                 customer.setPasswordHash(randomData.randomText(3));
                 customer.setPhoneNumber(randomData.randomPhone());
@@ -148,6 +147,20 @@ public class CustomerApiController {
                 result.setData(pageCustomer);
             }
         }catch (Exception e){
+            result.setSuccess(false);
+            result.setMessage(e.getMessage());
+            logger.error(e.getMessage());
+        }
+        return result;
+    }
+
+    @GetMapping("/listName")
+    public DataApiResult getListNameCustomer(){
+        DataApiResult result =new DataApiResult();
+        try {
+            result.setData(customerService.getListNameCustomer());
+            result.setSuccess(true);
+        } catch (Exception e) {
             result.setSuccess(false);
             result.setMessage(e.getMessage());
             logger.error(e.getMessage());

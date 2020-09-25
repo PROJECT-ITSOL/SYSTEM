@@ -23,11 +23,17 @@ public interface ProductReturnRepository extends JpaRepository<ProductReturn,Int
 
    @Query("select p from dbo_product_return p " +
            "where p.status=:status")
-   List<ProductReturn> getProductReturnByIdOrder(@Param("status") boolean status);
+   List<ProductReturn> getProductReturnByIdOrder(@Param("status") String status);
 
    @Query("select p from dbo_product_return p " +
            "where (upper(p.idProduct) like concat('%',upper(:keyword),'%') )")
    Page<ProductReturn> getOrderByIdOrName(Pageable pageable,@Param("keyword") String keyWord);
+//
+//   @Query("select pdr from dbo_product_return pdr " +
+//           "where (upper(pdr.status) like concat('%',upper(:keyword),'%') )")
+//   Page<ProductReturn> getProductReturnByIdStatus(Pageable pageable,@Param("status") boolean keyWord);
+
+   //Page<ProductReturn> getProductReturnByIdStatus(Pageable pageable,@Param("status")String keyWord);
 
    //Optional<Object> findById(String id);
 }

@@ -62,5 +62,10 @@ public class RandomData {
         String result = ListConstant.STATUS_PRODUCT_RETURN[number];
         return result;
     }
+    public String radomStatusOrder(){
+        int number = new Random().nextInt(1);
+        String result = ListConstant.STATUS[number];
+        return result;
+    }
 
 }

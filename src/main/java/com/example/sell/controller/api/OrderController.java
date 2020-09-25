@@ -33,7 +33,7 @@ public class OrderController {
     private OrderService orderService;
     @Autowired
     private CustomerService customerService;
-    @Autowired
+//    @Autowired
     //private
 
     //
@@ -42,7 +42,6 @@ public class OrderController {
     @GetMapping("/fake")
     public BaseApiResult faBaseApiResult() {
         BaseApiResult result = new BaseApiResult();
-
         try {
             List<Order> orders = new ArrayList<>();
             int totalOrder = orderService.getTotalOrder(); // so luong oj
@@ -56,7 +55,7 @@ public class OrderController {
                 order.setIdOrder(new RandomData().randomText(4));
                 order.setCustomerOrder(customerList.get(random.nextInt(customerList.size())));
                 order.setCreateDate(new Date());
-                order.setStatus(random.toString());
+                order.setStatus(new RandomData().radomStatusOrder());
                 order.setTotalMoney(random.nextGaussian()); // ti sua lai
                 orders.add(order);
             }
@@ -92,7 +91,7 @@ public class OrderController {
     }
     // lay theo status
     @GetMapping("/status")
-    public ResponseEntity<?> getSupplierByStatus(@RequestParam(value = "status", required = true) boolean status) {
+    public ResponseEntity<?> getSupplierByStatus(@RequestParam(value = "status", required = true) String status) {
         List<Order> listOrder = orderService.getListOrderByStatus(status);
         return ResponseEntity.ok(listOrder);
     }
@@ -167,31 +166,7 @@ public class OrderController {
 
 
 
-//    @GetMapping("/search")
-//    public BaseApiResult getOrder(@RequestParam(value = "keyword") String keyWord,
-//                                  @RequestParam(value = "pageNo", required = false, defaultValue = "0") int pageNo,
-//                                  @RequestParam(value = "pageSize", required = false, defaultValue = "7") int pageSize) {
-//        DataApiResult result = new DataApiResult();
 //
-//        Sort sort = Sort.by("id").ascending();
-//        Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
-//
-//        try {
-//            Page<Order> pageOrder = orderService.getOrderByIdOrName(pageable, keyWord);
-//            if (pageOrder.isEmpty()) {
-//                result.setSuccess(false);
-//                result.setMessage("Not Found");
-//            } else {
-//                result.setSuccess(true);
-//                result.setData(pageOrder);
-//            }
-//        } catch (Exception e) {
-//            result.setSuccess(false);
-//            result.setMessage(e.getMessage());
-//            logger.error(e.getMessage());
-//        }
-//        return result;
-//    }
 
 
 

@@ -111,16 +111,7 @@ public class OrderDetailController {
         return orderDetailService.getAllOrderDetailList();
     }
 
-    //    @GetMapping("/all2")
-//        public List<OrderDetail> getOderDetail(){
-//            return orderDetailService.findAll();
-//        }
-    // lay theo id
-//    @GetMapping("/{id}")
-//    public ResponseEntity<?> getOrderById(@PathVariable String id){
-//        OrderDetail orderDetail= orderDetailService.getOrderById(id);
-//        return ResponseEntity.ok(orderDetail);
-//    }
+
     @PostMapping("/addOrderDetail")
     public BaseApiResult addNewOrderDetail(@RequestBody OrderDetail orderDetail) {
         BaseApiResult result = new BaseApiResult();
@@ -140,16 +131,16 @@ public class OrderDetailController {
     }
 
     @PutMapping("update/{id}")
-    public BaseApiResult updateOrderDetail(@PathVariable String id, @RequestBody OrderDetail orderDetail) {
+    public BaseApiResult updateOrderDetail(@PathVariable int id, @RequestBody OrderDetail orderDetail) {
         BaseApiResult result = new BaseApiResult();
         OrderDetail odrdl = orderDetailService.findOne(id);
 
-        odrdl.setIdOrderDetail(orderDetail.getIdOrderDetail());
-        odrdl.setIdOrder(orderDetail.getIdOrder());
+       // odrdl.setIdOrderDetail(orderDetail.getIdOrderDetail());
+       // odrdl.setIdOrder(orderDetail.getIdOrder());
         odrdl.setIdProduct(orderDetail.getIdProduct());
         odrdl.setAmount(orderDetail.getAmount());
-        odrdl.setOrder(orderDetail.getOrder());
-        odrdl.setProductOrderDetail(orderDetail.getProductOrderDetail());
+       // odrdl.setOrder(orderDetail.getOrder());
+       // odrdl.setProductOrderDetail(orderDetail.getProductOrderDetail());
 
         try {
             orderService.addNewOrderDetail(odrdl);
@@ -164,26 +155,21 @@ public class OrderDetailController {
 
     }
 
-    @DeleteMapping("delete/{id}")
-    public BaseApiResult deleteOrderDetail(@RequestParam(value = "id", required = true) String id) {
-        BaseApiResult result = new BaseApiResult();
-        if (orderDetailService.deleteOrderDetail(id)) {
-            result.setSuccess(true);
-            result.setMessage("Delete success");
-        } else {
-            result.setSuccess(false);
-            result.setMessage("Delete fail");
-//    @GetMapping("/seach")
-//    public Page<OrderDetail> searchOrderDetail(@RequestParam( value = "page") int page,
 
-        }
-        return result;
-    }//                                   @RequestParam(name = "name") String name)
-//    {
-//        Pageable pageable =  PageRequest.of(page,5);
-//        Page<OrderDetail> listSearch = orderDetailService.searchOrderPage(pageable,name);
-//        return listSearch ;
-//    }
+
+@DeleteMapping("/delete")
+public BaseApiResult delete(@RequestParam(value = "id", required = true) int id) {
+    BaseApiResult result = new BaseApiResult();
+    if (orderDetailService.deleteOrderDetail(id)) {
+        result.setSuccess(true);
+        result.setMessage("Delete success");
+    } else {
+        result.setSuccess(false);
+        result.setMessage("Delete fail");
+    }
+    return result;
+}
+
 
 
 }

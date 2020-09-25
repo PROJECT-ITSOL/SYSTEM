@@ -22,7 +22,7 @@ public class ProductReturn {
     @Column(name = "id_product", updatable = false, insertable = false)
     private String idProduct;
 
-    @ManyToOne(optional = true, fetch = FetchType.LAZY)
+    @ManyToOne(optional = true, fetch = FetchType.EAGER)
     @JsonIgnore
     @JoinColumn(name = "id_product")
     private Product productReturn;

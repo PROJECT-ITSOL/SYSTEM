@@ -91,7 +91,7 @@ public class OrderService {
         return  orderRepository.findById(id).orElse(null);
     }
 
-    public List<Order> getListOrderByStatus(boolean status) {
+    public List<Order> getListOrderByStatus(String status) {
         return orderRepository.getListOrderByStatus(status);
     }
 

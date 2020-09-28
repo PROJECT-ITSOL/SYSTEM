@@ -27,8 +27,8 @@ public class Order {
     @Column(name = "id_customer", updatable = false, insertable = false)
     private int idCustomer;
 
-    @ManyToOne(optional = true, fetch = FetchType.LAZY)
-    @JsonIgnore
+    @ManyToOne( fetch = FetchType.EAGER)
+//    @JsonIgnore
     @JoinColumn(name = "id_customer")
     private Customer customerOrder;
 
@@ -49,8 +49,8 @@ public class Order {
     private List<ProductReturn> productReturns = new ArrayList<>();
 
 //    public void setCustomer(Customer customer) {
-//    }
 
-//    public void setIdCustomer(Customer customer) {
+
+//    public void SetIdCustomer(Customer customer) {
 //    }
 }

@@ -106,6 +106,10 @@ public class OrderDetailService {
         return orderDetailRepository.findById(id).orElse(null);
     }
 
+    public OrderDetail getOne(int idOrderDetail) {
+        return orderDetailRepository.findById(idOrderDetail).orElse(null);
+    }
+
 //    public Page<OrderDetail> searchOrderPage(Pageable pageable, String keyWord) {
 //            return  orderDetailRepository.getOrderDetailByIdOrder(pageable,keyWord);
 //    }

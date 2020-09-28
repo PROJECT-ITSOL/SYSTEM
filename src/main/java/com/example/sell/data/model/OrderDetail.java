@@ -41,6 +41,8 @@ public class OrderDetail {
     @Column(name = "amount")
     private int amount;
 
+    @Column(name ="totalPrice")
+    private double totalPrice;
 
 
 }

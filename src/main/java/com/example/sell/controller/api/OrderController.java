@@ -1,18 +1,17 @@
 package com.example.sell.controller.api;
 
 import com.example.sell.constanst.RandomData;
-import com.example.sell.data.model.Category;
-import com.example.sell.data.model.Customer;
-import com.example.sell.data.model.Order;
-import com.example.sell.data.model.Supplier;
+import com.example.sell.data.model.*;
 import com.example.sell.data.service.CustomerService;
 import com.example.sell.data.service.OrderService;
 import com.example.sell.model.dto.CategoryDTO;
+import com.example.sell.model.dto.OrderDTO;
 import com.example.sell.model.resutlData.BaseApiResult;
 import com.example.sell.model.resutlData.DataApiResult;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -72,18 +71,19 @@ public class OrderController {
 
     // lay  tat ca danh sach
     @GetMapping("")
+    // list order mac dinh
     public ResponseEntity<?> getListOrder(){
         List<Order> orderList= orderService.getAllOrderList();
         return ResponseEntity.ok(orderList);
     }
-    // lay danh sach phan theo trang
+    // list oder co page
     @GetMapping("/list")
     public Page<Order> PageOrder(@RequestParam(value = "page") int page){
-        Pageable pageable = PageRequest.of(page,5);
+        Pageable pageable = PageRequest.of(page,8);
         Page<Order> listPage= orderService.findAll(pageable);
         return listPage;
     }
-    // lay theo id
+    // lay theo id order
     @GetMapping("/{id}")
     public ResponseEntity<?> getOrderById(@PathVariable String id){
         Order order= orderService.getOrderById(id);
@@ -91,11 +91,21 @@ public class OrderController {
     }
     // lay theo status
     @GetMapping("/status")
-    public ResponseEntity<?> getSupplierByStatus(@RequestParam(value = "status", required = true) String status) {
-        List<Order> listOrder = orderService.getListOrderByStatus(status);
-        return ResponseEntity.ok(listOrder);
+    public Page<?> getSupplierByStatus(@RequestParam (value="page") int page , @RequestParam(value = "status", required = true) String status) {
+        Pageable pageable = PageRequest.of(page,8);
+        Page<Order> listPage = orderService.getListOrderByStatus(pageable,status);
+        return listPage;
     }
-
+    // tim kiem theo id khach hang
+    @GetMapping("/searchCustomer")
+    public Page<Order> searchOrder(@RequestParam( value = "page") int page,
+                                   @RequestParam(name = "name") String name) {
+        Pageable pageable =  PageRequest.of(page,8);
+        Page<Order> listSearch = orderService.searchOrderPage(pageable,name);
+        return listSearch ;
+    }
+    // tim kiem theo name customer
+    // fontEnd loc list customer
 
     // thuc hien xoa doi tuong theo id
     @DeleteMapping("/delete/{id}")
@@ -110,14 +120,30 @@ public class OrderController {
         }
         return result;
     }
-
+    // thêm đối tượng
    @PostMapping("/addOrder")
-   public BaseApiResult addNewOrder(@RequestBody Order order) {
+   public BaseApiResult addNewOrder(@RequestBody OrderDTO orderDTO) {
        BaseApiResult result = new BaseApiResult();
+
        try {
-           orderService.addNewOrder(order);
-           result.setSuccess(true);
-           result.setMessage("Success add new order !");
+           Customer customer =customerService.findOne(orderDTO.getIdCustomer());
+           Order order1=orderService.getOne(orderDTO.getIdOrder());
+
+           if(order1==null){
+               order1=new Order();
+               order1.setIdOrder(orderDTO.getIdOrder());
+               order1.setStatus("đang chờ");
+               order1.setCustomerOrder(customer);
+               order1.setCreateDate(orderDTO.getCreateDate());
+               order1.setTotalMoney(orderDTO.getTotalMoney());
+               orderService.addNewOrder(order1);
+               result.setSuccess(true);
+               result.setMessage("Success add new order !");
+           }else {
+               result.setSuccess(false);
+               result.setMessage("Success add fail order !");
+           }
+
        } catch (Exception e) {
            e.printStackTrace();
            result.setSuccess(false);
@@ -126,7 +152,7 @@ public class OrderController {
        return result;
 
    }
-    // update theo id
+    // edit theo id
     @PutMapping("/update/{id}")
     public BaseApiResult updateOrder(@PathVariable String id,@RequestBody Order order){
         BaseApiResult result=new BaseApiResult();
@@ -153,20 +179,51 @@ public class OrderController {
         return result;
 
     }
-    // tim kiem
-    @GetMapping("/search")
-    public Page<Order> searchOrder(@RequestParam( value = "page") int page,
-                                         @RequestParam(name = "name") String name)
-    {
-        Pageable pageable =  PageRequest.of(page,5);
-        Page<Order> listSearch = orderService.searchOrderPage(pageable,name);
-        return listSearch ;
+
+    // update status
+    @PutMapping("updateStatus/{id}")
+        public BaseApiResult updateStatus(@PathVariable String id,@RequestBody Order order){
+            BaseApiResult result=new BaseApiResult();
+            Order order1=orderService.findOne(id);
+            order1.setStatus(order.getStatus());
+        try{
+            orderService.addNewOrder(order1);
+            result.setMessage("Update succes");
+            result.setSuccess(true);
+        } catch (Exception e){
+            e.printStackTrace();
+            result.setMessage("Update fail");
+            result.setSuccess(false);
+        }
+        return result;
+        }
+
+    // update money
+    // dung de cam nhat tien trong database khi add,edit oder
+
+    @PutMapping("/updateMoney/{idOrder}")
+    public BaseApiResult updateMoney( @PathVariable String idOrder){
+
+        BaseApiResult baseApiResult=new BaseApiResult();
+        Order order=orderService.getOrderById(idOrder);
+        order.setTotalMoney(orderService.getTotalMoney(idOrder));
+        try{
+            orderService.addNewOrder(order);
+            baseApiResult.setMessage("Update success");
+            baseApiResult.setSuccess(true);
+        } catch (Exception e){
+            e.printStackTrace();
+            baseApiResult.setMessage("Update fail");
+            baseApiResult.setSuccess(false);
+        }
+        return baseApiResult;
+
     }
+    // update list
 
+    //
 
-
-
-//
+// tim kiem
 
 
 

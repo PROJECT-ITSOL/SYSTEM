@@ -34,11 +34,13 @@ public class BillImportDetailApiController {
     public BaseApiResult addNewBillDetail(@RequestBody BillImportDetailDTO billImportDetailDTO){
         BaseApiResult baseApiResult = new BaseApiResult();
         BillImportDetail billImportDetail = new BillImportDetail();
+
         billImportDetail.setPrice(billImportDetailDTO.getPrice());
         billImportDetail.setAmount(billImportDetailDTO.getAmount());
         billImportDetail.setProductImport(billImportDetailDTO.getProduct());
         billImportDetail.setBillImport(billImportDetailDTO.getBillImport());
         billImportDetail.setTotalPrice(billImportDetailDTO.getTotalPrice());
+
         if(billImportDetailService.addNewBillDetail(billImportDetail)){
             baseApiResult.setSuccess(true);
             baseApiResult.setMessage("Success to add new Bill Import !");

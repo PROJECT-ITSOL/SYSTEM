@@ -64,9 +64,6 @@ public class Product {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productOrderDetail")
     private List<OrderDetail> orderDetails = new ArrayList<>();
 
-    @OneToMany(mappedBy = "productReturn", cascade = CascadeType.ALL)
-    private List<ProductReturn> productReturnList = new ArrayList<>();
-
 
     @OneToMany(mappedBy = "productImport", cascade = CascadeType.ALL)
     private List<BillImportDetail> importDetailList = new ArrayList<>();

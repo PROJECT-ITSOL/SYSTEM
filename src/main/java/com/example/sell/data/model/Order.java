@@ -45,9 +45,6 @@ public class Order {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "order")
     private List<OrderDetail> orderDetails = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "orderFail")
-    private List<ProductReturn> productReturns = new ArrayList<>();
-
 //    public void setCustomer(Customer customer) {
 
 

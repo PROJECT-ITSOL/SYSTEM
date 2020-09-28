@@ -1,12 +1,14 @@
 package com.example.sell.controller.api;
 
 import com.example.sell.constanst.RandomData;
+import com.example.sell.data.model.BillImportDetail;
 import com.example.sell.data.model.Category;
 import com.example.sell.data.model.Product;
 import com.example.sell.data.model.Supplier;
 import com.example.sell.data.service.CategoryService;
 import com.example.sell.data.service.ProductService;
 import com.example.sell.data.service.SupplierService;
+import com.example.sell.model.dto.BillImportDetailDTO;
 import com.example.sell.model.dto.ProductDTO;
 import com.example.sell.model.resutlData.BaseApiResult;
 import com.example.sell.model.resutlData.DataApiResult;
@@ -192,5 +194,25 @@ public class ProductApiController {
         return ResponseEntity.ok(productService.findAll());
     }
 
+
+    //Cập nhật số lượng sản phẩm khi nhập hàng
+    @PutMapping("/updateAmount/{id}")
+    public  BaseApiResult updateBillImport(@RequestBody BillImportDetailDTO billImportDetailDTO,
+                                           @PathVariable String id){
+        BaseApiResult baseApiResult = new BaseApiResult();
+       Product product = productService.findOne(id);
+        product.setAmount(product.getAmount()+billImportDetailDTO.getAmount());
+
+        try{
+            productService.addNewProduct(product);
+            baseApiResult.setMessage("Update success");
+            baseApiResult.setSuccess(true);
+        } catch (Exception e){
+            e.printStackTrace();
+            baseApiResult.setMessage("Update fail");
+            baseApiResult.setSuccess(false);
+        }
+        return baseApiResult;
+    }
 }
 

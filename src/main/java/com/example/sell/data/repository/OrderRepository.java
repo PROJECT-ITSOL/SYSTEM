@@ -18,35 +18,39 @@ import java.util.Optional;
 // tim kiem theo ten khach hang
 public interface OrderRepository extends JpaRepository<Order,String> {
     // fake data
-    @Query("select count(o.idOrder) from dbo_order o")
+    @Query("select count(ord.idOrder) from dbo_order ord")
     int getTotalOrder();
-        // tim kiem theo ngay date
+        // tim kiem theo tu ngay date1 toi ngay date 2
     @Query("select oder " +
             "from dbo_order oder " +
-            "where oder.createDate=:date")
-    List<Order> getListOrderDate(@Param("date") Date date);
+            " where oder.createDate>=:date1 or oder.createDate<=:date2")
+    List<Order> getListOrderDate(@Param("date") Date date1, Date date2);
     // tim kiem theo ma hoa don
-    //@Query("select oder from dbo_order oder where oder.idOrder=:idoder")
-   // List<Order> getOneOrder(@Param("idoder") boolean idoder);
+    @Query("select oder from dbo_order oder where oder.idOrder=:idoder")
+    Order getOneOrder(@Param("idoder") boolean idoder);
     // tim kiem theo ten khach hang
-    //@Query("select namekh from dbo_order namekh where namekh.customerOrder.name=:namekh")
-    //List<Order> getListseachName(@Param("namekh") boolean namekh);
+    @Query("select namekh from dbo_order namekh where namekh.customerOrder.name=:namekh")
+    List<Order> getListseachName(@Param("namekh") boolean namekh);
+    //tim kiem theo id order
 
+    // tim kiem theo ma khach hang
     @Query("select oder from dbo_order oder " +
-            "where (upper(oder.idOrder) like concat('%',upper(:keyword),'%') )")
+            "where (upper(oder.idCustomer) like concat('%',upper(:keyword),'%') )")
     Page<Order> getOrderByIdOrName(Pageable pageable, @Param("keyword") String keyWord);
-
-
     // cac ham tim kiem
             // + theo status
     @Query("select oder from dbo_order oder " +
-            "where oder.status=:status")
-    List<Order> getListOrderByStatus(@Param("status") String status);
+            "where (upper(oder.status) like concat('%',upper(:status),'%') )")
+    Page<Order> getListOrderByStatus(Pageable pageable,@Param("status") String status);
 
     @Query("delete from dbo_order where idOrder=:id ")
     //void deleteInBatch(String id);
 
     void deleteById(int id);
+
+    @Query("select sum(orderDetail.totalPrice) from dbo_order_detail orderDetail " +
+            "where orderDetail.idOrder=:idOrder")
+    Double totalMoney(@Param("idOrder") String idOrder);
 
     // void deleteInBatch(String id);
 

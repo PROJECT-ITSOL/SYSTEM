@@ -1,5 +1,6 @@
 package com.example.sell.data.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -48,6 +49,7 @@ public class Customer {
     private List<Comment> comments = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "customerOrder")
+    @JsonIgnore
     private List<Order> orders =  new ArrayList<>();
 
 }

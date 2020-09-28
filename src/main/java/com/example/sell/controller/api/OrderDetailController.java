@@ -63,6 +63,7 @@ public class OrderDetailController {
                     orderDetail.setOrder(order);
                     orderDetail.setProductOrderDetail(productList.get(random.nextInt(productList.size())));
                     orderDetail.setAmount(100 + i);
+                    orderDetail.setTotalPrice(new Random().nextInt(1000));
                     orderDetails.add(orderDetail);
                 }
             });
@@ -110,17 +111,45 @@ public class OrderDetailController {
     public List<OrderDetailDTO> getOrderDetailDTOList() {
         return orderDetailService.getAllOrderDetailList();
     }
-
+    //
+    // lay  tat ca danh sach
+//    @GetMapping("")
+//    public ResponseEntity<?> getListOrder(){
+//        List<Order> orderList= orderService.getAllOrderList();
+//        return ResponseEntity.ok(orderList);
+//    }
 
     @PostMapping("/addOrderDetail")
-    public BaseApiResult addNewOrderDetail(@RequestBody OrderDetail orderDetail) {
+    public BaseApiResult addNewOrderDetail(@RequestBody OrderDetailDTO orderDetailDTO) {
         BaseApiResult result = new BaseApiResult();
         // OrderDetail orderDetail1=new OrderDetail();
 
         try {
-            orderDetailService.addNewOrderDetail(orderDetail);
-            result.setSuccess(true);
-            result.setMessage("Success add new order detail !");
+            Product product=productService.findOne(orderDetailDTO.getIdProduct());
+            Order order=orderService.getOrderById(orderDetailDTO.getIdOrder());
+            OrderDetail orderDetail1=orderDetailService.getOne(orderDetailDTO.getIdOrderDetail());
+
+            if(orderDetail1==null){
+                orderDetail1=new OrderDetail();
+
+                orderDetail1.setIdOrderDetail(orderDetailDTO.getIdOrderDetail());
+                orderDetail1.setOrder(order);
+                orderDetail1.setIdOrder(orderDetailDTO.getIdOrder());
+                orderDetail1.setTotalPrice(orderDetailDTO.getTotalPrice());
+                orderDetail1.setIdProduct(orderDetailDTO.getIdProduct());
+                orderDetail1.setProductOrderDetail(product);
+                orderDetail1.setAmount(orderDetailDTO.getAmount());
+
+
+                orderDetailService.addNewOrderDetail(orderDetail1);
+                result.setSuccess(true);
+                result.setMessage("Success add new order detail !");
+            } else {
+                result.setSuccess(false);
+                result.setMessage("Success add fail order !");
+            }
+            //orderDetailService.addNewOrderDetail(orderDetail);
+
         } catch (Exception e) {
             e.printStackTrace();
             result.setSuccess(false);
@@ -130,20 +159,21 @@ public class OrderDetailController {
 
     }
 
-    @PutMapping("update/{id}")
+    @PutMapping("/update/{id}")
     public BaseApiResult updateOrderDetail(@PathVariable int id, @RequestBody OrderDetail orderDetail) {
         BaseApiResult result = new BaseApiResult();
         OrderDetail odrdl = orderDetailService.findOne(id);
 
        // odrdl.setIdOrderDetail(orderDetail.getIdOrderDetail());
        // odrdl.setIdOrder(orderDetail.getIdOrder());
-        odrdl.setIdProduct(orderDetail.getIdProduct());
+//        odrdl.setIdProduct(orderDetail.getIdProduct());
         odrdl.setAmount(orderDetail.getAmount());
+        odrdl.setTotalPrice(orderDetail.getTotalPrice());
        // odrdl.setOrder(orderDetail.getOrder());
        // odrdl.setProductOrderDetail(orderDetail.getProductOrderDetail());
 
         try {
-            orderService.addNewOrderDetail(odrdl);
+            orderDetailService.addNewOrderDetail(odrdl);
             result.setMessage("Update succes");
             result.setSuccess(true);
         } catch (Exception e) {

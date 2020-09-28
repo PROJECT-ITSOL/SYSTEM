@@ -74,7 +74,8 @@ public class ProductApiController {
         }
         return result;
     }
-
+    @GetMapping("")
+    public List<Product> getListProduct(){return productService.findAll();}
 // API Lấy ra danh sách sản phẩm.
     @GetMapping("/list")
     public ResponseEntity<Page<Product>> getListProducts(@RequestParam(value = "pageNo", required = false, defaultValue = "0") int pageNo,

@@ -58,6 +58,8 @@ public class CustomerApiController {
         }
         return result;
     }
+    @GetMapping("")
+    public List<Customer> getListCustomer(){return customerService.getAllListCustomer();}
     @GetMapping("/list")
     public ResponseEntity<Page<Customer>> getListCustomers(@RequestParam(value = "pageNo", required = false, defaultValue = "0") int pageNo,
                                                             @RequestParam(value = "pageSize", required = false, defaultValue = "7") int pageSize) {

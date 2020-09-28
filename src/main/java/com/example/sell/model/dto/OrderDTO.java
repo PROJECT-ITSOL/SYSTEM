@@ -2,15 +2,12 @@ package com.example.sell.model.dto;
 
 import com.example.sell.data.model.Customer;
 import com.example.sell.data.model.Order;
-import com.example.sell.data.repository.ProductRepository;
 import com.example.sell.data.service.OrderDetailService;
-import com.example.sell.data.service.ProductReturnService;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
 import java.util.Date;
 
 @Getter
@@ -27,7 +24,6 @@ public class OrderDTO {
     private Double totalMoney;
 
     OrderDetailService orderDetailService=new OrderDetailService();
-    ProductReturnService productReturnService=new ProductReturnService();
 
     public OrderDTO convertOrder(Order order){
         OrderDTO orderDTO=new OrderDTO();

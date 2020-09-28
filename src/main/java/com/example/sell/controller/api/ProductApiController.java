@@ -74,7 +74,7 @@ public class ProductApiController {
         }
         return result;
     }
-    @GetMapping("")
+    @GetMapping("/allProduct")
     public List<Product> getListProduct(){return productService.findAll();}
 // API Lấy ra danh sách sản phẩm.
     @GetMapping("/list")
@@ -83,11 +83,11 @@ public class ProductApiController {
         return new ResponseEntity<Page<Product>>(productService.getPageListProducts(pageNo, pageSize), HttpStatus.OK);
     }
     // all danh sach
-    @GetMapping("/all")
-    public List<Product> getAllProducts(){
-        return  productService.getAllProduct();
-
-    }
+//    @GetMapping("/all")
+//    public List<Product> getAllProducts(){
+//        return  productService.getAllProduct();
+//
+//    }
 // API xóa sản phẩm.
     @DeleteMapping("/delete/{idProduct}")
     public  BaseApiResult deleteProduct(@PathVariable String idProduct){

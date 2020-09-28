@@ -160,4 +160,18 @@ public class CustomerApiController {
         return result;
     }
 
+    @GetMapping("/listName")
+    public DataApiResult getListNameCustomer(){
+        DataApiResult result =new DataApiResult();
+        try {
+            result.setData(customerService.getListNameCustomer());
+            result.setSuccess(true);
+        } catch (Exception e) {
+            result.setSuccess(false);
+            result.setMessage(e.getMessage());
+            logger.error(e.getMessage());
+        }
+        return result;
+    }
+
 }

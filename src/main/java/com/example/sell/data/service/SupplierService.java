@@ -61,8 +61,8 @@ public class SupplierService{
     }
 
 
-    public Page<Supplier> searchSupplierPage(Pageable pageable,String name) {
-        return supplierRepository.getSuppByName(pageable,name);
+    public List<Supplier> searchSupplier(String name) {
+        return supplierRepository.getSuppByName(name);
     }
 
     public Page<Supplier> findAll(Pageable pageable) {

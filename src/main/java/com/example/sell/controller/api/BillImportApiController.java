@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.*;
 import org.apache.logging.log4j.Logger;
 
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("api/billImport")
@@ -40,7 +42,6 @@ public class BillImportApiController {
         DataApiResult result= new DataApiResult();
         List<BillImport> listBill =billImportService.getAllBillImport();
         try {
-
             Pageable pageable = PageRequest.of(page,5);
             int start = (int) pageable.getOffset();
             int end = (start + pageable.getPageSize())>listBill.size() ? listBill.size() : (start + pageable.getPageSize());
@@ -199,5 +200,15 @@ public class BillImportApiController {
             baseApiResult.setSuccess(false);
         }
         return baseApiResult;
+    }
+
+    //Thống kê
+    @GetMapping("/thongKe")
+    public Map thongKe(@RequestParam(value = "month") int month){
+        Map<String,Double> map = new HashMap<String,Double>();
+         map.put("totalBill",billImportService.getTotalBill(month));
+         map.put("totalProduct",billImportService.getAllProduct(month));
+         map.put("totalMoney",billImportService.getAllMoney(month));
+         return map;
     }
 }

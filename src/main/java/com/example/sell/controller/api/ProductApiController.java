@@ -187,6 +187,10 @@ public class ProductApiController {
         }
         return result;
     }
+    @GetMapping("/products")
+    public ResponseEntity<?> getAll(){
+        return ResponseEntity.ok(productService.findAll());
+    }
 
 }
 

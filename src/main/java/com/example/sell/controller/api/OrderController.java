@@ -32,43 +32,42 @@ public class OrderController {
     private OrderService orderService;
     @Autowired
     private CustomerService customerService;
-    @Autowired
+//    @Autowired
     //private
 
     //
     //@GetMapping("")
     // public ResponseEntity<?> getL
-//    @GetMapping("/fake")
-//    public BaseApiResult faBaseApiResult() {
-//        BaseApiResult result = new BaseApiResult();
-//
-//        try {
-//            List<Order> orders = new ArrayList<>();
-//            int totalOrder = orderService.getTotalOrder(); // so luong oj
-//            Random random = new Random();
-//            RandomData randomData = new RandomData();
-//            List<Customer> customerList = customerService.getAllListCustomer();
-//
-//            for (int i = totalOrder + 1; i < totalOrder + 10; i++) {
-//                Order order = new Order();
-////                order.setIdOrder(i); ko can
-//                order.setIdOrder(new RandomData().randomText(4));
-//                order.setCustomerOrder(customerList.get(random.nextInt(customerList.size())));
-//                order.setCreateDate(new Date());
-//                order.setStatus(new RandomData().radomStatusOrder());
-//                order.setTotalMoney(random.nextGaussian()); // ti sua lai
-//                orders.add(order);
-//            }
-//            orderService.addNewListOrder(orders);
-//            result.setSuccess(true);
-//            result.setMessage("Face list order success");
-//        } catch (Exception e) {
-//            result.setSuccess(false);
-//            result.setMessage(e.getMessage());
-//            logger.error(e.getMessage());
-//        }
-//        return result;
-//    }
+    @GetMapping("/fake")
+    public BaseApiResult faBaseApiResult() {
+        BaseApiResult result = new BaseApiResult();
+        try {
+            List<Order> orders = new ArrayList<>();
+            int totalOrder = orderService.getTotalOrder(); // so luong oj
+            Random random = new Random();
+            RandomData randomData = new RandomData();
+            List<Customer> customerList = customerService.getAllListCustomer();
+
+            for (int i = totalOrder + 1; i < totalOrder + 10; i++) {
+                Order order = new Order();
+//                order.setIdOrder(i); ko can
+                order.setIdOrder(new RandomData().randomText(4));
+                order.setCustomerOrder(customerList.get(random.nextInt(customerList.size())));
+                order.setCreateDate(new Date());
+                order.setStatus(new RandomData().radomStatusOrder());
+                order.setTotalMoney(random.nextGaussian()); // ti sua lai
+                orders.add(order);
+            }
+            orderService.addNewListOrder(orders);
+            result.setSuccess(true);
+            result.setMessage("Face list order success");
+        } catch (Exception e) {
+            result.setSuccess(false);
+            result.setMessage(e.getMessage());
+            logger.error(e.getMessage());
+        }
+        return result;
+    }
 
     // lay  tat ca danh sach
     @GetMapping("")
@@ -221,7 +220,7 @@ public class OrderController {
 
     }
     // update list
-   
+
     //
 
 // tim kiem

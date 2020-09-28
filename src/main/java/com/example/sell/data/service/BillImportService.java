@@ -77,6 +77,21 @@ public class BillImportService {
         return billImportRepository.totalAmount(idBillImport);
     }
 
+    //Total Bill
+    public  Double getTotalBill(int month){
+        return billImportRepository.totalBillImport(month);
+    }
+
+    //Total product
+    public Double getAllProduct(int month){
+        return billImportRepository.totalProduct(month);
+    }
+
+    //Total product
+    public Double getAllMoney(int month){
+        return billImportRepository.totalMoney(month);
+    }
+
 
 }
 

@@ -15,16 +15,20 @@ import lombok.Setter;
 public class OrderDetailDTO {
     private int idOrderDetail;
     private String idOrder;
-//    private String idProduct;
+    private Order order;
+    private String idProduct;
     private Product productOrderDetail;
     private int amount;
+    private int totalPrice;
 
     public OrderDetailDTO converOrderDetail(OrderDetail orderDetail){
-        OrderDetailDTO orderDetailDTO= new OrderDetailDTO();
-
+            OrderDetailDTO orderDetailDTO= new OrderDetailDTO();
             orderDetailDTO.setIdOrderDetail(orderDetail.getIdOrderDetail());
             orderDetailDTO.setIdOrder(orderDetail.getIdOrder());
+            orderDetailDTO.setOrder(orderDetail.getOrder());
             orderDetailDTO.setAmount(orderDetail.getAmount());
+            orderDetailDTO.setTotalPrice((int) (orderDetail.getAmount()*orderDetail.getProductOrderDetail().getPrice()));
+            orderDetailDTO.setIdProduct(orderDetail.getIdProduct());
             orderDetailDTO.setProductOrderDetail(orderDetail.getProductOrderDetail());
             return orderDetailDTO;
     }

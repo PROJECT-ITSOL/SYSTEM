@@ -26,6 +26,10 @@ public class OrderService {
     @Autowired
     private OrderRepository orderRepository;
 
+    public  Double getTotalMoney(String idOrder) {
+        return orderRepository.totalMoney(idOrder);
+    }
+
     public  Page<Order> getPageListOders(int pageNo, int pageSize) {
         return orderRepository.findAll(PageRequest.of(pageNo, pageSize));
     }
@@ -40,6 +44,7 @@ public class OrderService {
             return false;
         }
     }
+
 
 
     public int getTotalOrder() {
@@ -91,20 +96,11 @@ public class OrderService {
         return  orderRepository.findById(id).orElse(null);
     }
 
-    public List<Order> getListOrderByStatus(String status) {
-        return orderRepository.getListOrderByStatus(status);
+    public Page<Order> getListOrderByStatus(Pageable pageable, String status) {
+        Page<Order> listPageOrder= orderRepository.getListOrderByStatus(pageable,status);
+        //return orderRepository.getListOrderByStatus(status);
+        return listPageOrder;
     }
-
-//    public boolean deleteInBatch(String id) {
-//        try {
-//            orderRepository.deleteInBatch(id);
-//            return true;
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return false;
-//        }
-//    }
-
 
     public Page<Order> searchOrderPage(Pageable pageable, String keyWord) {
         return orderRepository.getOrderByIdOrName(pageable,keyWord);
@@ -112,6 +108,11 @@ public class OrderService {
 
 
     public void addNewOrderDetail(OrderDetail odrdl) {
+
+    }
+
+    public Order getOne(String idOrder) {
+        return orderRepository.findById(idOrder).orElse(null);
     }
 
 //    public boolean deleteOrderDetail(String id) {

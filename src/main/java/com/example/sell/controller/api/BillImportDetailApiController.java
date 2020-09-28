@@ -34,11 +34,13 @@ public class BillImportDetailApiController {
     public BaseApiResult addNewBillDetail(@RequestBody BillImportDetailDTO billImportDetailDTO){
         BaseApiResult baseApiResult = new BaseApiResult();
         BillImportDetail billImportDetail = new BillImportDetail();
+
         billImportDetail.setPrice(billImportDetailDTO.getPrice());
         billImportDetail.setAmount(billImportDetailDTO.getAmount());
         billImportDetail.setProductImport(billImportDetailDTO.getProduct());
         billImportDetail.setBillImport(billImportDetailDTO.getBillImport());
         billImportDetail.setTotalPrice(billImportDetailDTO.getTotalPrice());
+
         if(billImportDetailService.addNewBillDetail(billImportDetail)){
             baseApiResult.setSuccess(true);
             baseApiResult.setMessage("Success to add new Bill Import !");
@@ -52,15 +54,16 @@ public class BillImportDetailApiController {
 
     //Cập nhật
     @PutMapping("update/{id}")
-    public BaseApiResult editBillDetail(@RequestBody BillImportDetail billImportDetail,
+    public BaseApiResult editBillDetail(@RequestBody BillImportDetailDTO billImportDetailDTO,
                                         @PathVariable int id){
         BaseApiResult baseApiResult = new BaseApiResult();
-        BillImportDetail billImportDetail1 = billImportDetailService.getBillDetailById(id);
-        billImportDetail1.setAmount(billImportDetail.getAmount());
-//        billImportDetail1.setProductImport(billImportDetail.getProductImport());
-//        billImportDetail1.setIdProduct(billImportDetail.getIdProduct());
-//        billImportDetail1.setIdBillImport(billImportDetail.getIdBillImport());
-        if(billImportDetailService.addNewBillDetail(billImportDetail1)){
+        BillImportDetail billImportDetail = billImportDetailService.getBillDetailById(id);
+        billImportDetail.setPrice(billImportDetailDTO.getPrice());
+        billImportDetail.setAmount(billImportDetailDTO.getAmount());
+        billImportDetail.setProductImport(billImportDetailDTO.getProduct());
+        billImportDetail.setTotalPrice(billImportDetailDTO.getTotalPrice());
+
+        if(billImportDetailService.addNewBillDetail(billImportDetail)){
             baseApiResult.setSuccess(true);
             baseApiResult.setMessage("Success to update Bill Import !");
         }else {

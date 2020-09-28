@@ -58,12 +58,14 @@ public class CustomerApiController {
         }
         return result;
     }
+    @GetMapping("/allCustomer")
+    public List<Customer> getListCustomer(){return customerService.getAllListCustomer();}
     // lay ra tat ca danh sach
-    @GetMapping("/all")
-    public  ResponseEntity<?> getAllCustomers(){
-        List<Customer> customers= customerService.getAllListCustomer();
-        return ResponseEntity.ok(customers);
-    }
+//    @GetMapping("/all")
+//    public  ResponseEntity<?> getAllCustomers(){
+//        List<Customer> customers= customerService.getAllListCustomer();
+//        return ResponseEntity.ok(customers);
+//    }
     @GetMapping("/list")
     public ResponseEntity<Page<Customer>> getListCustomers(@RequestParam(value = "pageNo", required = false, defaultValue = "0") int pageNo,
                                                             @RequestParam(value = "pageSize", required = false, defaultValue = "7") int pageSize) {

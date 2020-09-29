@@ -20,7 +20,9 @@ public interface OrderDetailRepository extends JpaRepository<OrderDetail,Integer
     @Query("select o from dbo_order_detail o " +
             "where o.idOrder=:idOrder")
     List<OrderDetail> getOrderDetailByIdOrder(@Param("idOrder") String idOrder);
-
+    @Query("select sum(detail.amount) from dbo_order_detail  detail " +
+            "where detail.idProduct=:idProduct")
+    Integer totalAmountOrder(@Param("idProduct") String idProduct);
     // tim kiem
 //    @Query("select  orderdetail from dbo_order_detail orderdetail" +
 //            "where (upper(orderdetail.idOrderDetail) like concat('%',upper(:keyword),'%') ) ")

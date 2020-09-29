@@ -83,7 +83,6 @@ public class BillImportDetailService {
             return false;
         }
     }
-
     //Cập nhật số lượng product sau khi nhập hàng
     public int updateAmount(String id){
         return (billImportDetailRepository.totalAmountImport(id));

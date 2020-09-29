@@ -101,7 +101,10 @@ public class OrderDetailService {
             return false;
         }
     }
-
+    //Cập nhật số lượng product sau khi Order
+    public int updateAmountOrder(String id){
+        return (orderDetailRepository.totalAmountOrder(id));
+    }
     public OrderDetail getOrderById(int id) {
         return orderDetailRepository.findById(id).orElse(null);
     }

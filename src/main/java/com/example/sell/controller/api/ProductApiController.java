@@ -49,12 +49,9 @@ public class ProductApiController {
     private SupplierService supplierService;
 
     @Autowired
-<<<<<<< HEAD
     private OrderDetailService orderDetailService;
 
     @Autowired
-=======
->>>>>>> 7fbb1cf0c58b678888720f922dd92d23c0025824
     private BillImportDetailService billImportDetailService;
 
     @GetMapping("/fake")
@@ -151,22 +148,22 @@ public class ProductApiController {
         return result;
     }
 //API CAP NHAP SAN PHAM KHI NHAP THEM HANG
-    @PutMapping("/updateAmountImport/{id}")
-    public BaseApiResult updateImportProduct(@PathVariable String id, @RequestBody ProductDTO productDTO){
-        BaseApiResult result = new BaseApiResult();
-        Product product = productService.findOne(id);
-        product.setAmount(billImportDetailService.updateAmount(id));
-        try {
-            productService.addNewProduct(product);
-            result.setSuccess(true);
-            result.setMessage("Update success");
-        } catch (Exception e) {
-            e.printStackTrace();
-            result.setSuccess(false);
-            result.setMessage("Update fail");
-        }
-        return result;
-    }
+//    @PutMapping("/updateAmountImport/{id}")
+//    public BaseApiResult updateImportProduct(@PathVariable String id, @RequestBody ProductDTO productDTO){
+//        BaseApiResult result = new BaseApiResult();
+//        Product product = productService.findOne(id);
+//        product.setAmount(billImportDetailService.updateAmount(id));
+//        try {
+//            productService.addNewProduct(product);
+//            result.setSuccess(true);
+//            result.setMessage("Update success");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            result.setSuccess(false);
+//            result.setMessage("Update fail");
+//        }
+//        return result;
+//    }
 // API CAP NHAP SO LUONG SAN PHAM KHI CO DON TU KHACH HANG
     @PutMapping("/updateOrderInProduct/{id}")
     public BaseApiResult updateOrderInProduct(@PathVariable String id, @RequestBody ProductDTO productDTO){

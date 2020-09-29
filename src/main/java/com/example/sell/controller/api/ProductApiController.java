@@ -5,6 +5,7 @@ import com.example.sell.data.model.BillImportDetail;
 import com.example.sell.data.model.Category;
 import com.example.sell.data.model.Product;
 import com.example.sell.data.model.Supplier;
+import com.example.sell.data.service.BillImportDetailService;
 import com.example.sell.data.service.CategoryService;
 import com.example.sell.data.service.ProductService;
 import com.example.sell.data.service.SupplierService;
@@ -40,6 +41,9 @@ public class ProductApiController {
 
     @Autowired
     private SupplierService supplierService;
+
+    @Autowired
+    private BillImportDetailService billImportDetailService;
 
     @GetMapping("/fake")
     public BaseApiResult fakeProduct() {
@@ -197,13 +201,31 @@ public class ProductApiController {
 
 
     //Cập nhật số lượng sản phẩm khi nhập hàng
-    @PutMapping("/updateAmount/{id}")
-    public  BaseApiResult updateBillImport(@RequestBody BillImportDetailDTO billImportDetailDTO,
-                                           @PathVariable String id){
-        BaseApiResult baseApiResult = new BaseApiResult();
-       Product product = productService.findOne(id);
-        product.setAmount(product.getAmount()+billImportDetailDTO.getAmount());
+//    @PutMapping("/updateAmount/{id}")
+//    public  BaseApiResult updateBillImport(@RequestBody BillImportDetailDTO billImportDetailDTO,
+//                                           @PathVariable String id){
+//        BaseApiResult baseApiResult = new BaseApiResult();
+//       Product product = productService.findOne(id);
+//        product.setAmount(product.getAmount()+billImportDetailDTO.getAmount());
+//
+//        try{
+//            productService.addNewProduct(product);
+//            baseApiResult.setMessage("Update success");
+//            baseApiResult.setSuccess(true);
+//        } catch (Exception e){
+//            e.printStackTrace();
+//            baseApiResult.setMessage("Update fail");
+//            baseApiResult.setSuccess(false);
+//        }
+//        return baseApiResult;
+//    }
 
+    @PutMapping("/updateAmountImport/{id}")
+    public BaseApiResult updateAmount( @RequestBody ProductDTO productDTO,
+            @PathVariable String id){
+        BaseApiResult baseApiResult = new BaseApiResult();
+        Product product = productService.findOne(id);
+        product.setAmount(billImportDetailService.updateAmount(id));
         try{
             productService.addNewProduct(product);
             baseApiResult.setMessage("Update success");
@@ -215,5 +237,7 @@ public class ProductApiController {
         }
         return baseApiResult;
     }
+
+
 }
 

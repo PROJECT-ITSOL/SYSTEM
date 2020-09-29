@@ -1,9 +1,7 @@
 package com.example.sell.data.service;
 
-import com.example.sell.data.model.Category;
 import com.example.sell.data.model.Order;
 import com.example.sell.data.model.OrderDetail;
-import com.example.sell.data.model.Supplier;
 import com.example.sell.data.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -115,6 +113,23 @@ public class OrderService {
         return orderRepository.findById(idOrder).orElse(null);
     }
 
-//    public boolean deleteOrderDetail(String id) {
+    public List<Order> searchOrderById(String keyword) {
+        return orderRepository.searchById(keyword);
+    }
+
+//    /// phan thong ke
+//    public Double getAllOrder(int month) {
+//        return orderRepository.getAllOrder(month);
+//    }
+//
+////    public Double getAllProduct(int month) {
+////        return  orderRepository.getAllProduct(month);
+////    }
+//
+//    public Double getAllMoney(int month) {
+//        return  orderRepository.getAllMoney(month);
+//    }
+//
+////    public boolean deleteOrderDetail(String id) {
 //    }
 }

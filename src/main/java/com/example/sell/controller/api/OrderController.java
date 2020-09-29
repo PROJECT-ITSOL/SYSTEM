@@ -96,14 +96,40 @@ public class OrderController {
         Page<Order> listPage = orderService.getListOrderByStatus(pageable,status);
         return listPage;
     }
+    // ham tim kiem
+//    @GetMapping("/serch")
+//    public  BaseApiResult searchOrder(@RequestParam(value = "keyword") String keyWord,
+//                                      @RequestParam(value = "pageNo", required = false, defaultValue = "0") int pageNo,
+//                                      @RequestParam(value = "pageSize", required = false, defaultValue = "7") int pageSize){
+//        DataApiResult result = new DataApiResult();
+//        Sort sort = Sort.by("id").ascending();
+//        Pageable pageable = PageRequest.of(pageNo, pageSize,sort);
+//        try {
+//            Page<Order> pageOrder = orderService.getOrderByIdOrName(pageable, keyWord);
+//            if (pageOrder.isEmpty()){
+//                result.setSuccess(false);
+//                result.setMessage("Not Found.");
+//            }else {
+//                result.setSuccess(true);
+//                result.setData(pageOrder);
+//            }
+//        }catch (Exception e){
+//            result.setSuccess(false);
+//            result.setMessage(e.getMessage());
+//            logger.error(e.getMessage());
+//        }
+//        return result;
+//    }
     // tim kiem theo id khach hang
     @GetMapping("/searchCustomer")
-    public Page<Order> searchOrder(@RequestParam( value = "page") int page,
+    public Page<Order> searchOrderByCustomer(@RequestParam( value = "page") int page,
                                    @RequestParam(name = "name") String name) {
         Pageable pageable =  PageRequest.of(page,8);
         Page<Order> listSearch = orderService.searchOrderPage(pageable,name);
         return listSearch ;
     }
+
+
     // tim kiem theo name customer
     // fontEnd loc list customer
 
@@ -186,6 +212,7 @@ public class OrderController {
             BaseApiResult result=new BaseApiResult();
             Order order1=orderService.findOne(id);
             order1.setStatus(order.getStatus());
+            order1.setCreateDate(order.getCreateDate());
         try{
             orderService.addNewOrder(order1);
             result.setMessage("Update succes");
@@ -219,7 +246,15 @@ public class OrderController {
         return baseApiResult;
 
     }
-    // update list
+    // thống kê
+//    @GetMapping("/thongke")
+//    public Map thongKe(@RequestParam(value = "month") int month){
+//        Map<String,Double> map = new HashMap<String,Double>();
+//        map.put("totalOrder",orderService.getAllOrder(month));
+////        map.put("totalProduct",orderService.getAllProduct(month));
+//        map.put("totalMoney",orderService.getAllMoney(month));
+//        return map;
+//    }
 
     //
 

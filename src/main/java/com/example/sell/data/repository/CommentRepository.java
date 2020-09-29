@@ -46,4 +46,7 @@ public interface CommentRepository extends JpaRepository<Comment, Integer> {
             "where c.createDate=:createDate ")
 //    List<Comment>
     Integer countCommentByDate(@Param("createDate") Date createDate);
+//    @Query("select c from dbo_comment c " +
+//            "where year(c.createDate)=:year")
+//    List<Comment> getCommentByYear(@Param("year") int year);
 }

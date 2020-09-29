@@ -18,6 +18,7 @@ import org.springframework.data.domain.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.DateFormatSymbols;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -153,14 +154,14 @@ public class CommentApiController {
     }
 
     @GetMapping("/statistical")
-    public DataApiResult StatisticalComment(){
+    public DataApiResult StatisticalComment() {
         DataApiResult result = new DataApiResult();
         Calendar calendar = Calendar.getInstance();
         int yearNow = calendar.get(Calendar.YEAR);
-        Map<String,Object> data=new HashMap<>();
-        List<String> months= Arrays.asList(new DateFormatSymbols().getMonths());
-        data.put("years",new GetListYear().getYears(commentService.getYear()));
-
+        Map<String, Object> data = new HashMap<>();
+        List<String> months = Arrays.asList(new DateFormatSymbols().getMonths());
+        data.put("months", months);
+        data.put("years", new GetListYear().getYears(commentService.getYear()));
         result.setSuccess(true);
         result.setData(data);
         return result;

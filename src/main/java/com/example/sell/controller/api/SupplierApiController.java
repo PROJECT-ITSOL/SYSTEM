@@ -42,6 +42,23 @@ public class SupplierApiController {
     }
 
 
+    //Tìm kiếm theo tên
+    @GetMapping("/search")
+    public List<Supplier> searchSupplier(@RequestParam(name = "name") String name){
+        List<Supplier> listSearch = supplierService.searchSupplier(name);
+        return listSearch ;
+    }
+
+    //Tìm kiếm theo status
+    @GetMapping("/status")
+    public List<Supplier> getSupplierByStatus(
+            @RequestParam(value = "status") Boolean status) {
+
+        List<Supplier> listSupplier = supplierService.getListSupplierByStatus(status);
+        return listSupplier;
+    }
+
+
     //Xóa supplier theo id
     @DeleteMapping("/delete")
     public BaseApiResult delete(@RequestParam(value = "id", required = true) int id) {
@@ -60,6 +77,8 @@ public class SupplierApiController {
     @PostMapping("/addSupplier")
     public BaseApiResult addNewSupplier(@RequestBody Supplier supplier) {
         BaseApiResult result = new BaseApiResult();
+        Supplier supplier1 = supplierService.findOne(supplier.getIdSupplier());
+        if (supplier1==null){
         try {
             supplierService.addNewSupplier(supplier);
             result.setSuccess(true);
@@ -68,6 +87,10 @@ public class SupplierApiController {
             e.printStackTrace();
             result.setSuccess(false);
             result.setMessage("Fail to add new supplier!");
+        }
+        }else{
+            result.setSuccess(false);
+            result.setMessage("Supplier đã tồn tại");
         }
         return result;
 
@@ -97,21 +120,6 @@ public class SupplierApiController {
     }
 
 
-    //Tìm kiếm theo tên
-    @GetMapping("/search")
-    public List<Supplier> searchSupplier(@RequestParam(name = "name") String name){
-        List<Supplier> listSearch = supplierService.searchSupplier(name);
-        return listSearch ;
-    }
-
-    //Tìm kiếm theo status
-    @GetMapping("/status")
-    public List<Supplier> getSupplierByStatus(
-                                              @RequestParam(value = "status") Boolean status) {
-
-        List<Supplier> listSupplier = supplierService.getListSupplierByStatus(status);
-        return listSupplier;
-    }
 
 }
 

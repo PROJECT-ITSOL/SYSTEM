@@ -8,10 +8,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.expression.Expression;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 public interface CommentRepository extends JpaRepository<Comment, Integer> {
+
 
     @Query("select count(c.idComment) from dbo_comment c")
     int getTotalComment();
@@ -33,4 +37,13 @@ public interface CommentRepository extends JpaRepository<Comment, Integer> {
     @Query("select cmt from dbo_comment cmt " +
             "where cmt.customer.name=:nameCustomer")
     Iterable<Comment> getListCommentByNameCustomer(@Param("nameCustomer") String nameCustomer);
+
+    @Transactional(readOnly = true)
+    @Query("select distinct c.createDate from dbo_comment c ")
+    List<Date> getYear();
+
+    @Query("select count(c.idComment) from dbo_comment c " +
+            "where c.createDate=:createDate ")
+//    List<Comment>
+    Integer countCommentByDate(@Param("createDate") Date createDate);
 }

@@ -1,5 +1,6 @@
 package com.example.sell.controller.api;
 
+import com.example.sell.constanst.GetListYear;
 import com.example.sell.constanst.RandomData;
 import com.example.sell.data.model.Comment;
 import com.example.sell.data.model.Customer;
@@ -16,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.DateFormatSymbols;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @RestController
@@ -146,6 +149,20 @@ public class CommentApiController {
             result.setSuccess(false);
             result.setMessage(e.getMessage());
         }
+        return result;
+    }
+
+    @GetMapping("/statistical")
+    public DataApiResult StatisticalComment(){
+        DataApiResult result = new DataApiResult();
+        Calendar calendar = Calendar.getInstance();
+        int yearNow = calendar.get(Calendar.YEAR);
+        Map<String,Object> data=new HashMap<>();
+        List<String> months= Arrays.asList(new DateFormatSymbols().getMonths());
+        data.put("years",new GetListYear().getYears(commentService.getYear()));
+
+        result.setSuccess(true);
+        result.setData(data);
         return result;
     }
 }

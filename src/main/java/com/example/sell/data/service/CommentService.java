@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -86,5 +87,11 @@ public class CommentService {
             logger.error(e.getMessage());
             return new ArrayList<>();
         }
+    }
+    public List<Date> getYear(){
+        return commentRepository.getYear();
+    }
+    public int getCountByCreateDate(Date date){
+        return commentRepository.countCommentByDate(date);
     }
 }

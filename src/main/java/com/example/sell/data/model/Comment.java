@@ -1,5 +1,6 @@
 package com.example.sell.data.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -42,6 +43,7 @@ public class Comment {
     @Column(name = "image")
     private String image;
 
+    @Temporal(TemporalType.DATE)
     @Column(name = "create_date")
     private Date createDate;
 

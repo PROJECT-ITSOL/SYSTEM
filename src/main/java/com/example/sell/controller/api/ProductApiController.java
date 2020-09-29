@@ -157,6 +157,7 @@ public class ProductApiController {
 //        }
 //        return result;
 //    }
+
 // API CAP NHAP SO LUONG SAN PHAM KHI CO DON TU KHACH HANG
     @PutMapping("/updateOrderInProduct/{id}")
     public BaseApiResult updateOrderInProduct(@PathVariable String id, @RequestBody ProductDTO productDTO){
@@ -164,7 +165,7 @@ public class ProductApiController {
         Product product = productService.findOne(id);
         product.setAmount(orderDetailService.updateAmountOrder(id));
         try {
-            productService.addNewProduct(product);
+            productService.deleteProduct(id);
             result.setSuccess(true);
             result.setMessage("Update Order Success.");
         } catch (Exception e) {

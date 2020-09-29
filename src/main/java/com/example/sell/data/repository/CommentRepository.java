@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.query.Param;
 import org.springframework.expression.Expression;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,11 +43,13 @@ public interface CommentRepository extends JpaRepository<Comment, Integer> {
     @Query("select distinct c.createDate from dbo_comment c ")
     List<Date> getYear();
 
-    @Query("select count(c.idComment) from dbo_comment c " +
-            "where c.createDate=:createDate ")
+    @Query(value = "select count(c.idComment) from dbo_comment c " +
+            "where c.createDate=:createDate ", nativeQuery = true)
 //    List<Comment>
     Integer countCommentByDate(@Param("createDate") Date createDate);
-//    @Query("select c from dbo_comment c " +
-//            "where year(c.createDate)=:year")
-//    List<Comment> getCommentByYear(@Param("year") int year);
+
+    //    @Procedure(procedureName = "get_comment_by_year_month(:year,:month)")
+    @Query(value = "select count(id_comment) from dbo_comment " +
+            "where year(create_date)=:year and month(create_date)=:month ", nativeQuery = true)
+    Integer getCommentByYearAndMonth(@Param("year") int year, @Param("month") int month);
 }

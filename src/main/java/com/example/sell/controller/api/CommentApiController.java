@@ -18,9 +18,8 @@ import org.springframework.data.domain.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.DateFormatSymbols;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @RestController
 @RequestMapping("/api/comment")
@@ -46,16 +45,20 @@ public class CommentApiController {
             int totalComment = commentService.getTotalComment();
             Random random = new Random();
             RandomData randomData = new RandomData();
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.YEAR, 2020);
+            calendar.set(Calendar.MONTH, 5);
+            calendar.set(Calendar.DAY_OF_MONTH, 12);
             List<Customer> customerList = customerService.getAllListCustomer();
             List<Product> productList = productService.findAll();
-            for (int i = totalComment + 1; i < totalComment + 30; i++) {
+            for (int i = totalComment + 1; i < totalComment + 15; i++) {
                 Comment comment = new Comment();
 //                comment.setIdComment(i);
                 comment.setCustomer(customerList.get(random.nextInt(customerList.size())));
                 comment.setProduct(productList.get(random.nextInt(productList.size())));
                 comment.setContent(randomData.randomText(100));
                 comment.setImage("https://xixon-knight.000webhostapp.com/product-gym/comment.jpg");
-                comment.setCreateDate(new Date());
+                comment.setCreateDate(calendar.getTime());
                 commentList.add(comment);
             }
             commentService.addNewListComment(commentList);
@@ -154,14 +157,39 @@ public class CommentApiController {
     }
 
     @GetMapping("/statistical")
-    public DataApiResult StatisticalComment() {
+    public DataApiResult StatisticalComment(@RequestParam(name = "year", required = false, defaultValue = "0") int year) {
         DataApiResult result = new DataApiResult();
+        Map<String, Object> data = new HashMap<>();
+        Map<String, Integer> commentByMonth = new HashMap<>();
+        List<Integer> years = new ArrayList<>();
         Calendar calendar = Calendar.getInstance();
         int yearNow = calendar.get(Calendar.YEAR);
-        Map<String, Object> data = new HashMap<>();
-        List<String> months = Arrays.asList(new DateFormatSymbols().getMonths());
+        years.addAll(new GetListYear().getYears(commentService.getYear()));
+        List<String> months=new ArrayList<>();
+        Arrays.asList(new DateFormatSymbols().getMonths()).stream().filter(s->s!="")
+                            .forEach(s->{
+                                months.add(s);
+                            });
         data.put("months", months);
-        data.put("years", new GetListYear().getYears(commentService.getYear()));
+        data.put("years", years);
+        if (year == 0) {
+            AtomicInteger i = new AtomicInteger(1);
+            months.stream()
+                    .filter(s -> s != "")
+                    .forEach(s -> {
+                        commentByMonth.put(s, commentService.getCommentByYearAndMonth(yearNow, i.get()));
+                        i.getAndIncrement();
+                    });
+        } else {
+            AtomicInteger i = new AtomicInteger(1);
+            months.stream()
+                    .filter(s -> s != "")
+                    .forEach(s -> {
+                        commentByMonth.put(s, commentService.getCommentByYearAndMonth(year, i.get()));
+                        i.getAndIncrement();
+                    });
+        }
+        data.put("data", commentByMonth);
         result.setSuccess(true);
         result.setData(data);
         return result;

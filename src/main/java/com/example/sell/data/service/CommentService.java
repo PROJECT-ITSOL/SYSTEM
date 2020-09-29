@@ -91,7 +91,7 @@ public class CommentService {
     public List<Date> getYear(){
         return commentRepository.getYear();
     }
-    public int getCountByCreateDate(Date date){
-        return commentRepository.countCommentByDate(date);
+    public Integer getCommentByYearAndMonth(int year,int month){
+        return commentRepository.getCommentByYearAndMonth(year,month);
     }
 }

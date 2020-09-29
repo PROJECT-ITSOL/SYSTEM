@@ -4,9 +4,9 @@ import com.example.sell.constanst.RandomData;
 import com.example.sell.data.model.Category;
 import com.example.sell.data.model.Product;
 import com.example.sell.data.model.Supplier;
-import com.example.sell.data.service.CategoryService;
-import com.example.sell.data.service.ProductService;
-import com.example.sell.data.service.SupplierService;
+import com.example.sell.data.service.*;
+import com.example.sell.model.dto.BillImportDetailDTO;
+import com.example.sell.model.dto.OrderDetailDTO;
 import com.example.sell.model.dto.ProductDTO;
 import com.example.sell.model.resutlData.BaseApiResult;
 import com.example.sell.model.resutlData.DataApiResult;
@@ -38,6 +38,12 @@ public class ProductApiController {
 
     @Autowired
     private SupplierService supplierService;
+
+    @Autowired
+    private OrderDetailService orderDetailService;
+
+    @Autowired
+    private BillImportDetailService billImportDetailService;
 
     @GetMapping("/fake")
     public BaseApiResult fakeProduct() {
@@ -82,12 +88,7 @@ public class ProductApiController {
                                                          @RequestParam(value = "pageSize", required = false, defaultValue = "7") int pageSize){
         return new ResponseEntity<Page<Product>>(productService.getPageListProducts(pageNo, pageSize), HttpStatus.OK);
     }
-    // all danh sach
-//    @GetMapping("/all")
-//    public List<Product> getAllProducts(){
-//        return  productService.getAllProduct();
-//
-//    }
+
 // API xóa sản phẩm.
     @DeleteMapping("/delete/{idProduct}")
     public  BaseApiResult deleteProduct(@PathVariable String idProduct){
@@ -137,7 +138,40 @@ public class ProductApiController {
         }
         return result;
     }
-
+//API CAP NHAP SAN PHAM KHI NHAP THEM HANG
+    @PutMapping("/updateAmountImport/{id}")
+    public BaseApiResult updateImportProduct(@PathVariable String id, @RequestBody ProductDTO productDTO){
+        BaseApiResult result = new BaseApiResult();
+        Product product = productService.findOne(id);
+        product.setAmount(billImportDetailService.updateAmount(id));
+        try {
+            productService.addNewProduct(product);
+            result.setSuccess(true);
+            result.setMessage("Update success");
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setSuccess(false);
+            result.setMessage("Update fail");
+        }
+        return result;
+    }
+// API CAP NHAP SO LUONG SAN PHAM KHI CO DON TU KHACH HANG
+    @PutMapping("/updateOrderInProduct/{id}")
+    public BaseApiResult updateOrderInProduct(@PathVariable String id, @RequestBody ProductDTO productDTO){
+        BaseApiResult result = new BaseApiResult();
+        Product product = productService.findOne(id);
+        product.setAmount(orderDetailService.updateAmountOrder(id));
+        try {
+            productService.addNewProduct(product);
+            result.setSuccess(true);
+            result.setMessage("Update Order Success.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setSuccess(false);
+            result.setMessage("Update Order Fail");
+        }
+        return result;
+    }
 // API Cập nhập(Sửa) sản phẩm.
     @PutMapping("/update/{idProduct}")
     public BaseApiResult updateProduct(@PathVariable String idProduct, @RequestBody ProductDTO productDTO){

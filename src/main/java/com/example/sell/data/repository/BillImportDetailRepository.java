@@ -12,6 +12,8 @@ public interface BillImportDetailRepository extends JpaRepository<BillImportDeta
 
 
         List<BillImportDetail> getBillImportDetailByIdBillImport(@Param("idBillImport") String idBillImport);
-
+        @Query("select sum(detail.amount) from dbo_bill_import_detail detail " +
+                "where detail.idProduct=:idProduct")
+        Integer totalAmountImport(@Param("idProduct") String idProduct);
 
 }

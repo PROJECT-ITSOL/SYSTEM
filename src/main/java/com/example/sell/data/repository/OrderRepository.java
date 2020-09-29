@@ -34,13 +34,13 @@ public interface OrderRepository extends JpaRepository<Order,String> {
     //tim kiem theo id order
 
     // tim kiem theo ma khach hang
-    @Query("select oder from dbo_order oder " +
-            "where (upper(oder.idCustomer) like concat('%',upper(:keyword),'%') )")
-    Page<Order> getOrderByIdOrName(Pageable pageable, @Param("keyword") String keyWord);
+    @Query(" select oder from dbo_order oder " +
+            " where (upper(oder.idOrder) like concat('%',upper(:keyword),'%') )")
+    Page<Order> getOrderByIdOrName(Pageable pageable, @Param("keyword") String keyword);
     // cac ham tim kiem
             // + theo status
     @Query("select oder from dbo_order oder " +
-            "where (upper(oder.status) like concat('%',upper(:status),'%') )")
+            " where (upper(oder.status) like concat('%',upper(:status),'%') )")
     Page<Order> getListOrderByStatus(Pageable pageable,@Param("status") String status);
 
     @Query("delete from dbo_order where idOrder=:id ")
@@ -51,6 +51,26 @@ public interface OrderRepository extends JpaRepository<Order,String> {
     @Query("select sum(orderDetail.totalPrice) from dbo_order_detail orderDetail " +
             "where orderDetail.idOrder=:idOrder")
     Double totalMoney(@Param("idOrder") String idOrder);
+
+    // tim kiem theo id
+    @Query("select order from dbo_order order " +
+            "where order.idOrder=:keyword")
+    List<Order> searchById(@Param("keyword") String keyword);
+
+   // List<Order> searchById(String keyword);
+
+    // phan thong ke
+//    @Query("select count (order.createDateidOrder)  " +
+//                    " from dbo_order order " +
+//                            " where month(order.createDate)=:month ")
+//    Double getAllOrder(@Param("month") int month);
+//
+////    @Query("select sum (orderDetail.amount) from dbo_order_detail orderDetail , dbo_order order " +
+////            " where (order.idOrder=:orderDetail.idOrder) and (month(order.createDate)=:month) ")
+////    Double getAllProduct(@Param("month") int month);
+//
+//    @Query("select sum(order.totalMoney) from dbo_order order where month(order.createDate)=:month")
+//    Double getAllMoney(@Param("month") int month);
 
     // void deleteInBatch(String id);
 

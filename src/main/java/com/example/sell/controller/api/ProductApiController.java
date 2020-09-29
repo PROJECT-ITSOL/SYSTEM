@@ -1,21 +1,14 @@
 package com.example.sell.controller.api;
 
 import com.example.sell.constanst.RandomData;
-import com.example.sell.data.model.BillImportDetail;
 import com.example.sell.data.model.Category;
 import com.example.sell.data.model.Product;
 import com.example.sell.data.model.Supplier;
-<<<<<<< HEAD
 import com.example.sell.data.service.*;
-import com.example.sell.model.dto.BillImportDetailDTO;
-import com.example.sell.model.dto.OrderDetailDTO;
-=======
 import com.example.sell.data.service.BillImportDetailService;
 import com.example.sell.data.service.CategoryService;
 import com.example.sell.data.service.ProductService;
 import com.example.sell.data.service.SupplierService;
-import com.example.sell.model.dto.BillImportDetailDTO;
->>>>>>> 7fbb1cf0c58b678888720f922dd92d23c0025824
 import com.example.sell.model.dto.ProductDTO;
 import com.example.sell.model.resutlData.BaseApiResult;
 import com.example.sell.model.resutlData.DataApiResult;

@@ -83,17 +83,10 @@ public class BillImportDetailService {
             return false;
         }
     }
-<<<<<<< HEAD
-=======
-
->>>>>>> 7fbb1cf0c58b678888720f922dd92d23c0025824
     //Cập nhật số lượng product sau khi nhập hàng
     public int updateAmount(String id){
         return (billImportDetailRepository.totalAmountImport(id));
     }
-<<<<<<< HEAD
-=======
 
->>>>>>> 7fbb1cf0c58b678888720f922dd92d23c0025824
 
 }

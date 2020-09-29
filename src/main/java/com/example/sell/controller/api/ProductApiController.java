@@ -1,12 +1,21 @@
 package com.example.sell.controller.api;
 
 import com.example.sell.constanst.RandomData;
+import com.example.sell.data.model.BillImportDetail;
 import com.example.sell.data.model.Category;
 import com.example.sell.data.model.Product;
 import com.example.sell.data.model.Supplier;
+<<<<<<< HEAD
 import com.example.sell.data.service.*;
 import com.example.sell.model.dto.BillImportDetailDTO;
 import com.example.sell.model.dto.OrderDetailDTO;
+=======
+import com.example.sell.data.service.BillImportDetailService;
+import com.example.sell.data.service.CategoryService;
+import com.example.sell.data.service.ProductService;
+import com.example.sell.data.service.SupplierService;
+import com.example.sell.model.dto.BillImportDetailDTO;
+>>>>>>> 7fbb1cf0c58b678888720f922dd92d23c0025824
 import com.example.sell.model.dto.ProductDTO;
 import com.example.sell.model.resutlData.BaseApiResult;
 import com.example.sell.model.resutlData.DataApiResult;
@@ -40,9 +49,12 @@ public class ProductApiController {
     private SupplierService supplierService;
 
     @Autowired
+<<<<<<< HEAD
     private OrderDetailService orderDetailService;
 
     @Autowired
+=======
+>>>>>>> 7fbb1cf0c58b678888720f922dd92d23c0025824
     private BillImportDetailService billImportDetailService;
 
     @GetMapping("/fake")
@@ -226,6 +238,46 @@ public class ProductApiController {
     public ResponseEntity<?> getAll(){
         return ResponseEntity.ok(productService.findAll());
     }
+
+
+    //Cập nhật số lượng sản phẩm khi nhập hàng
+//    @PutMapping("/updateAmount/{id}")
+//    public  BaseApiResult updateBillImport(@RequestBody BillImportDetailDTO billImportDetailDTO,
+//                                           @PathVariable String id){
+//        BaseApiResult baseApiResult = new BaseApiResult();
+//       Product product = productService.findOne(id);
+//        product.setAmount(product.getAmount()+billImportDetailDTO.getAmount());
+//
+//        try{
+//            productService.addNewProduct(product);
+//            baseApiResult.setMessage("Update success");
+//            baseApiResult.setSuccess(true);
+//        } catch (Exception e){
+//            e.printStackTrace();
+//            baseApiResult.setMessage("Update fail");
+//            baseApiResult.setSuccess(false);
+//        }
+//        return baseApiResult;
+//    }
+
+    @PutMapping("/updateAmountImport/{id}")
+    public BaseApiResult updateAmount( @RequestBody ProductDTO productDTO,
+            @PathVariable String id){
+        BaseApiResult baseApiResult = new BaseApiResult();
+        Product product = productService.findOne(id);
+        product.setAmount(billImportDetailService.updateAmount(id));
+        try{
+            productService.addNewProduct(product);
+            baseApiResult.setMessage("Update success");
+            baseApiResult.setSuccess(true);
+        } catch (Exception e){
+            e.printStackTrace();
+            baseApiResult.setMessage("Update fail");
+            baseApiResult.setSuccess(false);
+        }
+        return baseApiResult;
+    }
+
 
 }
 

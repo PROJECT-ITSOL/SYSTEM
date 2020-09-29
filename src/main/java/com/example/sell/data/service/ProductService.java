@@ -18,6 +18,9 @@ import java.util.Optional;
 @Service
 public class ProductService {
     private static final Logger logger = LogManager.getLogger(ProductService.class);
+
+
+
     @Autowired
     private ProductRepository productRepository;
 
@@ -86,4 +89,6 @@ public class ProductService {
 //    public List<Product> getAllProduct() {
 //        return productRepository.findAll();
 //    }
+
+
 }

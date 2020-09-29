@@ -18,8 +18,6 @@ public class SupplierService{
     @Autowired
     private SupplierRepository supplierRepository;
 
-
-
     public List<Supplier> getAllListSuppliers() {
         return supplierRepository.findAll();
     }
@@ -43,8 +41,8 @@ public class SupplierService{
 
     }
 
-    public Page<Supplier> getListSupplierByStatus(Pageable pageable,boolean status) {
-        return supplierRepository.getListSupplierByStatus(pageable,status);
+    public List<Supplier> getListSupplierByStatus(boolean status) {
+        return supplierRepository.getListSupplierByStatus(status);
     }
 
 

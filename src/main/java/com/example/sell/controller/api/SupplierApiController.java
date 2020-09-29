@@ -41,14 +41,23 @@ public class SupplierApiController {
         return supplierService.getSupplierById(id);
     }
 
-    //Lấy supplier theo status
+
+    //Tìm kiếm theo tên
+    @GetMapping("/search")
+    public List<Supplier> searchSupplier(@RequestParam(name = "name") String name){
+        List<Supplier> listSearch = supplierService.searchSupplier(name);
+        return listSearch ;
+    }
+
+    //Tìm kiếm theo status
     @GetMapping("/status")
-    public Page<Supplier> getSupplierByStatus(@RequestParam( value = "page") int page,
-                                              @RequestParam(value = "status") Boolean status) {
-        Pageable pageable =  PageRequest.of(page,5);
-        Page<Supplier> listSupplier = supplierService.getListSupplierByStatus(pageable,status);
+    public List<Supplier> getSupplierByStatus(
+            @RequestParam(value = "status") Boolean status) {
+
+        List<Supplier> listSupplier = supplierService.getListSupplierByStatus(status);
         return listSupplier;
     }
+
 
     //Xóa supplier theo id
     @DeleteMapping("/delete")
@@ -68,6 +77,8 @@ public class SupplierApiController {
     @PostMapping("/addSupplier")
     public BaseApiResult addNewSupplier(@RequestBody Supplier supplier) {
         BaseApiResult result = new BaseApiResult();
+        Supplier supplier1 = supplierService.findOne(supplier.getIdSupplier());
+        if (supplier1==null){
         try {
             supplierService.addNewSupplier(supplier);
             result.setSuccess(true);
@@ -76,6 +87,10 @@ public class SupplierApiController {
             e.printStackTrace();
             result.setSuccess(false);
             result.setMessage("Fail to add new supplier!");
+        }
+        }else{
+            result.setSuccess(false);
+            result.setMessage("Supplier đã tồn tại");
         }
         return result;
 
@@ -105,12 +120,6 @@ public class SupplierApiController {
     }
 
 
-    //Tìm kiếm theo tên
-    @GetMapping("/search")
-    public List<Supplier> searchSupplier(@RequestParam(name = "name") String name){
-        List<Supplier> listSearch = supplierService.searchSupplier(name);
-        return listSearch ;
-    }
 
 }
 

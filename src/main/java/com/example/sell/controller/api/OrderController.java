@@ -189,7 +189,6 @@ public class OrderController {
         odr.setCreateDate(order.getCreateDate());
         odr.setCustomerOrder(order.getCustomerOrder());
         odr.setOrderDetails(order.getOrderDetails());
-        odr.setProductReturns(order.getProductReturns());
         odr.setStatus(order.getStatus());
         odr.setTotalMoney(order.getTotalMoney());
 

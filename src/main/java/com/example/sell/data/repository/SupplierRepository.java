@@ -19,7 +19,7 @@ public interface SupplierRepository extends JpaRepository<Supplier, Integer> {
     @Query("select sup from dbo_supplier sup " +
             "where sup.status=:status")
 
-    Page<Supplier> getListSupplierByStatus(Pageable pageable,@Param("status") boolean status) ;
+    List<Supplier> getListSupplierByStatus(@Param("status") boolean status) ;
 
     @Query("select s from dbo_supplier s " +
             "where (upper(s.name) like concat('%',upper(:name),'%') ) ")

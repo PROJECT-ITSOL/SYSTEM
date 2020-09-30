@@ -78,18 +78,18 @@ public class BillImportService {
     }
 
     //Total Bill
-    public  Double getTotalBill(int month){
-        return billImportRepository.totalBillImport(month);
+    public  Double getTotalBill(int month,int year){
+        return billImportRepository.totalBillImport(month,year);
     }
 
     //Total product
-    public Double getAllProduct(int month){
-        return billImportRepository.totalProduct(month);
+    public Double getAllProduct(int month,int year){
+        return billImportRepository.totalProduct(month,year);
     }
 
     //Total product
-    public Double getAllMoney(int month){
-        return billImportRepository.totalMoney(month);
+    public Double getAllMoney(int month,int year){
+        return billImportRepository.totalMoney(month,year);
     }
 
 

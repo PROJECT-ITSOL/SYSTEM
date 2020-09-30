@@ -239,7 +239,7 @@ public class ProductApiController {
     public BaseApiResult updateAmount( @RequestBody ProductDTO productDTO,
             @PathVariable String id){
         BaseApiResult baseApiResult = new BaseApiResult();
-        Product product = productService.findOne(id);
+            Product product = productService.findOne(id);
         product.setAmount(billImportDetailService.updateAmount(id)-orderDetailService.updateAmountOrder(id));
         try{
             productService.addNewProduct(product);

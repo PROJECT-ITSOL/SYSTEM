@@ -84,11 +84,14 @@ public class BillImportDetailService {
         }
     }
     //Cập nhật số lượng product sau khi nhập hàng
-    public int updateAmount(String id){
-        return (billImportDetailRepository.totalAmountImport(id));
+    public int updateAmount(String id) {
+        if (billImportDetailRepository.totalAmountImport(id) != null) {
+            return (billImportDetailRepository.totalAmountImport(id));
+        } else {
+            return 0;
+        }
+        // cap nha so luong product khi order
+
+
     }
-    // cap nha so luong product khi order
-
-
-
 }

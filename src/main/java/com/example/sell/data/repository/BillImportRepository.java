@@ -25,14 +25,14 @@ public interface BillImportRepository extends JpaRepository<BillImport,String> {
     List<BillImport> getBillImportByIdSupplier(@Param("idSupplier") int idSupplier);
 //
 //
-    @Query("SELECT count(bill.idBillImport) FROM dbo_bill_import bill where month(bill.createDate) =:month")
-    Double totalBillImport(@Param("month") int month);
+    @Query("SELECT count(bill.idBillImport) FROM dbo_bill_import bill where month(bill.createDate) =:month and year(bill.createDate)=:year")
+    Double totalBillImport(@Param("month") int month,@Param("year") int year);
 
-    @Query("SELECT sum(bill.totalProduct) FROM dbo_bill_import bill where month(bill.createDate) =:month")
-    Double totalProduct(@Param("month") int month);
+    @Query("SELECT sum(bill.totalProduct) FROM dbo_bill_import bill where month(bill.createDate) =:month and year(bill.createDate)=:year")
+    Double totalProduct(@Param("month") int month,@Param("year") int year);
 
-    @Query("SELECT sum(bill.totalMoney) FROM dbo_bill_import bill where month(bill.createDate) =:month")
-    Double totalMoney(@Param("month") int month);
+    @Query("SELECT sum(bill.totalMoney) FROM dbo_bill_import bill where month(bill.createDate) =:month and year(bill.createDate)=:year")
+    Double totalMoney(@Param("month") int month,@Param("year") int year);
 
 
 

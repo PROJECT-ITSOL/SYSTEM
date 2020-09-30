@@ -103,7 +103,11 @@ public class OrderDetailService {
     }
     //Cập nhật số lượng product sau khi Order
     public int updateAmountOrder(String id){
-        return (orderDetailRepository.totalAmountOrder(id));
+
+        if (orderDetailRepository.totalAmountOrder(id) != null){
+            return orderDetailRepository.totalAmountOrder(id);
+        }
+        return 0 ;
     }
     public OrderDetail getOrderById(int id) {
         return orderDetailRepository.findById(id).orElse(null);

@@ -205,13 +205,14 @@ public class BillImportApiController {
 
     //Thống kê
     @GetMapping("/thongKe")
-    public List<Map> thongKe(@RequestParam(value = "month") int month){
+    public List<Map> thongKe(@RequestParam(value = "year",defaultValue = "2020") int year
+                            ){
         List list = new ArrayList();
         for (int i=1;i<=12;i++) {
-            Map<String, Double> map = new HashMap<String, Double>();
-            map.put("totalBill", billImportService.getTotalBill(i));
-            map.put("totalProduct", billImportService.getAllProduct(i));
-            map.put("totalMoney", billImportService.getAllMoney(i));
+            Map<String,Double> map = new HashMap<String,Double>();
+            map.put("totalBill", billImportService.getTotalBill(i,year));
+            map.put("totalProduct", billImportService.getAllProduct(i,year));
+            map.put("totalMoney", billImportService.getAllMoney(i,year));
             list.add(map);
         }
          return list;

@@ -87,6 +87,8 @@ public class BillImportDetailService {
     public int updateAmount(String id){
         return (billImportDetailRepository.totalAmountImport(id));
     }
+    // cap nha so luong product khi order
+
 
 
 }

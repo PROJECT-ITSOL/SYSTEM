@@ -158,23 +158,7 @@ public class ProductApiController {
 //        return result;
 //    }
 
-// API CAP NHAP SO LUONG SAN PHAM KHI CO DON TU KHACH HANG
-    @PutMapping("/updateOrderInProduct/{id}")
-    public BaseApiResult updateOrderInProduct(@PathVariable String id, @RequestBody ProductDTO productDTO){
-        BaseApiResult result = new BaseApiResult();
-        Product product = productService.findOne(id);
-        product.setAmount(orderDetailService.updateAmountOrder(id));
-        try {
-            productService.deleteProduct(id);
-            result.setSuccess(true);
-            result.setMessage("Update Order Success.");
-        } catch (Exception e) {
-            e.printStackTrace();
-            result.setSuccess(false);
-            result.setMessage("Update Order Fail");
-        }
-        return result;
-    }
+
 // API Cập nhập(Sửa) sản phẩm.
     @PutMapping("/update/{idProduct}")
     public BaseApiResult updateProduct(@PathVariable String idProduct, @RequestBody ProductDTO productDTO){
@@ -256,7 +240,7 @@ public class ProductApiController {
             @PathVariable String id){
         BaseApiResult baseApiResult = new BaseApiResult();
         Product product = productService.findOne(id);
-        product.setAmount(billImportDetailService.updateAmount(id));
+        product.setAmount(billImportDetailService.updateAmount(id)-orderDetailService.updateAmountOrder(id));
         try{
             productService.addNewProduct(product);
             baseApiResult.setMessage("Update success");
@@ -268,7 +252,23 @@ public class ProductApiController {
         }
         return baseApiResult;
     }
-
+//    // API CAP NHAP SO LUONG SAN PHAM KHI CO DON TU KHACH HANG
+//    @PutMapping("/updateOrderInProduct/{id}")
+//    public BaseApiResult updateOrderInProduct(@PathVariable String id, @RequestBody ProductDTO productDTO){
+//        BaseApiResult result = new BaseApiResult();
+//        Product product = productService.findOne(id);
+//        product.setAmount(orderDetailService.updateAmountOrder(id));
+//        try {
+//            productService.deleteProduct(id);
+//            result.setSuccess(true);
+//            result.setMessage("Update Order Success.");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            result.setSuccess(false);
+//            result.setMessage("Update Order Fail");
+//        }
+//        return result;
+//    }
 
 }
 

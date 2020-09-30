@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.apache.logging.log4j.Logger;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -204,12 +205,16 @@ public class BillImportApiController {
 
     //Thống kê
     @GetMapping("/thongKe")
-    public Map thongKe(@RequestParam(value = "month") int month){
-        Map<String,Double> map = new HashMap<String,Double>();
-         map.put("totalBill",billImportService.getTotalBill(month));
-         map.put("totalProduct",billImportService.getAllProduct(month));
-         map.put("totalMoney",billImportService.getAllMoney(month));
-         return map;
+    public List<Map> thongKe(@RequestParam(value = "month") int month){
+        List list = new ArrayList();
+        for (int i=1;i<=12;i++) {
+            Map<String, Double> map = new HashMap<String, Double>();
+            map.put("totalBill", billImportService.getTotalBill(i));
+            map.put("totalProduct", billImportService.getAllProduct(i));
+            map.put("totalMoney", billImportService.getAllMoney(i));
+            list.add(map);
+        }
+         return list;
     }
 
 }

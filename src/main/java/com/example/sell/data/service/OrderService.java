@@ -118,17 +118,17 @@ public class OrderService {
     }
 
 //    /// phan thong ke
-//    public Double getAllOrder(int month) {
-//        return orderRepository.getAllOrder(month);
-//    }
+    public Double getAllOrder(int month) {
+        return orderRepository.getAllOrder(month);
+    }
 //
 ////    public Double getAllProduct(int month) {
 ////        return  orderRepository.getAllProduct(month);
 ////    }
 //
-//    public Double getAllMoney(int month) {
-//        return  orderRepository.getAllMoney(month);
-//    }
+    public Double getAllMoney(int month) {
+        return  orderRepository.getAllMoney(month);
+    }
 //
 ////    public boolean deleteOrderDetail(String id) {
 //    }

@@ -256,7 +256,19 @@ public class OrderController {
 //    }
 
     //
-
+    //Thống kê
+    @GetMapping("/thongKe")
+    public List<Map> thongKe(@RequestParam(value = "year",defaultValue = "2020") int year){
+        List list = new ArrayList();
+        for (int i=1;i<=12;i++) {
+            Map<String, Double> map = new HashMap<String, Double>();
+            map.put("totalOrder", orderService.getAllOrder(i));
+          //  map.put("totalProduct", orderService.getAllProduct(i));
+            map.put("totalMoney", orderService.getAllMoney(i));
+            list.add(map);
+        }
+        return list;
+    }
 // tim kiem
 
 

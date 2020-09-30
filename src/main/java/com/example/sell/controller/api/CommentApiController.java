@@ -46,12 +46,12 @@ public class CommentApiController {
             Random random = new Random();
             RandomData randomData = new RandomData();
             Calendar calendar = Calendar.getInstance();
-            calendar.set(Calendar.YEAR, 2020);
-            calendar.set(Calendar.MONTH, 5);
+            calendar.set(Calendar.YEAR, 2019);
+            calendar.set(Calendar.MONTH, 6);
             calendar.set(Calendar.DAY_OF_MONTH, 12);
             List<Customer> customerList = customerService.getAllListCustomer();
             List<Product> productList = productService.findAll();
-            for (int i = totalComment + 1; i < totalComment + 15; i++) {
+            for (int i = totalComment + 1; i < totalComment + 5; i++) {
                 Comment comment = new Comment();
 //                comment.setIdComment(i);
                 comment.setCustomer(customerList.get(random.nextInt(customerList.size())));
@@ -160,13 +160,14 @@ public class CommentApiController {
     public DataApiResult StatisticalComment(@RequestParam(name = "year", required = false, defaultValue = "0") int year) {
         DataApiResult result = new DataApiResult();
         Map<String, Object> data = new HashMap<>();
-        Map<String, Integer> commentByMonth = new HashMap<>();
+        Map<String, Integer> commentByMonth = new LinkedHashMap<>();
         List<Integer> years = new ArrayList<>();
+        List<Integer> listCountComment = new ArrayList<>();
         Calendar calendar = Calendar.getInstance();
         int yearNow = calendar.get(Calendar.YEAR);
         years.addAll(new GetListYear().getYears(commentService.getYear()));
         List<String> months=new ArrayList<>();
-        Arrays.asList(new DateFormatSymbols().getMonths()).stream().filter(s->s!="")
+        Arrays.asList(new DateFormatSymbols().getShortMonths()).stream().filter(s->s!="")
                             .forEach(s->{
                                 months.add(s);
                             });
@@ -177,7 +178,8 @@ public class CommentApiController {
             months.stream()
                     .filter(s -> s != "")
                     .forEach(s -> {
-                        commentByMonth.put(s, commentService.getCommentByYearAndMonth(yearNow, i.get()));
+//                        commentByMonth.put(s, commentService.getCommentByYearAndMonth(yearNow, i.get()));
+                        listCountComment.add(commentService.getCommentByYearAndMonth(yearNow,i.get()));
                         i.getAndIncrement();
                     });
         } else {
@@ -185,11 +187,11 @@ public class CommentApiController {
             months.stream()
                     .filter(s -> s != "")
                     .forEach(s -> {
-                        commentByMonth.put(s, commentService.getCommentByYearAndMonth(year, i.get()));
+                        listCountComment.add(commentService.getCommentByYearAndMonth(year, i.get()));
                         i.getAndIncrement();
                     });
         }
-        data.put("data", commentByMonth);
+        data.put("data", listCountComment);
         result.setSuccess(true);
         result.setData(data);
         return result;

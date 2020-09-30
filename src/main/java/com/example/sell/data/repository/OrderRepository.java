@@ -53,24 +53,24 @@ public interface OrderRepository extends JpaRepository<Order,String> {
     Double totalMoney(@Param("idOrder") String idOrder);
 
     // tim kiem theo id
-    @Query("select order from dbo_order order " +
-            "where order.idOrder=:keyword")
+    @Query("select o from dbo_order o " +
+            "where o.idOrder=:keyword")
     List<Order> searchById(@Param("keyword") String keyword);
 
    // List<Order> searchById(String keyword);
 
     // phan thong ke
-//    @Query("select count (order.createDateidOrder)  " +
-//                    " from dbo_order order " +
-//                            " where month(order.createDate)=:month ")
-//    Double getAllOrder(@Param("month") int month);
+    @Query("select count (o.idOrder)  " +
+                    " from dbo_order o " +
+                            " where month(o.createDate)=:month ")
+    Double getAllOrder(@Param("month") int month);
 //
 ////    @Query("select sum (orderDetail.amount) from dbo_order_detail orderDetail , dbo_order order " +
 ////            " where (order.idOrder=:orderDetail.idOrder) and (month(order.createDate)=:month) ")
 ////    Double getAllProduct(@Param("month") int month);
 //
-//    @Query("select sum(order.totalMoney) from dbo_order order where month(order.createDate)=:month")
-//    Double getAllMoney(@Param("month") int month);
+    @Query("select sum(o.totalMoney) from dbo_order o where month(o.createDate)=:month")
+    Double getAllMoney(@Param("month") int month);
 
     // void deleteInBatch(String id);
 

@@ -58,8 +58,8 @@ public class CommentService {
     }
 
 
-    public Iterable<Comment> getListCommentByKeyword(String id) {
-        return commentRepository.getListCommentByKeyword(id);
+    public Iterable<Comment> getListCommentByKeyword(String keyword) {
+        return commentRepository.getListCommentByKeyword(keyword);
     }
 
     public Iterable<Comment> getListCommentByNameProductAndCustomer(String nameProduct,String nameCustomer) {

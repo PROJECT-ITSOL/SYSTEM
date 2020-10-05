@@ -174,9 +174,7 @@ public class CommentApiController {
                 .forEach(s -> {
                     months.add(s);
                 });
-        data.put("months", months);
-        data.put("years", years);
-        data.put("monthNow", monthNow);
+
         if (year == 0) {
             AtomicInteger i = new AtomicInteger(1);
             months.stream()
@@ -195,6 +193,9 @@ public class CommentApiController {
                         i.getAndIncrement();
                     });
         }
+        data.put("months", months);
+        data.put("years", years);
+        data.put("monthNow", monthNow);
         data.put("data", listCountComment);
         result.setSuccess(true);
         result.setData(data);

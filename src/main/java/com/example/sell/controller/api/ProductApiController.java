@@ -82,6 +82,19 @@ public class ProductApiController {
         }
         return result;
     }
+    @GetMapping("/totalProduct")
+    public DataApiResult getTotalProduct(){
+        DataApiResult result = new DataApiResult();
+        try {
+            result.setSuccess(true);
+            result.setData(productService.getTotalProducts());
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            result.setSuccess(false);
+            result.setMessage(e.getMessage());
+        }
+        return result;
+    }
     @GetMapping("/allProduct")
     public List<Product> getListProduct(){return productService.findAll();}
 // API Lấy ra danh sách sản phẩm.

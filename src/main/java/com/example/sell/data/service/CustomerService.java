@@ -64,7 +64,7 @@ public class CustomerService {
             return false;
         }
     }
-    public int getTotalCustomer() {
+    public int getTotalCustomers() {
         return customerRepository.getTotalCustomers();
     }
     public Page<Customer> getPageListCustomers(int pageNo, int pageSize) {

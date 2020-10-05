@@ -22,9 +22,9 @@ import java.text.DateFormatSymbols;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
-@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/customer")
+@CrossOrigin(origins = "*")
 
 public class CustomerApiController {
     private static final Logger logger = LogManager.getLogger(CustomerApiController.class);
@@ -58,6 +58,20 @@ public class CustomerApiController {
             result.setSuccess(false);
             result.setMessage(e.getMessage());
             logger.error(e.getMessage());
+        }
+        return result;
+    }
+
+    @GetMapping("/totalCustomer")
+    public DataApiResult getTotalCustomer(){
+        DataApiResult result = new DataApiResult();
+        try {
+            result.setSuccess(true);
+            result.setData(customerService.getTotalCustomers());
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            result.setSuccess(false);
+            result.setMessage(e.getMessage());
         }
         return result;
     }

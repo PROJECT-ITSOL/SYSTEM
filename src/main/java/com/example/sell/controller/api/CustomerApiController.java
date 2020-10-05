@@ -1,5 +1,6 @@
 package com.example.sell.controller.api;
 
+import com.example.sell.constanst.GetListYear;
 import com.example.sell.constanst.RandomData;
 import com.example.sell.data.model.Customer;
 import com.example.sell.data.service.CustomerService;
@@ -17,9 +18,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.text.DateFormatSymbols;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
+
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/customer")
@@ -46,6 +48,7 @@ public class CustomerApiController {
                 customer.setEmail("supplier" + i + "@gmail.com");
                 customer.setStatus(true);
                 customer.setAmountBoom(0);
+                customer.setCreateDate(new Date());
                 customers.add(customer);
             }
             customerService.addNewListCustomer(customers);
@@ -175,5 +178,44 @@ public class CustomerApiController {
         }
         return result;
     }
-
+    @GetMapping("/statistical")
+    public DataApiResult StatisticalCustomer(@RequestParam(name = "year", required = false, defaultValue = "0") int year) {
+        DataApiResult result = new DataApiResult();
+        Map<String, Object> data = new HashMap<>();
+        Map<String, Integer> customerByMonth = new LinkedHashMap<>();
+        List<Integer> years = new ArrayList<>();
+        List<Integer> listCountCustomer = new ArrayList<>();
+        Calendar calendar = Calendar.getInstance();
+        int yearNow = calendar.get(Calendar.YEAR);
+        years.addAll(new GetListYear().getYears(customerService.getYear()));
+        List<String> months=new ArrayList<>();
+        Arrays.asList(new DateFormatSymbols().getShortMonths()).stream().filter(s->s!="")
+                .forEach(s->{
+                    months.add(s);
+                });
+        data.put("months", months);
+        data.put("years", years);
+        if (year == 0) {
+            AtomicInteger i = new AtomicInteger(1);
+            months.stream()
+                    .filter(s -> s != "")
+                    .forEach(s -> {
+//                        customerByMonth.put(s, customerService.getCommentByYearAndMonth(yearNow, i.get()));
+                        listCountCustomer.add(customerService.getCustomerByYearAndMonth(yearNow,i.get()));
+                        i.getAndIncrement();
+                    });
+        } else {
+            AtomicInteger i = new AtomicInteger(1);
+            months.stream()
+                    .filter(s -> s != "")
+                    .forEach(s -> {
+                        listCountCustomer.add(customerService.getCustomerByYearAndMonth(year, i.get()));
+                        i.getAndIncrement();
+                    });
+        }
+        data.put("data", listCountCustomer);
+        result.setSuccess(true);
+        result.setData(data);
+        return result;
+    }
 }

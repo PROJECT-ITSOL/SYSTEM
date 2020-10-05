@@ -22,7 +22,7 @@ import java.text.DateFormatSymbols;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/customer")
 
@@ -133,7 +133,7 @@ public class CustomerApiController {
             customerEntity.setAmountBoom(customerDTO.getAmountBoom());
             customerEntity.setStatus(customerDTO.getStatus());
             customerService.addNewCustomer(customerEntity);
-            result.setMessage("Update product success.");
+            result.setMessage("Update Customer success.");
             result.setSuccess(true);
         }catch (Exception e){
             result.setSuccess(false);

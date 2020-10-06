@@ -102,11 +102,11 @@ public class ProductApiController {
     public ResponseEntity<?> getAll(){
         return ResponseEntity.ok(productService.findAll());
     }
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getProductById(@PathVariable String id){
-        Product product= productService.getProductById(id);
-        return ResponseEntity.ok(product);
-    }
+//    @GetMapping("/{id}")
+//    public ResponseEntity<?> getProductById(@PathVariable String id){
+//        Product product= productService.getProductById(id);
+//        return ResponseEntity.ok(product);
+//    }
 // API Lấy ra danh sách sản phẩm.
     @GetMapping("/list")
     public ResponseEntity<Page<Product>> getListProducts(@RequestParam(value = "pageNo", required = false, defaultValue = "0") int pageNo,
@@ -266,6 +266,8 @@ public class ProductApiController {
             @PathVariable String id){
         BaseApiResult baseApiResult = new BaseApiResult();
             Product product = productService.findOne(id);
+            int amountOne =billImportDetailService.updateAmount(id);
+            int amountTwo=orderDetailService.updateAmountOrder(id);
         product.setAmount(billImportDetailService.updateAmount(id)-orderDetailService.updateAmountOrder(id));
         try{
             productService.addNewProduct(product);

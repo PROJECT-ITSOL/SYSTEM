@@ -2,6 +2,7 @@ package com.example.sell.controller.api;
 
 import com.example.sell.constanst.RandomData;
 import com.example.sell.data.model.Category;
+import com.example.sell.data.model.Order;
 import com.example.sell.data.model.Product;
 import com.example.sell.data.model.Supplier;
 import com.example.sell.data.service.*;
@@ -102,6 +103,12 @@ public class ProductApiController {
     public ResponseEntity<Page<Product>> getListProducts(@RequestParam(value = "pageNo", required = false, defaultValue = "0") int pageNo,
                                                          @RequestParam(value = "pageSize", required = false, defaultValue = "7") int pageSize){
         return new ResponseEntity<Page<Product>>(productService.getPageListProducts(pageNo, pageSize), HttpStatus.OK);
+    }
+    // lai theo id
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getOrderById(@PathVariable String id){
+        Product product= productService.getProductById(id);
+        return ResponseEntity.ok(product);
     }
 
 // API xóa sản phẩm.

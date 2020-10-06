@@ -86,6 +86,10 @@ public class ProductService {
         return productRepository.getProductsByIdOrName(pageable, keyword);
     }
 
+    public Product getProductById(String id) {
+        return productRepository.findById(id).orElse(null);
+    }
+
 //    public List<Product> getAllProduct() {
 //        return productRepository.findAll();
 //    }

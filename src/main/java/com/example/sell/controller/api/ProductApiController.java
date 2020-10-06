@@ -2,6 +2,7 @@ package com.example.sell.controller.api;
 
 import com.example.sell.constanst.RandomData;
 import com.example.sell.data.model.Category;
+import com.example.sell.data.model.Order;
 import com.example.sell.data.model.Product;
 import com.example.sell.data.model.Supplier;
 import com.example.sell.data.service.*;
@@ -97,6 +98,15 @@ public class ProductApiController {
     }
     @GetMapping("/allProduct")
     public List<Product> getListProduct(){return productService.findAll();}
+    @GetMapping("/products")
+    public ResponseEntity<?> getAll(){
+        return ResponseEntity.ok(productService.findAll());
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getProductById(@PathVariable String id){
+        Product product= productService.getProductById(id);
+        return ResponseEntity.ok(product);
+    }
 // API Lấy ra danh sách sản phẩm.
     @GetMapping("/list")
     public ResponseEntity<Page<Product>> getListProducts(@RequestParam(value = "pageNo", required = false, defaultValue = "0") int pageNo,
@@ -222,10 +232,7 @@ public class ProductApiController {
         }
         return result;
     }
-    @GetMapping("/products")
-    public ResponseEntity<?> getAll(){
-        return ResponseEntity.ok(productService.findAll());
-    }
+
 
 
     //Cập nhật số lượng sản phẩm khi nhập hàng

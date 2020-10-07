@@ -245,15 +245,6 @@ public class OrderController {
         return baseApiResult;
 
     }
-    // thống kê
-//    @GetMapping("/thongke")
-//    public Map thongKe(@RequestParam(value = "month") int month){
-//        Map<String,Double> map = new HashMap<String,Double>();
-//        map.put("totalOrder",orderService.getAllOrder(month));
-////        map.put("totalProduct",orderService.getAllProduct(month));
-//        map.put("totalMoney",orderService.getAllMoney(month));
-//        return map;
-//    }
 
     //
     //Thống kê

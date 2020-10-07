@@ -2,6 +2,7 @@ package com.example.sell.controller.api;
 
 import com.example.sell.constanst.RandomData;
 import com.example.sell.data.model.Category;
+import com.example.sell.data.model.Order;
 import com.example.sell.data.model.Product;
 import com.example.sell.data.model.Supplier;
 import com.example.sell.data.service.*;
@@ -82,13 +83,41 @@ public class ProductApiController {
         }
         return result;
     }
+    @GetMapping("/totalProduct")
+    public DataApiResult getTotalProduct(){
+        DataApiResult result = new DataApiResult();
+        try {
+            result.setSuccess(true);
+            result.setData(productService.getTotalProducts());
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            result.setSuccess(false);
+            result.setMessage(e.getMessage());
+        }
+        return result;
+    }
     @GetMapping("/allProduct")
     public List<Product> getListProduct(){return productService.findAll();}
+    @GetMapping("/products")
+    public ResponseEntity<?> getAll(){
+        return ResponseEntity.ok(productService.findAll());
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getProductById(@PathVariable String id){
+        Product product= productService.getProductById(id);
+        return ResponseEntity.ok(product);
+    }
 // API Lấy ra danh sách sản phẩm.
     @GetMapping("/list")
     public ResponseEntity<Page<Product>> getListProducts(@RequestParam(value = "pageNo", required = false, defaultValue = "0") int pageNo,
                                                          @RequestParam(value = "pageSize", required = false, defaultValue = "7") int pageSize){
         return new ResponseEntity<Page<Product>>(productService.getPageListProducts(pageNo, pageSize), HttpStatus.OK);
+    }
+    // lai theo id
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getOrderById(@PathVariable String id){
+        Product product= productService.getProductById(id);
+        return ResponseEntity.ok(product);
     }
 
 // API xóa sản phẩm.
@@ -209,10 +238,7 @@ public class ProductApiController {
         }
         return result;
     }
-    @GetMapping("/products")
-    public ResponseEntity<?> getAll(){
-        return ResponseEntity.ok(productService.findAll());
-    }
+
 
 
     //Cập nhật số lượng sản phẩm khi nhập hàng

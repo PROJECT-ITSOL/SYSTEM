@@ -146,4 +146,17 @@ public class CategoryApiController {
         }
         return result;
     }
+    @GetMapping("/total")
+    public DataApiResult getTotalCategory(){
+        DataApiResult result = new DataApiResult();
+        try {
+            result.setSuccess(true);
+            result.setData(categoryService.getTotalCategories());
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            result.setSuccess(false);
+            result.setMessage(e.getMessage());
+        }
+        return result;
+    }
 }

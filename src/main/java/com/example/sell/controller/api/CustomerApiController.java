@@ -1,5 +1,6 @@
 package com.example.sell.controller.api;
 
+import com.example.sell.constanst.GetListYear;
 import com.example.sell.constanst.RandomData;
 import com.example.sell.data.model.Customer;
 import com.example.sell.data.service.CustomerService;
@@ -17,12 +18,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-@CrossOrigin(origins = "http://localhost:4200")
+import java.text.DateFormatSymbols;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
+
 @RestController
 @RequestMapping("/api/customer")
+@CrossOrigin(origins = "*")
 
 public class CustomerApiController {
     private static final Logger logger = LogManager.getLogger(CustomerApiController.class);
@@ -46,6 +48,7 @@ public class CustomerApiController {
                 customer.setEmail("supplier" + i + "@gmail.com");
                 customer.setStatus(true);
                 customer.setAmountBoom(0);
+                customer.setCreateDate(new Date());
                 customers.add(customer);
             }
             customerService.addNewListCustomer(customers);
@@ -55,6 +58,20 @@ public class CustomerApiController {
             result.setSuccess(false);
             result.setMessage(e.getMessage());
             logger.error(e.getMessage());
+        }
+        return result;
+    }
+
+    @GetMapping("/totalCustomer")
+    public DataApiResult getTotalCustomer(){
+        DataApiResult result = new DataApiResult();
+        try {
+            result.setSuccess(true);
+            result.setData(customerService.getTotalCustomers());
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            result.setSuccess(false);
+            result.setMessage(e.getMessage());
         }
         return result;
     }
@@ -130,7 +147,7 @@ public class CustomerApiController {
             customerEntity.setAmountBoom(customerDTO.getAmountBoom());
             customerEntity.setStatus(customerDTO.getStatus());
             customerService.addNewCustomer(customerEntity);
-            result.setMessage("Update product success.");
+            result.setMessage("Update Customer success.");
             result.setSuccess(true);
         }catch (Exception e){
             result.setSuccess(false);
@@ -175,5 +192,44 @@ public class CustomerApiController {
         }
         return result;
     }
-
+    @GetMapping("/statistical")
+    public DataApiResult StatisticalCustomer(@RequestParam(name = "year", required = false, defaultValue = "0") int year) {
+        DataApiResult result = new DataApiResult();
+        Map<String, Object> data = new HashMap<>();
+        Map<String, Integer> customerByMonth = new LinkedHashMap<>();
+        List<Integer> years = new ArrayList<>();
+        List<Integer> listCountCustomer = new ArrayList<>();
+        Calendar calendar = Calendar.getInstance();
+        int yearNow = calendar.get(Calendar.YEAR);
+        years.addAll(new GetListYear().getYears(customerService.getYear()));
+        List<String> months=new ArrayList<>();
+        Arrays.asList(new DateFormatSymbols().getShortMonths()).stream().filter(s->s!="")
+                .forEach(s->{
+                    months.add(s);
+                });
+        data.put("months", months);
+        data.put("years", years);
+        if (year == 0) {
+            AtomicInteger i = new AtomicInteger(1);
+            months.stream()
+                    .filter(s -> s != "")
+                    .forEach(s -> {
+//                        customerByMonth.put(s, customerService.getCommentByYearAndMonth(yearNow, i.get()));
+                        listCountCustomer.add(customerService.getCustomerByYearAndMonth(yearNow,i.get()));
+                        i.getAndIncrement();
+                    });
+        } else {
+            AtomicInteger i = new AtomicInteger(1);
+            months.stream()
+                    .filter(s -> s != "")
+                    .forEach(s -> {
+                        listCountCustomer.add(customerService.getCustomerByYearAndMonth(year, i.get()));
+                        i.getAndIncrement();
+                    });
+        }
+        data.put("data", listCountCustomer);
+        result.setSuccess(true);
+        result.setData(data);
+        return result;
+    }
 }

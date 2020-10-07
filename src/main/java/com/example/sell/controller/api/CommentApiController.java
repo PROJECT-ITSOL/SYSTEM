@@ -18,6 +18,7 @@ import org.springframework.data.domain.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.DateFormatSymbols;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -160,26 +161,27 @@ public class CommentApiController {
     public DataApiResult StatisticalComment(@RequestParam(name = "year", required = false, defaultValue = "0") int year) {
         DataApiResult result = new DataApiResult();
         Map<String, Object> data = new HashMap<>();
-        Map<String, Integer> commentByMonth = new LinkedHashMap<>();
+//        Map<String, Integer> commentByMonth = new LinkedHashMap<>();
         List<Integer> years = new ArrayList<>();
         List<Integer> listCountComment = new ArrayList<>();
-        Calendar calendar = Calendar.getInstance();
-        int yearNow = calendar.get(Calendar.YEAR);
+//        Calendar calendar = Calendar.getInstance();
+        LocalDate localDate = LocalDate.now();
+        int yearNow = localDate.getYear();
+        int monthNow = localDate.getMonthValue();
         years.addAll(new GetListYear().getYears(commentService.getYear()));
-        List<String> months=new ArrayList<>();
-        Arrays.asList(new DateFormatSymbols().getShortMonths()).stream().filter(s->s!="")
-                            .forEach(s->{
-                                months.add(s);
-                            });
-        data.put("months", months);
-        data.put("years", years);
+        List<String> months = new ArrayList<>();
+        Arrays.asList(new DateFormatSymbols().getShortMonths()).stream().filter(s -> s != "")
+                .forEach(s -> {
+                    months.add(s);
+                });
+
         if (year == 0) {
             AtomicInteger i = new AtomicInteger(1);
             months.stream()
                     .filter(s -> s != "")
                     .forEach(s -> {
 //                        commentByMonth.put(s, commentService.getCommentByYearAndMonth(yearNow, i.get()));
-                        listCountComment.add(commentService.getCommentByYearAndMonth(yearNow,i.get()));
+                        listCountComment.add(commentService.getCommentByYearAndMonth(yearNow, i.get()));
                         i.getAndIncrement();
                     });
         } else {
@@ -191,6 +193,9 @@ public class CommentApiController {
                         i.getAndIncrement();
                     });
         }
+        data.put("months", months);
+        data.put("years", years);
+        data.put("monthNow", monthNow);
         data.put("data", listCountComment);
         result.setSuccess(true);
         result.setData(data);

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 @Service
 public class CustomerService {
@@ -63,7 +64,7 @@ public class CustomerService {
             return false;
         }
     }
-    public int getTotalCustomer() {
+    public int getTotalCustomers() {
         return customerRepository.getTotalCustomers();
     }
     public Page<Customer> getPageListCustomers(int pageNo, int pageSize) {
@@ -73,7 +74,12 @@ public class CustomerService {
     public Page<Customer> getCustomersByIdOrName(Pageable pageable, String keyword) {
         return customerRepository.getCustomersByIdOrName(pageable, keyword);
     }
-
+    public List<Date> getYear(){
+        return customerRepository.getYear();
+    }
+    public Integer getCustomerByYearAndMonth(int year,int month){
+        return customerRepository.getCustomerByYearAndMonth(year,month);
+    }
     public List<String> getListNameCustomer(){
         return customerRepository.getListNameCustomer();
     }

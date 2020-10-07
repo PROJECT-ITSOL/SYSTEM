@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -52,4 +53,7 @@ public class Customer {
     @JsonIgnore
     private List<Order> orders =  new ArrayList<>();
 
+    @Temporal(TemporalType.DATE)
+    @Column(name = "create_date")
+    private Date createDate;
 }

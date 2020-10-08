@@ -156,34 +156,22 @@ public class BillImportApiController {
 
     //Search bill
     @GetMapping("/search")
-    public Page<BillImport> searchBillImport(@RequestParam( value = "page") int page,
+    public List<BillImport> searchBillImport(
                                          @RequestParam(value = "keyWord") String keyWord){
 
-        Pageable pageable =  PageRequest.of(page,5);
-        Page<BillImport> listBill = billImportService.searchBillById(pageable,keyWord);
+        List<BillImport> listBill = billImportService.searchBillById(keyWord);
         return listBill  ;
     }
 
-    /*//Cập nhật giá tổng tiền & tổng sp
-    @PutMapping("/updateMoney/{id}")
-    public  BaseApiResult updateTotalMoney(@RequestBody BillImportDetailDTO billImportDetailDTO,
-                                           @PathVariable String id){
-        BaseApiResult baseApiResult = new BaseApiResult();
-        BillImport billImport = billImportService.getBillImportById(id);
-        billImport.setTotalProduct(billImport.getTotalProduct()+billImportDetailDTO.getAmount());
-        billImport.setTotalMoney(billImport.getTotalMoney()+billImportDetailDTO.getTotalPrice());
-        try{
-            billImportService.addNewBillImport(billImport);
-            baseApiResult.setMessage("Update success");
-            baseApiResult.setSuccess(true);
-        } catch (Exception e){
-            e.printStackTrace();
-            baseApiResult.setMessage("Update fail");
-            baseApiResult.setSuccess(false);
-        }
-        return baseApiResult;
+    //Search theo tháng
+    @GetMapping("/searchMonth")
+    public List<BillImport> searchByMonth(@RequestParam(value = "month") int month){
+        List<BillImport> listBill = billImportService.searchByMonth(month);
+        return listBill;
     }
-*/
+
+
+
     @PutMapping("/updateMoney/{id}")
     public  BaseApiResult updateBillImport(@RequestBody BillImportDetailDTO billImportDetailDTO,
                                             @PathVariable String id){

@@ -62,9 +62,14 @@ public class BillImportService {
 
     }
 
+    //Tìm kiếm theo tháng
+    public List<BillImport> searchByMonth(int month){
+        return billImportRepository.searchByMonth(month);
+    }
+
     //Tìm kiếm theo id
-    public Page<BillImport> searchBillById(Pageable pageable, String id) {
-        return billImportRepository.searchById(pageable,id);
+    public List<BillImport> searchBillById( String id) {
+        return billImportRepository.searchById(id);
     }
 
     //Tính tổng price trong bill

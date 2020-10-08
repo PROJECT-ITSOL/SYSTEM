@@ -12,7 +12,7 @@ import java.util.List;
 public interface BillImportRepository extends JpaRepository<BillImport,String> {
     @Query("select bill from dbo_bill_import bill " +
             "where bill.idBillImport=:keyWord ")
-    Page<BillImport> searchById(Pageable pageable, @Param("keyWord") String keyWord);
+    List<BillImport> searchById( @Param("keyWord") String keyWord);
 
     @Query("select sum(detail.totalPrice) from dbo_bill_import_detail detail " +
             "where detail.idBillImport=:idBillImport")
@@ -23,6 +23,10 @@ public interface BillImportRepository extends JpaRepository<BillImport,String> {
     Integer totalAmount(@Param("idBillImport") String idBillImport);
 
     List<BillImport> getBillImportByIdSupplier(@Param("idSupplier") int idSupplier);
+
+    @Query("select bill from dbo_bill_import bill" +
+            " where month(bill.createDate) =:month")
+    List<BillImport> searchByMonth(@Param("month") int month);
 //
 //
     @Query("SELECT count(bill.idBillImport) FROM dbo_bill_import bill where month(bill.createDate) =:month and year(bill.createDate)=:year")

@@ -21,7 +21,7 @@ public class Product {
     private String idProduct;
 
     @Column(name = "id_category", insertable = false, updatable = false)
-    private String idCategory;
+    private int idCategory;
 
     @ManyToOne(optional = true)
     @JsonIgnore

@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 
-public interface CategoryRepository extends JpaRepository<Category,String> {
+public interface CategoryRepository extends JpaRepository<Category,Integer> {
     @Query("select count (c.idCategory) from dbo_category c")
     int getTotalCategories();
 

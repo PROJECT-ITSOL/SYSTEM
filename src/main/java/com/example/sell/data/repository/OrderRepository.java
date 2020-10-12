@@ -81,7 +81,8 @@ public interface OrderRepository extends JpaRepository<Order,Integer> {
     @Query("select Odr from dbo_order  Odr where Odr.idCustomer=:idCustomer")
     Page<Order> getOrderByIdCustomer(Pageable pageable,@Param("idCustomer") int idCustomer);
 
-    @Query("select Ord from dbo_order Ord where ")
+    @Query(value = "SELECT * FROM dbo_order WHERE id_order=(SELECT MAX(id_order) FROM dbo_order)", nativeQuery = true)
+
     Order lastOrder();
 
     // void deleteInBatch(String id);

@@ -178,9 +178,17 @@ public class OrderController {
         try {
             Customer customer = customerService.findOne(orderDTO.getIdCustomer());
             Order order1 = new Order();
+            String idCode =  String.valueOf(orderService.getOrderLast().getGuid());
+            String stringNumber = idCode.substring(5,10);
+            int idCodeNumber = Integer.parseInt(stringNumber);
+            idCodeNumber++;
+            String numberCode =  String.format("%05d%n",idCodeNumber);
+            String fix = "ORDER";
+            String newIdCode = fix.concat(numberCode).replace(" ","");
             // order1.setIdOrder(orderDTO.getIdOrder());
-            UUID uuid = UUID.randomUUID();
-            order1.setGuid(uuid.toString());
+//            UUID uuid = UUID.randomUUID();
+//            order1.setGuid(uuid.toString());
+            order1.setGuid(newIdCode);
             order1.setStatus("đang chờ");
             order1.setCustomerOrder(customer);
             order1.setCreateDate(orderDTO.getCreateDate());
@@ -198,8 +206,8 @@ public class OrderController {
 
     }
     // lay id oder vua them vao
-    @GetMapping("lastIdOrder")
-    public ResponseEntity<?> getOrderLast(){
+    @GetMapping("/lastIdOrder")
+    public Order getOrderLast(){
         Order order = orderService.getOrderLast();
         return order;
     }

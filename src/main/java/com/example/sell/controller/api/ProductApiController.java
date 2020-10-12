@@ -103,6 +103,11 @@ public class ProductApiController {
         return ResponseEntity.ok(productService.findAll());
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getProductById(@PathVariable String id){
+        Product product= productService.getProductById(id);
+        return ResponseEntity.ok(product);
+    }
 // API Lấy ra danh sách sản phẩm.
     @GetMapping("/list")
     public ResponseEntity<Page<Product>> getListProducts(@RequestParam(value = "pageNo", required = false, defaultValue = "0") int pageNo,

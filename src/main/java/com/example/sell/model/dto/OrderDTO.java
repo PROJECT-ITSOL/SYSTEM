@@ -16,7 +16,6 @@ import java.util.Date;
 @AllArgsConstructor
 
 public class OrderDTO {
-    private String idOrder;
     private int idCustomer;
     private Customer customerOrder;
     private Date createDate;
@@ -27,7 +26,6 @@ public class OrderDTO {
 
     public OrderDTO convertOrder(Order order){
         OrderDTO orderDTO=new OrderDTO();
-        orderDTO.setIdOrder(order.getIdOrder());
         orderDTO.setIdCustomer(order.getIdCustomer());
         orderDTO.setCustomerOrder(order.getCustomerOrder());
         orderDTO.setCreateDate(order.getCreateDate());

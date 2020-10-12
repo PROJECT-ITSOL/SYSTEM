@@ -82,15 +82,15 @@ public class OrderDetailController {
     // get mapping List lay ra danh sach
 
     @GetMapping("{id}")
-    public DataApiResult getListOrderDetailById(@PathVariable String id) {
+    public DataApiResult getListOrderDetailById(@PathVariable int id) {
         DataApiResult result = new DataApiResult();
         List<OrderDetail> orderDetails = orderDetailService.getOrderDetailsByIdOrder(id);
         try {
             if (!orderDetails.isEmpty()) {
                 List<OrderDetailDTO> orderDetailDTOList = new ArrayList<>();
-                orderDetails.stream().forEach(orderDetail -> {
+                for(OrderDetail orderDetail : orderDetails) {
                     orderDetailDTOList.add(new OrderDetailDTO().converOrderDetail(orderDetail));
-                });
+                }
                 result.setSuccess(true);
                 result.setData(orderDetailDTOList);
             } else {
@@ -111,14 +111,6 @@ public class OrderDetailController {
     public List<OrderDetailDTO> getOrderDetailDTOList() {
         return orderDetailService.getAllOrderDetailList();
     }
-    //
-    // lay  tat ca danh sach
-//    @GetMapping("")
-//    public ResponseEntity<?> getListOrder(){
-//        List<Order> orderList= orderService.getAllOrderList();
-//        return ResponseEntity.ok(orderList);
-//    }
-
     @PostMapping("/addOrderDetail")
     public BaseApiResult addNewOrderDetail(@RequestBody OrderDetailDTO orderDetailDTO) {
         BaseApiResult result = new BaseApiResult();
@@ -158,7 +150,6 @@ public class OrderDetailController {
         return result;
 
     }
-
     @PutMapping("/update/{id}")
     public BaseApiResult updateOrderDetail(@PathVariable int id, @RequestBody OrderDetail orderDetail) {
         BaseApiResult result = new BaseApiResult();

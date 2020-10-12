@@ -23,7 +23,7 @@ public class OrderDetail {
     private int idOrderDetail;
 
     @Column(name = "id_order",updatable = false,insertable = false)
-    private String idOrder;
+    private int idOrder;
 
     @ManyToOne(optional = true,fetch = FetchType.EAGER)
     @JsonIgnore

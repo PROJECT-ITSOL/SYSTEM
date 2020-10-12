@@ -21,8 +21,12 @@ import java.util.List;
 public class Order {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id_order")
-    private String idOrder;
+    private int idOrder;
+
+    @Column(name = "guid")
+    private String guid;
 
     @Column(name = "id_customer", updatable = false, insertable = false)
     private int idCustomer;

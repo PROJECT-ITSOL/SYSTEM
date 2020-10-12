@@ -14,7 +14,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class OrderDetailDTO {
     private int idOrderDetail;
-    private String idOrder;
+    private int idOrder;
     private Order order;
     private String idProduct;
     private Product productOrderDetail;
@@ -26,10 +26,11 @@ public class OrderDetailDTO {
             orderDetailDTO.setIdOrderDetail(orderDetail.getIdOrderDetail());
             orderDetailDTO.setIdOrder(orderDetail.getIdOrder());
             orderDetailDTO.setOrder(orderDetail.getOrder());
-            orderDetailDTO.setAmount(orderDetail.getAmount());
-            orderDetailDTO.setTotalPrice((int) (orderDetail.getAmount()*orderDetail.getProductOrderDetail().getPrice()));
             orderDetailDTO.setIdProduct(orderDetail.getIdProduct());
             orderDetailDTO.setProductOrderDetail(orderDetail.getProductOrderDetail());
+            orderDetailDTO.setAmount(orderDetail.getAmount());
+            orderDetailDTO.setTotalPrice((int) (orderDetail.getAmount()*orderDetail.getProductOrderDetail().getPrice()));
+
             return orderDetailDTO;
     }
 

@@ -26,7 +26,7 @@ public class OrderDetailService {
     @Autowired
     private OrderDetailRepository orderDetailRepository;
 
-    public List<OrderDetail> getOrderDetailsByIdOrder(String idOrder) {
+    public List<OrderDetail> getOrderDetailsByIdOrder(int idOrder) {
         try {
             return orderDetailRepository.getOrderDetailByIdOrder(idOrder);
         } catch (Exception e) {

@@ -1,5 +1,6 @@
 package com.example.sell.data.repository;
 
+import com.example.sell.data.model.BillImport;
 import com.example.sell.data.model.Supplier;
 import org.springframework.data.domain.Page;
 
@@ -18,8 +19,10 @@ public interface SupplierRepository extends JpaRepository<Supplier, Integer> {
 
     @Query("select sup from dbo_supplier sup " +
             "where sup.status=:status")
-
     List<Supplier> getListSupplierByStatus(@Param("status") boolean status) ;
+
+    @Query(value = "SELECT * FROM dbo_supplier WHERE id_supplier=(SELECT MAX(id_supplier) FROM dbo_supplier)", nativeQuery = true)
+    Supplier getLastSupplier();
 
     @Query("select s from dbo_supplier s " +
             "where (upper(s.name) like concat('%',upper(:name),'%') ) ")

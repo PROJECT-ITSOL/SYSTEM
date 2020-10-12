@@ -21,7 +21,7 @@ public class BillImportDetail {
     private int id;
 
     @Column(name = "id_bill_import", insertable = false, updatable = false)
-    private String idBillImport;
+    private int idBillImport;
 
     @ManyToOne(optional = true)
     @JsonIgnore

@@ -11,7 +11,7 @@ import java.util.List;
 public interface BillImportDetailRepository extends JpaRepository<BillImportDetail,Integer> {
 
 
-        List<BillImportDetail> getBillImportDetailByIdBillImport(@Param("idBillImport") String idBillImport);
+        List<BillImportDetail> getBillImportDetailByIdBillImport(@Param("idBillImport") int idBillImport);
 
         @Query("select sum(detail.amount) from dbo_bill_import_detail detail " +
                 "where detail.idProduct=:idProduct")

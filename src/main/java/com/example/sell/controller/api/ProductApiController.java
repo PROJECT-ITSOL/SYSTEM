@@ -109,12 +109,7 @@ public class ProductApiController {
                                                          @RequestParam(value = "pageSize", required = false, defaultValue = "7") int pageSize){
         return new ResponseEntity<Page<Product>>(productService.getPageListProducts(pageNo, pageSize), HttpStatus.OK);
     }
-    // lai theo id
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getOrderById(@PathVariable String id){
-        Product product= productService.getProductById(id);
-        return ResponseEntity.ok(product);
-    }
+    
 
 
 // API xóa sản phẩm.

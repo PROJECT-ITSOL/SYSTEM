@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -22,8 +23,14 @@ public class BillImport implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id_bill_import")
-    private String idBillImport;
+    private int idBillImport;
+
+
+    @GeneratedValue(generator = "id_code")
+    @GenericGenerator(name = "id_code", strategy = "core.generator.BillImportService")
+    private String idCode;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "GMT+7")
     @Column(name = "create_date")

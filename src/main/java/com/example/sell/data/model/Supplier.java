@@ -23,6 +23,9 @@ public class Supplier {
     @Column(name = "id_supplier")
     private int idSupplier;
 
+    @Column(name = "id_code")
+    private String idCode;
+
     @Column(name = "name")
     private String name;
 

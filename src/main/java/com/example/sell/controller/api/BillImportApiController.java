@@ -15,10 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.apache.logging.log4j.Logger;
 
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("api/billImport")
@@ -59,7 +56,7 @@ public class BillImportApiController {
 
     //Lấy bill theo id
     @GetMapping("/{id}")
-    public BillImport getBillById(@PathVariable String id){
+    public BillImport getBillById(@PathVariable int id){
         BillImport billImport = new BillImport();
         billImport = billImportService.getBillImportById(id);
         return  billImport;
@@ -88,6 +85,12 @@ public class BillImportApiController {
         return result;
     }
 
+    //Lấy last bill
+    @GetMapping("/getLastBill")
+    public BillImport getLastBill(){
+        return  billImportService.getLastBill();
+    }
+
     //Thêm mới bill
     @PostMapping("/addBillImport")
     public BaseApiResult addNewBill(@RequestBody BillImportDTO billImportDTO){
@@ -96,7 +99,15 @@ public class BillImportApiController {
         if(billImport==null) {
             try {
                 billImport = new BillImport();
-                billImport.setIdBillImport(billImportDTO.getIdBillImport());
+                String idCode =  billImportService.getLastBill().getIdCode();
+                String stringNumber = idCode.substring(4,9);
+                int idCodeNumber = Integer.parseInt(stringNumber);
+                idCodeNumber++;
+                String numberCode =  String.format("%05d%n",idCodeNumber);
+                String fix = "BILL";
+                String newIdCode = fix.concat(numberCode).replace(" ","");
+
+                billImport.setIdCode(newIdCode);
                 billImport.setCreateDate(billImportDTO.getCreateDate());
                 billImport.setSupplierImport(billImportDTO.getSupplier());
                 billImport.setTotalMoney(billImportDTO.getTotalMoney());
@@ -114,12 +125,15 @@ public class BillImportApiController {
             baseApiResult.setMessage("Bill Import đã tồn tại");
         }
         return baseApiResult;
+
+
+
     }
 
     //Sửa bill
     @PutMapping("/update/{id}")
     public BaseApiResult editBill(@RequestBody BillImportDTO billImportDTO,
-                                  @PathVariable String id){
+                                  @PathVariable int id){
         BaseApiResult baseApiResult = new BaseApiResult();
         BillImport billImport = billImportService.getBillImportById(id);
 
@@ -142,7 +156,7 @@ public class BillImportApiController {
 
     //Xóa bill
     @DeleteMapping("delete/{id}")
-    public BaseApiResult deleteBill(@PathVariable String id){
+    public BaseApiResult deleteBill(@PathVariable int id){
         BaseApiResult baseApiResult = new BaseApiResult();
         if(billImportService.deleteBillImportById(id)){
             baseApiResult.setMessage("Delete success");
@@ -156,37 +170,25 @@ public class BillImportApiController {
 
     //Search bill
     @GetMapping("/search")
-    public Page<BillImport> searchBillImport(@RequestParam( value = "page") int page,
+    public List<BillImport> searchBillImport(
                                          @RequestParam(value = "keyWord") String keyWord){
 
-        Pageable pageable =  PageRequest.of(page,5);
-        Page<BillImport> listBill = billImportService.searchBillById(pageable,keyWord);
+        List<BillImport> listBill = billImportService.searchBillById(keyWord);
         return listBill  ;
     }
 
-    /*//Cập nhật giá tổng tiền & tổng sp
-    @PutMapping("/updateMoney/{id}")
-    public  BaseApiResult updateTotalMoney(@RequestBody BillImportDetailDTO billImportDetailDTO,
-                                           @PathVariable String id){
-        BaseApiResult baseApiResult = new BaseApiResult();
-        BillImport billImport = billImportService.getBillImportById(id);
-        billImport.setTotalProduct(billImport.getTotalProduct()+billImportDetailDTO.getAmount());
-        billImport.setTotalMoney(billImport.getTotalMoney()+billImportDetailDTO.getTotalPrice());
-        try{
-            billImportService.addNewBillImport(billImport);
-            baseApiResult.setMessage("Update success");
-            baseApiResult.setSuccess(true);
-        } catch (Exception e){
-            e.printStackTrace();
-            baseApiResult.setMessage("Update fail");
-            baseApiResult.setSuccess(false);
-        }
-        return baseApiResult;
+    //Search theo tháng
+    @GetMapping("/searchMonth")
+    public List<BillImport> searchByMonth(@RequestParam(value = "month") int month){
+        List<BillImport> listBill = billImportService.searchByMonth(month);
+        return listBill;
     }
-*/
+
+
+
     @PutMapping("/updateMoney/{id}")
     public  BaseApiResult updateBillImport(@RequestBody BillImportDetailDTO billImportDetailDTO,
-                                            @PathVariable String id){
+                                            @PathVariable int id){
         BaseApiResult baseApiResult = new BaseApiResult();
         BillImport billImport = billImportService.getBillImportById(id);
         billImport.setTotalProduct(billImportService.getTotalAmount(id));

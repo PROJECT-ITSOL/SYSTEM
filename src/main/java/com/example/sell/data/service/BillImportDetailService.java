@@ -44,7 +44,7 @@ public class BillImportDetailService {
 //    }
 
     //Lấy bill detail theo id bill
-    public List<BillImportDetailDTO> getListByIdBill(String id ){
+    public List<BillImportDetailDTO> getListByIdBill(int id ){
         List<BillImportDetailDTO> listBillDetailDTO = new ArrayList<>();
         List<BillImportDetail> listBillDetail = billImportDetailRepository.getBillImportDetailByIdBillImport(id);
         try {

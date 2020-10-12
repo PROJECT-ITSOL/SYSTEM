@@ -20,7 +20,7 @@ public class BillImportDTO {
 
      BillImportDetailService billImportDetailService = new BillImportDetailService();
 
-    private String idBillImport;
+    private int idBillImport;
     private Date createDate;
     private int totalProduct;
     private Double totalMoney;

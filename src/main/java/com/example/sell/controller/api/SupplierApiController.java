@@ -80,7 +80,22 @@ public class SupplierApiController {
         Supplier supplier1 = supplierService.findOne(supplier.getIdSupplier());
         if (supplier1==null){
         try {
-            supplierService.addNewSupplier(supplier);
+             supplier1 = new Supplier();
+             supplier1.setAddress(supplier.getAddress());
+             supplier1.setName(supplier.getName());
+             supplier1.setPhoneNumber(supplier.getPhoneNumber());
+             supplier1.setLogo(supplier.getLogo());
+             supplier1.setStatus(supplier.getStatus());
+            String idCode =  supplierService.getLastSupplier().getIdCode();
+            String stringNumber = idCode.substring(4,9);
+            int idCodeNumber = Integer.parseInt(stringNumber);
+            idCodeNumber++;
+            String numberCode =  String.format("%05d%n",idCodeNumber);
+            String fix = "SUPP";
+            String newIdCode = fix.concat(numberCode).replace(" ","");
+            supplier1.setIdCode(newIdCode);
+
+            supplierService.addNewSupplier(supplier1);
             result.setSuccess(true);
             result.setMessage("Success add new supplier !");
         } catch (Exception e) {

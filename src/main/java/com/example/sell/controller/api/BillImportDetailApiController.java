@@ -20,7 +20,7 @@ public class BillImportDetailApiController {
 
     //Lấy bill detail theo idBillimport
     @GetMapping("")
-    public List<BillImportDetailDTO> getListBillByIdBillImport(@RequestParam(value = "idBillImport",required = true)String id){
+    public List<BillImportDetailDTO> getListBillByIdBillImport(@RequestParam(value = "idBillImport",required = true)int id){
         return billImportDetailService.getListByIdBill(id);
     }
 

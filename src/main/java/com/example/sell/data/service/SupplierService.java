@@ -30,6 +30,10 @@ public class SupplierService{
         return supplierRepository.findById(id).orElse(null);
     }
 
+    public Supplier getLastSupplier(){
+        return supplierRepository.getLastSupplier();
+    }
+
     public Boolean deleteSupplierById(int id) {
         try {
             supplierRepository.deleteById(id);

@@ -44,8 +44,6 @@ public class OrderService {
         }
     }
 
-
-
     public int getTotalOrder() {
         return orderRepository.getTotalOrder();
     }
@@ -95,6 +93,10 @@ public class OrderService {
         return  orderRepository.findById(id).orElse(null);
     }
 
+    public Order getOrderByGuid(String idCode) {
+        return  orderRepository.getOrderByGuid(idCode);
+    }
+
     public Page<Order> getListOrderByStatus(Pageable pageable, String status) {
         Page<Order> listPageOrder= orderRepository.getListOrderByStatus(pageable,status);
         //return orderRepository.getListOrderByStatus(status);
@@ -122,11 +124,7 @@ public class OrderService {
     public Double getAllOrder(int month) {
         return orderRepository.getAllOrder(month);
     }
-//
-////    public Double getAllProduct(int month) {
-////        return  orderRepository.getAllProduct(month);
-////    }
-//
+
     public Double getAllMoney(int month) {
         return  orderRepository.getAllMoney(month);
     }
@@ -144,6 +142,18 @@ public class OrderService {
     public Order getOrderLast() {
         return orderRepository.lastOrder();
     }
+
+    public Page<Order> getPageOrderByYear(Pageable pageable, int year) {
+        Page<Order> pageOrder = orderRepository.getPageOrderByYear(pageable,year);
+        return pageOrder;
+    }
+
+    public Page<Order> getPageOrderByMonth(Pageable pageable, int month, int year) {
+        Page<Order> pageOrder = orderRepository.getPageOrderByMonth(pageable,month,year);
+        return pageOrder;
+    }
+
+
 //
 ////    public boolean deleteOrderDetail(String id) {
 //    }

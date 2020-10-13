@@ -44,13 +44,8 @@ public interface OrderRepository extends JpaRepository<Order,Integer> {
             " where (upper(oder.status) like concat('%',upper(:status),'%') )")
     Page<Order> getListOrderByStatus(Pageable pageable,@Param("status") String status);
 
-    //@Query("delete from dbo_order where idOrder=:id ")
-    //void deleteInBatch(String id);
-
-    //void deleteById(ID id);
-
     @Query("select sum(orderDetail.totalPrice) from dbo_order_detail orderDetail " +
-            "where orderDetail.idOrder=:idOrder")
+            " where orderDetail.idOrder=:idOrder")
     Double totalMoney(@Param("idOrder") int idOrder);
 
     // tim kiem theo id
@@ -84,6 +79,17 @@ public interface OrderRepository extends JpaRepository<Order,Integer> {
     @Query(value = "SELECT * FROM dbo_order WHERE id_order=(SELECT MAX(id_order) FROM dbo_order)", nativeQuery = true)
 
     Order lastOrder();
+
+//    @Query("select  odr from  dbo_order  odr " +
+//            " where odr.guid=:idcode")
+    Order getOrderByGuid(@Param("idCode") String idCode);
+
+    @Query("select odr from dbo_order odr " +
+            " where year(odr.createDate)=:year")
+    Page<Order> getPageOrderByYear(Pageable pageable, int year);
+    @Query("select odr from dbo_order odr " +
+            " where month(odr.createDate)=:month and year(odr.createDate)=:year")
+    Page<Order> getPageOrderByMonth(Pageable pageable, int month, int year);
 
     // void deleteInBatch(String id);
 

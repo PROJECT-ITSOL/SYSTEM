@@ -69,7 +69,7 @@ public class ProductApiController {
                 product.setPrice(randomData.randomNumber(1000, 9999));
                 product.setContent(randomData.randomText(100));
                 product.setFavorite(random.nextInt(25));
-                product.setAmount(randomData.randomNumber(25, 100));
+//                product.setAmount(randomData.randomNumber(25, 100));
                 product.setStatus(true);
                 productList.add(product);
             }
@@ -192,14 +192,17 @@ public class ProductApiController {
 
     // API Cập nhập(Sửa) sản phẩm.
     @PutMapping("/update/{idProduct}")
-    public BaseApiResult updateProduct(@PathVariable String idProduct, @RequestBody ProductDTO productDTO) {
+    public BaseApiResult updateProduct(@PathVariable int idProduct, @RequestBody ProductDTO productDTO) {
         BaseApiResult result = new BaseApiResult();
 //      Product productEntity = productService.findOne(idProduct);
+        Category category = categoryService.findOne(productDTO.getIdCategory());
+        Supplier supplier = supplierService.findOne(productDTO.getIdSupplier());
         try {
 //          productEntity.setIdProduct(idProduct);
             Product productEntity = new Product();
-            productEntity.setIdCategory(productDTO.getIdCategory());
-            productEntity.setIdSupplier(productDTO.getIdSupplier());
+            productEntity.setIdProduct(idProduct);
+            productEntity.setCategory(category);
+            productEntity.setSupplier(supplier);
             productEntity.setName(productDTO.getName());
             productEntity.setPrice(productDTO.getPrice());
             productEntity.setStatus(productDTO.getStatus());

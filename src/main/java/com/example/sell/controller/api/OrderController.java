@@ -21,6 +21,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Year;
 import java.util.*;
 
 @RestController
@@ -91,6 +92,11 @@ public class OrderController {
         Order order = orderService.getOrderById(id);
         return ResponseEntity.ok(order);
     }
+    // lay theo id code
+    @GetMapping("/searchByIdcode/{idCode}")
+    public Order getOrderByIdcode(@PathVariable String idCode){
+        return  orderService.getOrderByGuid(idCode);
+    }
 
     // lay theo status
     @GetMapping("/status")
@@ -108,8 +114,26 @@ public class OrderController {
                                       @RequestParam(value = "month", required = false) int month,
                                       @RequestParam(value = "year", required = false) int year) {
         Pageable pageable = PageRequest.of(page, 8);
-        Page<Order> listPage = orderService.getPageOrderByDate(pageable, day, month, year);
-        return listPage;
+       // Page<Order> listPage = orderService.getPageOrderByDate(pageable, day, month, year);
+
+        if(year==0){ // gan year=2020 nen ko co gia tri year
+            year=2020;
+        }
+        // tim kiem theo dk
+        if(day==0){
+            if(month==0){
+                Page<Order> listPage = orderService.getPageOrderByYear(pageable,year);
+                return listPage;
+            }
+            else {
+                Page<Order> listPage = orderService.getPageOrderByMonth(pageable,month, year);
+                return listPage;
+            }
+        }else {
+            Page<Order> listPage = orderService.getPageOrderByDate(pageable, day, month, year);
+            return listPage;
+        }
+
     }
 
     // ham tim kiem

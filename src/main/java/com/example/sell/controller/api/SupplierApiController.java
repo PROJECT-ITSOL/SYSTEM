@@ -44,8 +44,8 @@ public class SupplierApiController {
 
     //Tìm kiếm theo tên
     @GetMapping("/search")
-    public List<Supplier> searchSupplier(@RequestParam(name = "keyword") String keyword){
-        List<Supplier> listSearch = supplierService.searchSupplier(keyword);
+    public List<Supplier> searchSupplier(@RequestParam(name = "name") String name){
+        List<Supplier> listSearch = supplierService.searchSupplier(name);
         return listSearch ;
     }
 
@@ -77,7 +77,7 @@ public class SupplierApiController {
     @PostMapping("/addSupplier")
     public BaseApiResult addNewSupplier(@RequestBody Supplier supplier) {
         BaseApiResult result = new BaseApiResult();
-        Supplier supplier1 = supplierService.getByPhoneNumber(supplier.getPhoneNumber());
+        Supplier supplier1 = supplierService.findOne(supplier.getIdSupplier());
         if (supplier1==null){
         try {
              supplier1 = new Supplier();
@@ -109,7 +109,7 @@ public class SupplierApiController {
         }
         }else{
             result.setSuccess(false);
-            result.setMessage("PhoneNumber is exists");
+            result.setMessage("Supplier đã tồn tại");
         }
         return result;
 

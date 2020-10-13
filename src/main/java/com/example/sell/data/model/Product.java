@@ -16,6 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity(name = "dbo_product")
 public class Product {
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
     @Column(name = "id_product")
     private int idProduct;

@@ -45,7 +45,7 @@ public class CustomerApiController {
                 customer.setPasswordHash(randomData.randomText(3));
                 customer.setPhoneNumber(randomData.randomPhone());
                 customer.setAddress(randomData.randomAddress());
-                customer.setEmail("supplier" + i + "@gmail.com");
+                customer.setEmail("customer" + i + "@gmail.com");
                 customer.setStatus(true);
                 customer.setAmountBoom(0);
                 customer.setCreateDate(new Date());

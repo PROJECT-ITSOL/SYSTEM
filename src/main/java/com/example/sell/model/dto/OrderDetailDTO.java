@@ -16,7 +16,7 @@ public class OrderDetailDTO {
     private int idOrderDetail;
     private int idOrder;
     private Order order;
-    private String idProduct;
+    private int idProduct;
     private Product productOrderDetail;
     private int amount;
     private int totalPrice;

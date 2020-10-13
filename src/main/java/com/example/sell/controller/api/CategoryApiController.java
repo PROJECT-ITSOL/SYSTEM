@@ -41,7 +41,7 @@ public class CategoryApiController {
             int totalCategories = categoryService.getTotalCategories();
             for (int i = totalCategories + 1; i < totalCategories + 20; i++) {
                 Category category = new Category();
-                category.setIdCategory(new RandomData().randomText(6));
+//                category.setIdCategory(new RandomData().randomText(6));
                 category.setName("Category " + i);
                 category.setStatus(true);
                 categories.add(category);
@@ -64,7 +64,7 @@ public class CategoryApiController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public BaseApiResult deleteCategory(@PathVariable String id) {
+    public BaseApiResult deleteCategory(@PathVariable int id) {
         BaseApiResult result = new BaseApiResult();
         if (categoryService.deleteCategory(id)) {
             result.setSuccess(true);
@@ -79,12 +79,8 @@ public class CategoryApiController {
     @PostMapping("/addNew")
     public BaseApiResult addNew(@RequestBody CategoryDTO categoryDTO) {
         BaseApiResult result = new BaseApiResult();
-
-        Category category = categoryService.findOne(categoryDTO.getId());
-        if (category == null) {
             try {
-                category = new Category();
-                category.setIdCategory(categoryDTO.getId());
+                Category category = new Category();
                 category.setName(categoryDTO.getName());
                 category.setStatus(true);
                 categoryService.addNewCategory(category);
@@ -95,15 +91,11 @@ public class CategoryApiController {
                 result.setMessage("Add new category fail!");
                 logger.error(e.getMessage());
             }
-        } else {
-            result.setSuccess(false);
-            result.setMessage("ID Already exist!");
-        }
         return result;
     }
 
     @PutMapping("/update/{id}")
-    public BaseApiResult updateCategory(@PathVariable String id, @RequestBody CategoryDTO categoryDTO) {
+    public BaseApiResult updateCategory(@PathVariable int id, @RequestBody CategoryDTO categoryDTO) {
         BaseApiResult result = new BaseApiResult();
         Category categoryEntity = categoryService.findOne(id);
         try {

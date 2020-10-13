@@ -137,6 +137,7 @@ public class CustomerApiController {
     public BaseApiResult updateCustomer(@PathVariable int id, @RequestBody CustomerDTO customerDTO){
         BaseApiResult result = new BaseApiResult();
         Customer customerEntity = customerService.findOne(id);
+
         try {
             customerEntity.setId(id);
             customerEntity.setName(customerDTO.getName());

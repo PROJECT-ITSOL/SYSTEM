@@ -12,9 +12,10 @@ import java.util.List;
 @NoArgsConstructor
 @Entity(name = "dbo_category")
 public class Category {
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
     @Column(name = "id_category")
-    private String idCategory;
+    private int idCategory;
 
     @Column(name = "name")
     private String name;

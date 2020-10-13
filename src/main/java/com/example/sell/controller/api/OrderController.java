@@ -198,35 +198,56 @@ public class OrderController {
     @PostMapping("/addOrder")
     public BaseApiResult addNewOrder(@RequestBody OrderDTO orderDTO) {
         BaseApiResult result = new BaseApiResult();
+        Order orderLast= orderService.getOrderLast();
+          if(orderLast==null){
+              try {
+                  Customer customer = customerService.findOne(orderDTO.getIdCustomer());
+                  Order order1 = new Order();
+                  order1.setIdOrder(1);
+                  order1.setGuid("ORDER00001");
+                  order1.setStatus("đang chờ");
+                  order1.setCustomerOrder(customer);
+                  order1.setCreateDate(orderDTO.getCreateDate());
+                  order1.setTotalMoney(orderDTO.getTotalMoney());
+                  orderService.addNewOrder(order1);
+                  result.setSuccess(true);
+                  result.setMessage("Success add new order !");
 
-        try {
-            Customer customer = customerService.findOne(orderDTO.getIdCustomer());
-            Order order1 = new Order();
-            String idCode =  String.valueOf(orderService.getOrderLast().getGuid());
-            String stringNumber = idCode.substring(5,10);
-            int idCodeNumber = Integer.parseInt(stringNumber);
-            idCodeNumber++;
-            String numberCode =  String.format("%05d%n",idCodeNumber);
-            String fix = "ORDER";
-            String newIdCode = fix.concat(numberCode).replace(" ","");
-            // order1.setIdOrder(orderDTO.getIdOrder());
-//            UUID uuid = UUID.randomUUID();
-//            order1.setGuid(uuid.toString());
-            order1.setGuid(newIdCode);
-            order1.setStatus("đang chờ");
-            order1.setCustomerOrder(customer);
-            order1.setCreateDate(orderDTO.getCreateDate());
-            order1.setTotalMoney(orderDTO.getTotalMoney());
-            orderService.addNewOrder(order1);
-            result.setSuccess(true);
-            result.setMessage("Success add new order !");
+              } catch (Exception e) {
+                  e.printStackTrace();
+                  result.setSuccess(false);
+                  result.setMessage("Fail to add new order!");
+              }
+              return result;
+           }
+          else {
+              try {
+                  Customer customer = customerService.findOne(orderDTO.getIdCustomer());
+                  Order order1 = new Order();
+                  String idCode =  String.valueOf(orderService.getOrderLast().getGuid());
+                  String stringNumber = idCode.substring(5,10);
+                  int idCodeNumber = Integer.parseInt(stringNumber);
+                  idCodeNumber++;
+                  String numberCode =  String.format("%05d%n",idCodeNumber);
+                  String fix = "ORDER";
+                  String newIdCode = fix.concat(numberCode).replace("\r\n","");
+                  order1.setGuid(newIdCode);
+                  order1.setStatus("đang chờ");
+                  order1.setCustomerOrder(customer);
+                  order1.setCreateDate(orderDTO.getCreateDate());
+                  order1.setTotalMoney(orderDTO.getTotalMoney());
+                  orderService.addNewOrder(order1);
+                  result.setSuccess(true);
+                  result.setMessage("Success add new order !");
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            result.setSuccess(false);
-            result.setMessage("Fail to add new order!");
-        }
-        return result;
+              } catch (Exception e) {
+                  e.printStackTrace();
+                  result.setSuccess(false);
+                  result.setMessage("Fail to add new order!");
+              }
+              return result;
+          }
+
 
     }
     // lay id oder vua them vao

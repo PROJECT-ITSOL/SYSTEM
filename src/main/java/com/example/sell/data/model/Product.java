@@ -18,7 +18,7 @@ import java.util.List;
 public class Product {
     @Id
     @Column(name = "id_product")
-    private String idProduct;
+    private int idProduct;
 
     @Column(name = "id_category", insertable = false, updatable = false)
     private int idCategory;

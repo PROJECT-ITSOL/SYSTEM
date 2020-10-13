@@ -30,7 +30,7 @@ public class Comment {
     private Customer customer;
 
     @Column(name = "id_Product", insertable = false, updatable = false)
-    private String idProduct;
+    private int idProduct;
 
     @ManyToOne(optional = true)
     @JsonIgnore

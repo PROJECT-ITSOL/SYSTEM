@@ -16,9 +16,9 @@ import lombok.Setter;
 @AllArgsConstructor
 public class BillImportDetailDTO {
     private int id;
-    private String idBillImport;
+    private int idBillImport;
     private BillImport billImport;
-    private String idProduct;
+    private int idProduct;
     private Product product;
     private int amount;
     private double price;

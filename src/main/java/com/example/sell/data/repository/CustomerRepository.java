@@ -19,8 +19,9 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
     List<String> getListNameCustomer();
 
     @Query("select ct from dbo_customer ct " +
-            "where (upper(ct.id) like concat('%',upper(:keyword),'%') ) " +
-            "or (upper(ct.name) like concat('%',upper(:keyword),'%') )")
+            "where (upper(ct.name) like concat('%',upper(:keyword),'%') )" +
+            "or (upper(ct.phoneNumber) like concat('%',upper(:keyword),'%' ) )" +
+            "or (upper(ct.email) like  concat('%',upper(:keyword),'%' ) )")
     Page<Customer> getCustomersByIdOrName(Pageable pageable, @Param("keyword") String keyWord);
 
     @Transactional(readOnly = true)

@@ -3,6 +3,7 @@ package com.example.sell.data.repository;
 import com.example.sell.data.model.BillImport;
 import com.example.sell.data.model.Category;
 import com.example.sell.data.model.Order;
+import com.sun.xml.bind.v2.model.core.ID;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,7 +17,7 @@ import java.util.Optional;
 // tim kiem theo ngay
 // tim kiem theo ma hoa don
 // tim kiem theo ten khach hang
-public interface OrderRepository extends JpaRepository<Order,String> {
+public interface OrderRepository extends JpaRepository<Order,Integer> {
     // fake data
     @Query("select count(ord.idOrder) from dbo_order ord")
     int getTotalOrder();
@@ -43,14 +44,14 @@ public interface OrderRepository extends JpaRepository<Order,String> {
             " where (upper(oder.status) like concat('%',upper(:status),'%') )")
     Page<Order> getListOrderByStatus(Pageable pageable,@Param("status") String status);
 
-    @Query("delete from dbo_order where idOrder=:id ")
+    //@Query("delete from dbo_order where idOrder=:id ")
     //void deleteInBatch(String id);
 
-    void deleteById(int id);
+    //void deleteById(ID id);
 
     @Query("select sum(orderDetail.totalPrice) from dbo_order_detail orderDetail " +
             "where orderDetail.idOrder=:idOrder")
-    Double totalMoney(@Param("idOrder") String idOrder);
+    Double totalMoney(@Param("idOrder") int idOrder);
 
     // tim kiem theo id
     @Query("select o from dbo_order o " +
@@ -71,6 +72,18 @@ public interface OrderRepository extends JpaRepository<Order,String> {
 //
     @Query("select sum(o.totalMoney) from dbo_order o where month(o.createDate)=:month")
     Double getAllMoney(@Param("month") int month);
+
+    @Query("select odr from dbo_order odr " +
+            " where day(odr.createDate) =:day and month(odr.createDate)=:month and year(odr.createDate)=:year")
+    Page<Order> getPageOrderByDate(Pageable pageable, int day,int month,int year);
+
+
+    @Query("select Odr from dbo_order  Odr where Odr.idCustomer=:idCustomer")
+    Page<Order> getOrderByIdCustomer(Pageable pageable,@Param("idCustomer") int idCustomer);
+
+    @Query(value = "SELECT * FROM dbo_order WHERE id_order=(SELECT MAX(id_order) FROM dbo_order)", nativeQuery = true)
+
+    Order lastOrder();
 
     // void deleteInBatch(String id);
 

@@ -26,7 +26,7 @@ public class OrderDetailService {
     @Autowired
     private OrderDetailRepository orderDetailRepository;
 
-    public List<OrderDetail> getOrderDetailsByIdOrder(String idOrder) {
+    public List<OrderDetail> getOrderDetailsByIdOrder(int idOrder) {
         try {
             return orderDetailRepository.getOrderDetailByIdOrder(idOrder);
         } catch (Exception e) {
@@ -102,7 +102,7 @@ public class OrderDetailService {
         }
     }
     //Cập nhật số lượng product sau khi Order
-    public int updateAmountOrder(String id){
+    public int updateAmountOrder(int id){
 
         if (orderDetailRepository.totalAmountOrder(id) != null){
             return orderDetailRepository.totalAmountOrder(id);

@@ -7,7 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductDTO {
-    private String idProduct;
+    private int idProduct;
     private int idCategory;
     private int idSupplier;
     private String name;

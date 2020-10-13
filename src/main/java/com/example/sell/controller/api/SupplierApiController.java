@@ -86,8 +86,8 @@ public class SupplierApiController {
              supplier1.setPhoneNumber(supplier.getPhoneNumber());
              supplier1.setLogo(supplier.getLogo());
              supplier1.setStatus(supplier.getStatus());
-            String idCode =  supplierService.getLastSupplier().getIdCode();
-            if (idCode!=null) {
+             if(supplierService.getLastSupplier()!=null){
+             String idCode =  supplierService.getLastSupplier().getIdCode();
                 String stringNumber = idCode.substring(4, 9);
                 int idCodeNumber = Integer.parseInt(stringNumber);
                 idCodeNumber++;

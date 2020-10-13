@@ -11,12 +11,12 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-public interface ProductRepository extends JpaRepository<Product, String> {
+public interface ProductRepository extends JpaRepository<Product, Integer> {
     @Query("select count(p.idProduct) from dbo_product p")
     int getTotalProducts();
 
     @Query("select p from dbo_product p where p.idProduct=:id")
-    Product getProductById(@Param("id") String id);
+    Product getProductById(@Param("id") int id);
 
     @Query("select p from dbo_product p " +
             "where (upper(p.idProduct) like concat('%',upper(:keyword),'%') ) " +

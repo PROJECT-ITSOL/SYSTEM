@@ -24,7 +24,7 @@ public class ProductService {
     @Autowired
     private ProductRepository productRepository;
 
-    public Optional<Product> get(String idProduct){
+    public Optional<Product> get(int idProduct){
         return productRepository.findById(idProduct);
     }
 
@@ -51,15 +51,15 @@ public class ProductService {
             logger.error(e.getMessage());
         }
     }
-    public  Product findOne(String idProduct){
+    public  Product findOne(int idProduct){
         return productRepository.findById(idProduct).orElse(null);
     }
 
-    public Product getProduct(String idProduct) {
+    public Product getProduct(int idProduct) {
         return productRepository.getProductById(idProduct);
     }
 
-    public  boolean  deleteProduct(String idProduct) {
+    public  boolean  deleteProduct(int idProduct) {
         try {
             productRepository.deleteById(idProduct);
             return true;
@@ -86,7 +86,7 @@ public class ProductService {
         return productRepository.getProductsByIdOrName(pageable, keyword);
     }
 
-    public Product getProductById(String id) {
+    public Product getProductById(int id) {
         return productRepository.findById(id).orElse(null);
     }
 

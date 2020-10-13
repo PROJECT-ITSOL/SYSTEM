@@ -60,7 +60,7 @@ public class ProductApiController {
             List<Supplier> supplierList = supplierService.getAllListSuppliers();
             for (int i = totalProduct + 1; i < totalProduct + 20; i++) {
                 Product product = new Product();
-                product.setIdProduct(randomData.randomText(6));
+//                product.setIdProduct(randomData.randomText(6));
                 product.setCategory(categoryList.get(random.nextInt(categoryList.size())));
                 product.setSupplier(supplierList.get(random.nextInt(supplierList.size())));
                 product.setName("Product " + i);
@@ -104,7 +104,7 @@ public class ProductApiController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getProductById(@PathVariable String id){
+    public ResponseEntity<?> getProductById(@PathVariable int id){
         Product product= productService.getProductById(id);
         return ResponseEntity.ok(product);
     }
@@ -119,7 +119,7 @@ public class ProductApiController {
 
 // API xóa sản phẩm.
     @DeleteMapping("/delete/{idProduct}")
-    public  BaseApiResult deleteProduct(@PathVariable String idProduct){
+    public  BaseApiResult deleteProduct(@PathVariable int idProduct){
         BaseApiResult result = new BaseApiResult();
         if (productService.deleteProduct(idProduct)){
            result.setSuccess(true);
@@ -185,7 +185,7 @@ public class ProductApiController {
 //    }
 // API Cập nhập(Sửa) sản phẩm.
     @PutMapping("/update/{idProduct}")
-    public BaseApiResult updateProduct(@PathVariable String idProduct, @RequestBody ProductDTO productDTO){
+    public BaseApiResult updateProduct(@PathVariable int idProduct, @RequestBody ProductDTO productDTO){
       BaseApiResult result = new BaseApiResult();
       Product productEntity = productService.findOne(idProduct);
       try {
@@ -258,7 +258,7 @@ public class ProductApiController {
 
     @PutMapping("/updateAmountImport/{id}")
     public BaseApiResult updateAmount( @RequestBody ProductDTO productDTO,
-            @PathVariable String id){
+            @PathVariable int id){
         BaseApiResult baseApiResult = new BaseApiResult();
             Product product = productService.findOne(id);
         product.setAmount(billImportDetailService.updateAmount(id)-orderDetailService.updateAmountOrder(id));

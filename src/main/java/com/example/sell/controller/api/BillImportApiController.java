@@ -87,9 +87,18 @@ public class BillImportApiController {
 
     //Lấy bill theo month & supplier
     @GetMapping("/getByMonthAndSupp")
-    public List<BillImport> getBillByMonthAndSupp(@RequestParam(value = "month") int month,
-                                                  @RequestParam(value = "idSupplier") int idSupplier){
-        return billImportService.getBillBySuppAndMonth(month,idSupplier);
+    public List<BillImport> getBillByMonthAndSupp(@RequestParam(value = "month",defaultValue = "0",required = false) int month ,
+                                                  @RequestParam(value = "idSupplier",defaultValue = "0",required = false) int idSupplier){
+        if ((month!=0)&&(idSupplier==0)){
+            return billImportService.searchByMonth(month);
+        } if((month==0)&&(idSupplier!=0)){
+                return billImportService.getBillByIdSupplier(idSupplier);
+        } if ((month!=0)&&(idSupplier!=0)){
+            return billImportService.getBillBySuppAndMonth(month, idSupplier);
+        } else {
+            return null;
+        }
+
     }
 
 
@@ -113,8 +122,9 @@ public class BillImportApiController {
         if(billImport==null) {
             try {
                 billImport = new BillImport();
+                if(billImportService.getLastBill()!=null){
                 String idCode =  billImportService.getLastBill().getIdCode();
-                if (idCode!=null){
+
 
 
                 String stringNumber = idCode.substring(4,9);

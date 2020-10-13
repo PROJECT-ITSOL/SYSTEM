@@ -79,12 +79,8 @@ public class CategoryApiController {
     @PostMapping("/addNew")
     public BaseApiResult addNew(@RequestBody CategoryDTO categoryDTO) {
         BaseApiResult result = new BaseApiResult();
-
-        Category category = categoryService.findOne(categoryDTO.getId());
-        if (category == null) {
             try {
-                category = new Category();
-                category.setIdCategory(categoryDTO.getId());
+                Category category = new Category();
                 category.setName(categoryDTO.getName());
                 category.setStatus(true);
                 categoryService.addNewCategory(category);
@@ -95,10 +91,6 @@ public class CategoryApiController {
                 result.setMessage("Add new category fail!");
                 logger.error(e.getMessage());
             }
-        } else {
-            result.setSuccess(false);
-            result.setMessage("ID Already exist!");
-        }
         return result;
     }
 

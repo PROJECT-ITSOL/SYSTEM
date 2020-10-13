@@ -85,10 +85,24 @@ public class BillImportApiController {
         return result;
     }
 
+    //Lấy bill theo month & supplier
+    @GetMapping("/getByMonthAndSupp")
+    public List<BillImport> getBillByMonthAndSupp(@RequestParam(value = "month") int month,
+                                                  @RequestParam(value = "idSupplier") int idSupplier){
+        return billImportService.getBillBySuppAndMonth(month,idSupplier);
+    }
+
+
     //Lấy last bill
     @GetMapping("/getLastBill")
     public BillImport getLastBill(){
         return  billImportService.getLastBill();
+    }
+
+    //Lấy bill theo idCode
+    @GetMapping("/getByIdCode/{idCode}")
+    public BillImport getByIdCode(@PathVariable String idCode){
+        return billImportService.getBillByIdCode(idCode);
     }
 
     //Thêm mới bill
@@ -100,14 +114,20 @@ public class BillImportApiController {
             try {
                 billImport = new BillImport();
                 String idCode =  billImportService.getLastBill().getIdCode();
+                if (idCode!=null){
+
+
                 String stringNumber = idCode.substring(4,9);
                 int idCodeNumber = Integer.parseInt(stringNumber);
                 idCodeNumber++;
                 String numberCode =  String.format("%05d%n",idCodeNumber);
                 String fix = "BILL";
-                String newIdCode = fix.concat(numberCode).replace(" ","");
+                String newIdCode = fix.concat(numberCode).replace("\r\n","");
 
                 billImport.setIdCode(newIdCode);
+                } else {
+                    billImport.setIdCode("BILL00001");
+                }
                 billImport.setCreateDate(billImportDTO.getCreateDate());
                 billImport.setSupplierImport(billImportDTO.getSupplier());
                 billImport.setTotalMoney(billImportDTO.getTotalMoney());

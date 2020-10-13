@@ -25,7 +25,11 @@ public interface SupplierRepository extends JpaRepository<Supplier, Integer> {
     Supplier getLastSupplier();
 
     @Query("select s from dbo_supplier s " +
-            "where (upper(s.name) like concat('%',upper(:name),'%') ) ")
-    List<Supplier> getSuppByName(@Param("name") String name);
+            "where (upper(s.name) like concat('%',upper(:key),'%') ) "+
+            "or s.phoneNumber like concat('%',:key,'%') " +
+            "or s.idCode like (:key)")
+    List<Supplier> getSuppByName(@Param("key") String key);
+
+    Supplier getSupplierByPhoneNumber(@Param("phoneNumber") String phoneNumber);
 
 }

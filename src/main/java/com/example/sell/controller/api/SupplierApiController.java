@@ -44,8 +44,8 @@ public class SupplierApiController {
 
     //Tìm kiếm theo tên
     @GetMapping("/search")
-    public List<Supplier> searchSupplier(@RequestParam(name = "name") String name){
-        List<Supplier> listSearch = supplierService.searchSupplier(name);
+    public List<Supplier> searchSupplier(@RequestParam(name = "keyword") String keyword){
+        List<Supplier> listSearch = supplierService.searchSupplier(keyword);
         return listSearch ;
     }
 
@@ -77,7 +77,7 @@ public class SupplierApiController {
     @PostMapping("/addSupplier")
     public BaseApiResult addNewSupplier(@RequestBody Supplier supplier) {
         BaseApiResult result = new BaseApiResult();
-        Supplier supplier1 = supplierService.findOne(supplier.getIdSupplier());
+        Supplier supplier1 = supplierService.getByPhoneNumber(supplier.getPhoneNumber());
         if (supplier1==null){
         try {
              supplier1 = new Supplier();
@@ -87,13 +87,17 @@ public class SupplierApiController {
              supplier1.setLogo(supplier.getLogo());
              supplier1.setStatus(supplier.getStatus());
             String idCode =  supplierService.getLastSupplier().getIdCode();
-            String stringNumber = idCode.substring(4,9);
-            int idCodeNumber = Integer.parseInt(stringNumber);
-            idCodeNumber++;
-            String numberCode =  String.format("%05d%n",idCodeNumber);
-            String fix = "SUPP";
-            String newIdCode = fix.concat(numberCode).replace(" ","");
-            supplier1.setIdCode(newIdCode);
+            if (idCode!=null) {
+                String stringNumber = idCode.substring(4, 9);
+                int idCodeNumber = Integer.parseInt(stringNumber);
+                idCodeNumber++;
+                String numberCode = String.format("%05d%n", idCodeNumber);
+                String fix = "SUPP";
+                String newIdCode = fix.concat(numberCode).replace("\r\n","");
+                supplier1.setIdCode(newIdCode);
+            } else {
+                supplier1.setIdCode("SUPP00001");
+            }
 
             supplierService.addNewSupplier(supplier1);
             result.setSuccess(true);
@@ -105,7 +109,7 @@ public class SupplierApiController {
         }
         }else{
             result.setSuccess(false);
-            result.setMessage("Supplier đã tồn tại");
+            result.setMessage("PhoneNumber is exists");
         }
         return result;
 

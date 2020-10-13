@@ -18,7 +18,6 @@ import java.util.List;
 public class Product {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id_product")
     private int idProduct;
 

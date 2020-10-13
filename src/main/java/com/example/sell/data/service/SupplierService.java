@@ -49,6 +49,10 @@ public class SupplierService{
         return supplierRepository.getListSupplierByStatus(status);
     }
 
+    public Supplier getByPhoneNumber(String phoneNumber){
+        return supplierRepository.getSupplierByPhoneNumber(phoneNumber);
+    }
+
 
 
     public Boolean addNewSupplier(Supplier supplier) {
@@ -63,8 +67,8 @@ public class SupplierService{
     }
 
 
-    public List<Supplier> searchSupplier(String name) {
-        return supplierRepository.getSuppByName(name);
+    public List<Supplier> searchSupplier(String keyword) {
+        return supplierRepository.getSuppByName(keyword);
     }
 
     public Page<Supplier> findAll(Pageable pageable) {

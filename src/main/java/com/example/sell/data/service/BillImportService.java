@@ -45,6 +45,16 @@ public class BillImportService implements IdentifierGenerator {
         return billImportRepository.getLastBill();
     }
 
+    //Lấy bill theo idCode
+    public BillImport getBillByIdCode(String idCode){
+        return billImportRepository.getBillImportByIdCode(idCode);
+    }
+
+    //lấy bill theo month & supplier
+    public List<BillImport> getBillBySuppAndMonth(int month,int idSupplier){
+        return billImportRepository.getBillBySuppAndMonth(month,idSupplier);
+    }
+
     //Thêm mới bill
     public Boolean addNewBillImport(BillImport billImport) {
         try {

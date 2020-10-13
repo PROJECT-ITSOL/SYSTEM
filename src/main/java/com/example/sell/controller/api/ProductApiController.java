@@ -69,7 +69,7 @@ public class ProductApiController {
                 product.setPrice(randomData.randomNumber(1000, 9999));
                 product.setContent(randomData.randomText(100));
                 product.setFavorite(random.nextInt(25));
-                product.setAmount(randomData.randomNumber(25, 100));
+//                product.setAmount(randomData.randomNumber(25, 100));
                 product.setStatus(true);
                 productList.add(product);
             }

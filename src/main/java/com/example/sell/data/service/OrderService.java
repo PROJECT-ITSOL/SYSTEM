@@ -13,6 +13,7 @@ import org.apache.logging.log4j.Logger;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 //import java.util.logging.LogManager;
 //import java.util.logging.Logger;
@@ -24,7 +25,7 @@ public class OrderService {
     @Autowired
     private OrderRepository orderRepository;
 
-    public  Double getTotalMoney(String idOrder) {
+    public  Double getTotalMoney(int idOrder) {
         return orderRepository.totalMoney(idOrder);
     }
 
@@ -32,7 +33,7 @@ public class OrderService {
         return orderRepository.findAll(PageRequest.of(pageNo, pageSize));
     }
 
-    public  boolean deleteOrder(String id) {
+    public  Boolean deleteOrder(int id) {
         try {
             orderRepository.deleteById(id);
             return true;
@@ -81,7 +82,7 @@ public class OrderService {
 
     }
 
-    public Order findOne(String id) {
+    public Order findOne(int id) {
         return orderRepository.findById(id).orElse(null);
     }
 
@@ -90,7 +91,7 @@ public class OrderService {
         return listPageOrder;
     }
 
-    public Order getOrderById(String id) {
+    public Order getOrderById(int id) {
         return  orderRepository.findById(id).orElse(null);
     }
 
@@ -109,7 +110,7 @@ public class OrderService {
 
     }
 
-    public Order getOne(String idOrder) {
+    public Order getOne(int idOrder) {
         return orderRepository.findById(idOrder).orElse(null);
     }
 
@@ -128,6 +129,20 @@ public class OrderService {
 //
     public Double getAllMoney(int month) {
         return  orderRepository.getAllMoney(month);
+    }
+
+    public Page<Order> getPageOrderByDate(Pageable pageable, int day,int month,int year) {
+        Page<Order> pageOrder = orderRepository.getPageOrderByDate(pageable,day,month,year);
+        return pageOrder;
+    }
+
+    public Page<Order> seachByIdCustomer(Pageable pageable, int idCustomer) {
+        Page<Order> pageOrder= orderRepository.getOrderByIdCustomer(pageable,idCustomer);
+        return pageOrder;
+    }
+
+    public Order getOrderLast() {
+        return orderRepository.lastOrder();
     }
 //
 ////    public boolean deleteOrderDetail(String id) {

@@ -45,7 +45,6 @@ public class CustomerService {
     public Customer findOne(int id){
         return customerRepository.findById(id).orElse(null);
     }
-
     public boolean deleteCustomer(int id){
         try {
             customerRepository.deleteById(id);

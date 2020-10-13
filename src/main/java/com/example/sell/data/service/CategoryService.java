@@ -35,7 +35,7 @@ public class CategoryService {
         categoryRepository.saveAll(categories);
     }
 
-    public Category findOne(String id) {
+    public Category findOne(int id) {
         return categoryRepository.findById(id).orElse(null);
     }
 
@@ -57,7 +57,7 @@ public class CategoryService {
         }
     }
     // xoa
-    public boolean deleteCategory(String id) {
+    public boolean deleteCategory(int id) {
         try {
             categoryRepository.deleteById(id);
             return true;

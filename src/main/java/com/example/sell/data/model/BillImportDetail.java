@@ -29,7 +29,7 @@ public class BillImportDetail {
     private BillImport billImport;
 
     @Column(name = "id_product", insertable = false, updatable = false)
-    private String idProduct;
+    private int idProduct;
 
     @ManyToOne(optional = true)
     @JsonIgnore
